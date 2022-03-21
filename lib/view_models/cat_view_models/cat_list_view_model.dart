@@ -10,13 +10,13 @@ class CatListViewModel {
 
   final List<CatViewModel> _catList = [];
 
-  final List<ImageProvider> _catImages = [];
+  final List<NetworkImage> _catImages = [];
 
   List<CatViewModel> getCats() {
     return _catList;
   }
 
-  List<ImageProvider> getCatsImages() {
+  List<NetworkImage> getCatsImages() {
     return _catImages;
   }
 
@@ -33,7 +33,7 @@ class CatListViewModel {
 
   Future<void> populateCatsImages(BuildContext context) async {
 
-    List<ImageProvider> auxList = [];
+    List<NetworkImage> auxList = [];
 
     for(var cat in _catList) {
       auxList.add(await CatService().getCatImage(cat));

@@ -29,18 +29,18 @@ class _CatListState extends State<CatList> {
         itemCount: catList.length,
         itemBuilder: (context, index) {
           return Container(
-            margin: const EdgeInsets.only(right: 20, top: 10),
-            height: 150,
+            margin: const EdgeInsets.only(right: 16, bottom: 10),
+            height: 180,
             width: 105,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20.0)),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.1),
                   spreadRadius: 1,
                   blurRadius: 1,
-                  offset: const Offset(0, 3),
+                  offset: const Offset(0, 4),
                 )
               ]
             ),
@@ -59,12 +59,13 @@ class _CatListState extends State<CatList> {
                     // );
                   },
                   child: Container(
-                      margin: const EdgeInsets.fromLTRB(3, 5, 3, 0),
-                      height: 140,
+                      margin: const EdgeInsets.fromLTRB(3, 5, 3, 4),
+                      height: 170,
                       width: 99,
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                        image: DecorationImage(image: catImages[index], fit: BoxFit.fill),
+                        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                        image: DecorationImage(image: catImages[index].url != "" ? catImages[index] :
+                            NetworkImage("https://w7.pngwing.com/pngs/270/98/png-transparent-cat-kitten-balloon-birthday-graphy-cats-mammal-hat-cat-like-mammal.png"), fit: BoxFit.fill),
                       )
                   ),
                 ),

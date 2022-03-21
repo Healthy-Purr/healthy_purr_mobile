@@ -82,6 +82,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       width: 300,
                       child: TextFormField(
+                        initialValue: "chane123@gmail.com",
                         style: const TextStyle(
                             fontSize: 14,
                             height: 0.5
@@ -111,6 +112,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       width: 300,
                       child: TextFormField(
+                        initialValue: "soyunachane",
                         style: const TextStyle(
                             fontSize: 14,
                             height: 0.5

@@ -17,6 +17,15 @@ class LoggedInView extends StatefulWidget {
 
 class _LoggedInViewState extends State<LoggedInView> {
 
+  late var _future;
+
+  @override
+  void initState() {
+    _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
+        Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -51,10 +60,7 @@ class _LoggedInViewState extends State<LoggedInView> {
           Positioned(
             top: 80, bottom: 90, right: 25, left: 25,
             child: FutureBuilder(
-              future: Future.wait([
-                Provider.of<CatListViewModel>(context, listen: false).populateCatList(context),
-                Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context),
-              ]),
+              future: _future,
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done) {
                   return IndexedStack(
