@@ -23,8 +23,13 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider(create: (context) => CatListViewModel()),
         Provider(create: (context) => UserViewModel()),
-        ChangeNotifierProvider(create: (context) => RegisterProvider()),
-        ChangeNotifierProvider(create: (context) => UserService())
+        //Services
+        ChangeNotifierProvider(create: (context) => UserService()),
+        ChangeNotifierProvider(create: (context) => CatService()),
+        ChangeNotifierProvider(create: (context) => HeadersService()),
+        //Providers
+        ChangeNotifierProvider(create: (context) => BottomNavigationBarProvider()),
+        ChangeNotifierProvider(create: (context) => RegisterProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(
