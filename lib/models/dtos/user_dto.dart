@@ -1,0 +1,20 @@
+class UserRegisterDto {
+  final String name;
+  final String lastName;
+  final String email;
+  final String password;
+
+  UserRegisterDto(
+      this.email,
+      this.password,
+      this.name,
+      this.lastName
+    );
+}
+
+class UserLoginDto {
+  final String email;
+  final String password;
+
+  UserLoginDto(this.email, this.password);
+}
