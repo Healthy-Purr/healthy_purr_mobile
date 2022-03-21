@@ -8,29 +8,29 @@ import 'package:http/http.dart' as http;
 
 class UserViewModel {
 
-  late final User user;
+  //late final User user;
 
-  int? get userId => user.userId;
+  // int? get userId => user.userId;
+  //
+  // String? get name =>user.name;
+  //
+  // String? get lastName => user.lastName;
+  //
+  // String? get email => user.email;
 
-  String? get name =>user.name;
-
-  String? get lastName => user.lastName;
-
-  String? get email => user.email;
-
-  Future<void> setUserInformation() async {
-
-    String userId = await UserService().getUserIdFromSharedPreferences();
-
-    var uri = Uri.parse('${url}users/$userId/simple');
-    var headers =  await HeadersService().getHeaders();
-    var response = await http.get(uri, headers: headers);
-
-    if(response.statusCode == 200) {
-      var body = jsonDecode(response.body);
-      var dataJson = body["data"];
-      user = User.fromJson(dataJson);
-    }
-  }
+  // Future<void> setUserInformation() async {
+  //
+  //   String userId = await UserService().getUserIdFromSharedPreferences();
+  //
+  //   var uri = Uri.parse('${url}users/$userId/simple');
+  //   var headers =  await HeadersService().getHeaders();
+  //   var response = await http.get(uri, headers: headers);
+  //
+  //   if(response.statusCode == 200) {
+  //     var body = jsonDecode(response.body);
+  //     var dataJson = body["data"];
+  //     user = User.fromJson(dataJson);
+  //   }
+  // }
 
 }

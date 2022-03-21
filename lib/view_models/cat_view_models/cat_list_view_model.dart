@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:healthy_purr_mobile_app/models/user_session.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class CatListViewModel {
   }
 
   Future<void> populateCatList(BuildContext context) async {
-    final userId = Provider.of<UserViewModel>(context, listen: false).user.userId;
+    final userId = UserSession().id;
 
     List<Cat> auxCatList = await CatService().getCatsByUserId(userId.toString());
 

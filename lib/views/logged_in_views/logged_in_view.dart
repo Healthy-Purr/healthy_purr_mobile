@@ -52,8 +52,6 @@ class _LoggedInViewState extends State<LoggedInView> {
             top: 80, bottom: 90, right: 25, left: 25,
             child: FutureBuilder(
               future: Future.wait([
-                Provider.of<HeadersService>(context, listen: false).setHeaders(),
-                Provider.of<UserViewModel>(context, listen: false).setUserInformation(),
                 Provider.of<CatListViewModel>(context, listen: false).populateCatList(context),
                 Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context),
               ]),

@@ -12,23 +12,30 @@ dependencies:
   flutter:
     sdk: flutter
 
+  animations: ^2.0.2
+  async: ^2.8.1
+  bordered_text: ^2.0.0
   cupertino_icons: ^1.0.2
-  provider: ^6.0.1
+  dio: ^4.0.4
+  flutter_native_image: ^0.0.6+1
+  font_awesome_flutter: ^9.1.0
   google_fonts: ^2.1.0
-  page_transition: ^2.0.4
   http: ^0.13.4
+  image: ^3.1.1
+  image_picker: ^0.8.4+4
+  jumping_dot: ^0.0.4
+  page_transition: ^2.0.4
+  provider: ^6.0.1
+  progress_indicators: ^1.0.0
   shared_preferences: ^2.0.11
   string_validator: ^0.3.0
-  image_picker: ^0.8.4+4
-  animations: ^2.0.2
-  font_awesome_flutter: ^9.1.0
   shimmer: ^2.0.0
-  bordered_text: ^2.0.0
-  progress_indicators: ^1.0.0
-  async: ^2.8.1
-  flutter_native_image: ^0.0.6+1
-  image: ^3.1.1
-  jumping_dot: ^0.0.4
+
+
+
+
+
+
 
 dev_dependencies:
   flutter_test:

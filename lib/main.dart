@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (context) => CatListViewModel()),
-        Provider(create: (context) => UserViewModel()),
+        //Provider(create: (context) => UserViewModel()),
         //Services
         ChangeNotifierProvider(create: (context) => UserService()),
         ChangeNotifierProvider(create: (context) => CatService()),
