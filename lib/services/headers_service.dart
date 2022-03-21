@@ -5,7 +5,7 @@ class HeadersService with ChangeNotifier {
 
   late var _headers;
 
-  getHeaders() {
+  dynamic getHeaders() {
     return _headers;
   }
 

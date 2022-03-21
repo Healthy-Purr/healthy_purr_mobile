@@ -142,8 +142,8 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         OpenContainer(
                           closedShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                          routeSettings: const RouteSettings(name: HomeView.routeName),
-                          openBuilder: (context, _) => const HomeView(),
+                          routeSettings: const RouteSettings(name: LoggedInView.routeName),
+                          openBuilder: (context, _) => const LoggedInView(),
                           closedBuilder: (_, open) => ClipRRect(
                             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                             child: Stack(

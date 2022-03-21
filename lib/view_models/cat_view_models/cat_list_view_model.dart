@@ -7,19 +7,39 @@ import '../../view_models/view_model.dart';
 
 class CatListViewModel {
 
-  final List<CatViewModel> _cats = [];
+  final List<CatViewModel> _catList = [];
+
+  final List<ImageProvider> _catImages = [];
 
   List<CatViewModel> getCats() {
-    return _cats;
+    return _catList;
+  }
+
+  List<ImageProvider> getCatsImages() {
+    return _catImages;
   }
 
   Future<void> populateCatList(BuildContext context) async {
-    final user = Provider.of<UserViewModel>(context, listen: false).user;
+    final userId = Provider.of<UserViewModel>(context, listen: false).user.userId;
 
-    List<Cat> auxCatList = await CatService().getCatsByUserId(user.userId!.toString());
+    List<Cat> auxCatList = await CatService().getCatsByUserId(userId.toString());
 
     for(var cat in auxCatList) {
-      _cats.add(CatViewModel(cat: cat));
+      _catList.add(CatViewModel(cat: cat));
+    }
+
+  }
+
+  Future<void> populateCatsImages(BuildContext context) async {
+
+    List<ImageProvider> auxList = [];
+
+    for(var cat in _catList) {
+      auxList.add(await CatService().getCatImage(cat));
+    }
+
+    for(var image in auxList) {
+      _catImages.add(image);
     }
 
   }

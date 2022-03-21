@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
+import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import '../models/model.dart';
 import '../utils/util.dart';
 
@@ -22,6 +23,11 @@ class CatService with ChangeNotifier {
     }
 
     return [];
+  }
+
+  Future<ImageProvider> getCatImage(CatViewModel cat) async {
+    var uri = Uri.parse('${url}cats/${cat.catId}/picture');
+    return NetworkImage(uri.toString(), headers: HeadersService().getHeaders());
   }
 
 }
