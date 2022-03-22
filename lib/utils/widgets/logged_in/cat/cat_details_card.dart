@@ -15,9 +15,10 @@ class CatDetailsCard extends StatelessWidget {
       height: 65, width: 65,
       color: Colors.transparent,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           icon,
-          Text(attribute, style: const TextStyle(color: Colors.black)),
+          Text(attribute, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w200, fontSize: 12)),
           Text(text, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black) )
         ],
       ),

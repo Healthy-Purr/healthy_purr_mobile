@@ -35,7 +35,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
           Positioned(
               bottom: 0, right: 0,
               child: Transform.rotate(
-                angle: 3.1416/180*315,
+                angle: 3.1416/180*340,
                 child: Image.asset(pawAsset,
                     height: 80,
                     width: 80,

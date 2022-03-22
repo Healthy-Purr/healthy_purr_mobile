@@ -13,15 +13,20 @@ class VerticalCatList extends StatefulWidget {
 }
 
 class _VerticalCatListState extends State<VerticalCatList> {
+
+  var catList = [];
+  var catImages = [];
+
+  @override
+  void initState() {
+    catList = Provider.of<CatListViewModel>(context, listen: false).getCats();
+    catImages = Provider.of<CatListViewModel>(context, listen: false).getCatsImages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
-    final catList =
-        Provider.of<CatListViewModel>(context, listen: false).getCats();
-
-    final catImages =
-        Provider.of<CatListViewModel>(context, listen: false).getCatsImages();
 
     return SizedBox(
       height: screenSize.height,
@@ -40,110 +45,98 @@ class _VerticalCatListState extends State<VerticalCatList> {
               width: 300,
               decoration: BoxDecoration(
                   borderRadius:
-                      const BorderRadius.all(Radius.circular(20.0)),
+                      const BorderRadius.all(Radius.circular(25.0)),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.black.withOpacity(0.1),
                       spreadRadius: 1,
                       blurRadius: 1,
-                      offset: const Offset(0, 3),
+                      offset: const Offset(0, 4),
                     )
                   ]),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    child: Ink(
+              child: Row(
+                  children: [
+                    Ink(
                       child: InkWell(
                         onTap: () {
                           Navigator.push(context,
-                            PageTransition(
-                              duration: const Duration(milliseconds: 200),
-                              reverseDuration: const Duration(milliseconds: 200),
-                              type: PageTransitionType.rightToLeft,
-                              child: CatProfileView(
-                                catImage: selectedCatImage,
-                                cat: selectedCat
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 200),
+                                  reverseDuration: const Duration(milliseconds: 200),
+                                  type: PageTransitionType.rightToLeft,
+                                  child: CatProfileView(
+                                      catImage: selectedCatImage,
+                                      cat: selectedCat
+                                  )
                               )
-                            )
                           );
                         },
                         child: Container(
-                          height: 125,
-                          width: 115,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(20.0)),
-                            image: DecorationImage(
-                                image: selectedCatImage.url != ""
-                                    ? selectedCatImage
-                                    : defaultCatImage,
-                                fit: BoxFit.cover),
-                          )
+                            height: 125,
+                            width: 115,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(20.0)),
+                              image: DecorationImage(
+                                  image: selectedCatImage.url != ""
+                                      ? selectedCatImage
+                                      : defaultCatImage,
+                                  fit: BoxFit.cover),
+                            )
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 115,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: 185,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(selectedCat.name!,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5, left: 25),
+                          child: Text(selectedCat.name!,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18)),
-                          Text.rich(TextSpan(children: [
-                            const TextSpan(text: 'Edad: '),
-                            TextSpan(
-                                text: selectedCat.age.toString(),
-                                style:
-                                    const TextStyle(fontWeight: FontWeight.bold)),
-                            const TextSpan(
-                                text: ' años',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.bold))
-                          ])),
-                          Text.rich(TextSpan(children: [
-                            const TextSpan(text: 'Peso: '),
-                            TextSpan(
-                                text: selectedCat.weight.toString(),
-                                style:
-                                    const TextStyle(fontWeight: FontWeight.bold)),
-                            const TextSpan(
-                                text: ' kg',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.bold))
-                          ])),
-                          selectedCat.gender.toString() == 'true'
-                              ? const Text.rich(TextSpan(children: [
-                                  TextSpan(text: 'Sexo: '),
-                                  TextSpan(
-                                      text: 'Macho',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))
-                                ]))
-                              : const Text.rich(TextSpan(children: [
-                                  TextSpan(text: 'Sexo: '),
-                                  TextSpan(
-                                      text: 'Hembra',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold))
-                                ]))
-                        ]
-                            .map((children) => Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                                child: children))
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ],
+                                  fontSize: 16)),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              const TextSpan(text: 'Edad: ', style: TextStyle(fontSize: 13)),
+                              TextSpan(
+                                  text: selectedCat.age.toString() + ' años',
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                            ])),
+                            Text.rich(TextSpan(children: [
+                              const TextSpan(text: 'Peso: ', style: TextStyle(fontSize: 13)),
+                              TextSpan(
+                                  text: selectedCat.weight.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                              const TextSpan(
+                                  text: ' kg',
+                                  style:
+                                  TextStyle(fontWeight: FontWeight.bold))
+                            ])),
+
+                            Text.rich(TextSpan(children: [
+                              const TextSpan(text: 'Sexo: ', style: TextStyle(fontSize: 13)),
+                              TextSpan(
+                                  text: selectedCat.gender.toString() == 'true' ? 'Macho' : 'Hembra',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 13))
+                            ]))
+                          ]
+                              .map((children) => Padding(
+                              padding:
+                              const EdgeInsets.fromLTRB(25, 6, 0, 0),
+                              child: children))
+                              .toList(),
+                        ),
+                      ],
+                    )
+                  ]
               ),
             );
           }),
