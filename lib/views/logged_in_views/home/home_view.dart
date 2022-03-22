@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
                 fontWeight: FontWeight.bold
             ),
           ),
-          CatList(),
+          HorizontalCatList(),
           Text(
             'Horario de Comidas',
             style: TextStyle(
@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
                 fontWeight: FontWeight.bold
             ),
           ),
-          //ScheduleCard()
+          ScheduleCard()
         ].map((children) => Padding(padding: const EdgeInsets.only(bottom: 40),
             child: children)).toList(),
       ),

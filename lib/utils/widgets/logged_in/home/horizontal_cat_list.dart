@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:bordered_text/bordered_text.dart';
 
-class CatList extends StatefulWidget {
-  const CatList({Key? key}) : super(key: key);
+class HorizontalCatList extends StatefulWidget {
+  const HorizontalCatList({Key? key}) : super(key: key);
 
   @override
-  _CatListState createState() => _CatListState();
+  _HorizontalCatListState createState() => _HorizontalCatListState();
 }
 
-class _CatListState extends State<CatList> {
+class _HorizontalCatListState extends State<HorizontalCatList> {
   @override
   Widget build(BuildContext context) {
 
@@ -65,7 +66,7 @@ class _CatListState extends State<CatList> {
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                         image: DecorationImage(image: catImages[index].url != "" ? catImages[index] :
-                            NetworkImage("https://w7.pngwing.com/pngs/270/98/png-transparent-cat-kitten-balloon-birthday-graphy-cats-mammal-hat-cat-like-mammal.png"), fit: BoxFit.fill),
+                            defaultCatImage, fit: BoxFit.fill),
                       )
                   ),
                 ),
