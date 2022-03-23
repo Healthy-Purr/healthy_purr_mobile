@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:healthy_purr_mobile_app/models/user_session.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import '../models/model.dart';
 import '../utils/util.dart';
@@ -44,8 +42,12 @@ class UserService with ChangeNotifier {
     var response = await dio.post(uri, data: body);
 
     if (response.statusCode == 200) {
-      UserSession().id = response.data["user"]["userId"];
-      UserSession().token = response.data["jwt"];
+      UserSession()
+        ..id = response.data["user"]["userId"]
+        ..name = response.data["user"]["name"]
+        ..lastName = response.data["user"]["lastName"]
+        ..userName = response.data["user"]["username"]
+        ..token = response.data["jwt"];
       return true;
     } else {
       return false;

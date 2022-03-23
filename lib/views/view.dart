@@ -12,3 +12,6 @@ export 'logged_in_views/home/home_view.dart';
 //------CATS------//
 export 'logged_in_views/cats/cats_view.dart';
 export 'logged_in_views/cats/cat_profile_view.dart';
+
+//------USER------//
+export 'user_views/user_profile_view.dart';

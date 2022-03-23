@@ -21,12 +21,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        //ListViewModels
         Provider(create: (context) => CatListViewModel()),
+        Provider(create: (context) => AllergyListViewModel()),
+        Provider(create: (context) => DiseaseListViewModel()),
         //Provider(create: (context) => UserViewModel()),
         //Services
         ChangeNotifierProvider(create: (context) => UserService()),
         ChangeNotifierProvider(create: (context) => CatService()),
         ChangeNotifierProvider(create: (context) => HeadersService()),
+        ChangeNotifierProvider(create: (context) => DiseaseService()),
+        ChangeNotifierProvider(create: (context) => AllergyService()),
         //Providers
         ChangeNotifierProvider(create: (context) => BottomNavigationBarProvider()),
         ChangeNotifierProvider(create: (context) => RegisterProvider())

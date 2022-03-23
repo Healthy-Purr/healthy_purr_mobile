@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:healthy_purr_mobile_app/models/user_session.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
-import 'package:provider/provider.dart';
 
 import '../../models/model.dart';
 import '../../view_models/view_model.dart';
@@ -11,6 +9,8 @@ class CatListViewModel {
   final List<CatViewModel> _catList = [];
 
   final List<NetworkImage> _catImages = [];
+
+  late CatViewModel selectedCat;
 
   List<CatViewModel> getCats() {
     return _catList;

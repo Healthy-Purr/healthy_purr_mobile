@@ -21,7 +21,14 @@ class _LoggedInViewState extends State<LoggedInView> {
   @override
   void initState() {
     _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
-        Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context));
+        Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
+          //Provider.of<CatListViewModel>(context, listen: false).selectedCat = Provider.of<CatListViewModel>(context, listen: false).getCats()[0];
+          Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList();
+          Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList();
+        }
+      )
+    );
+
     super.initState();
   }
 

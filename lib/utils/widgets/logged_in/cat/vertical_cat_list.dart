@@ -39,104 +39,103 @@ class _VerticalCatListState extends State<VerticalCatList> {
             final selectedCat = catList[index];
             final selectedCatImage = catImages[index];
 
-            return Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              height: 125,
-              width: 300,
-              decoration: BoxDecoration(
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(25.0)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: const Offset(0, 4),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    PageTransition(
+                        duration: const Duration(milliseconds: 200),
+                        reverseDuration: const Duration(milliseconds: 200),
+                        type: PageTransitionType.rightToLeft,
+                        child: CatProfileView(
+                            catImage: selectedCatImage,
+                            cat: selectedCat
+                        )
                     )
-                  ]),
-              child: Row(
-                  children: [
-                    Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 200),
-                                  reverseDuration: const Duration(milliseconds: 200),
-                                  type: PageTransitionType.rightToLeft,
-                                  child: CatProfileView(
-                                      catImage: selectedCatImage,
-                                      cat: selectedCat
-                                  )
-                              )
-                          );
-                        },
-                        child: Container(
-                            height: 125,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(20.0)),
-                              image: DecorationImage(
-                                  image: selectedCatImage.url != ""
-                                      ? selectedCatImage
-                                      : defaultCatImage,
-                                  fit: BoxFit.cover),
-                            )
-                        ),
+                );
+                Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                height: 125,
+                width: 300,
+                decoration: BoxDecoration(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(25.0)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: const Offset(0, 4),
+                      )
+                    ]),
+                child: Row(
+                    children: [
+                      Container(
+                          height: 125,
+                          width: 115,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(20.0)),
+                            image: DecorationImage(
+                                image: selectedCatImage.url != ""
+                                    ? selectedCatImage
+                                    : defaultCatImage,
+                                fit: BoxFit.cover),
+                          )
                       ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5, left: 25),
-                          child: Text(selectedCat.name!,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16)),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text.rich(TextSpan(children: [
-                              const TextSpan(text: 'Edad: ', style: TextStyle(fontSize: 13)),
-                              TextSpan(
-                                  text: selectedCat.age.toString() + ' años',
-                                  style:
-                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                            ])),
-                            Text.rich(TextSpan(children: [
-                              const TextSpan(text: 'Peso: ', style: TextStyle(fontSize: 13)),
-                              TextSpan(
-                                  text: selectedCat.weight.toString(),
-                                  style:
-                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                              const TextSpan(
-                                  text: ' kg',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold))
-                            ])),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5, left: 25),
+                            child: Text(selectedCat.name!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16)),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text.rich(TextSpan(children: [
+                                const TextSpan(text: 'Edad: ', style: TextStyle(fontSize: 13)),
+                                TextSpan(
+                                    text: selectedCat.age.toString() + ' años',
+                                    style:
+                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                              ])),
+                              Text.rich(TextSpan(children: [
+                                const TextSpan(text: 'Peso: ', style: TextStyle(fontSize: 13)),
+                                TextSpan(
+                                    text: selectedCat.weight.toString(),
+                                    style:
+                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                                const TextSpan(
+                                    text: ' kg',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold))
+                              ])),
 
-                            Text.rich(TextSpan(children: [
-                              const TextSpan(text: 'Sexo: ', style: TextStyle(fontSize: 13)),
-                              TextSpan(
-                                  text: selectedCat.gender.toString() == 'true' ? 'Macho' : 'Hembra',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 13))
-                            ]))
-                          ]
-                              .map((children) => Padding(
-                              padding:
-                              const EdgeInsets.fromLTRB(25, 6, 0, 0),
-                              child: children))
-                              .toList(),
-                        ),
-                      ],
-                    )
-                  ]
+                              Text.rich(TextSpan(children: [
+                                const TextSpan(text: 'Sexo: ', style: TextStyle(fontSize: 13)),
+                                TextSpan(
+                                    text: selectedCat.gender.toString() == 'true' ? 'Macho' : 'Hembra',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 13))
+                              ]))
+                            ]
+                                .map((children) => Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(25, 6, 0, 0),
+                                child: children))
+                                .toList(),
+                          ),
+                        ],
+                      )
+                    ]
+                ),
               ),
             );
           }),

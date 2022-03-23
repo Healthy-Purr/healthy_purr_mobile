@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import '../models/model.dart';
 import '../utils/util.dart';
-
-import 'package:http/http.dart' as http;
 
 class CatService with ChangeNotifier {
 
@@ -16,8 +12,7 @@ class CatService with ChangeNotifier {
     final dio = Dio();
 
     var uri = '${url}users/$id/cats';
-
-
+    
     var response = await dio.get(uri, options: Options(
       headers: HeadersService().getHeaders()
     ));

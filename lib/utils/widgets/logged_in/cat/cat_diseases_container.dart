@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_purr_mobile_app/models/model.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 
 class CatDiseasesContainer extends StatefulWidget {
-  final List<String> diseases;
+  final List<Map<String, String>> diseases;
   const CatDiseasesContainer({required this.diseases, Key? key}) : super(key: key);
 
   @override
@@ -56,7 +57,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
                   physics: const BouncingScrollPhysics(),
                   itemCount: widget.diseases.length,
                   itemBuilder: (context, index) {
-                    return Text('- ${widget.diseases[index]}',
+                    return Text('- ${widget.diseases[index]["name"]}',
                         style: const TextStyle(color: Colors.white));
                   }
               ) : const Center(child: Text('Tu gatito no tiene enfermedades',
