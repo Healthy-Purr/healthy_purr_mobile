@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import '../models/model.dart';
 import '../utils/util.dart';
 
@@ -30,53 +30,28 @@ class UserService with ChangeNotifier {
   }
 
   Future<bool> loginUser(UserLoginDto user, BuildContext context) async {
-    var uri = Uri.parse(url + "auth");
+    var uri =url + "auth";
+
+    final dio = Dio();
+
     var body = jsonEncode({
       'username': user.email,
       'password': user.password
     });
-    var response = await http.post(uri, body: body, headers: headers);
+
+    var response = await dio.post(uri, data: body);
 
     if (response.statusCode == 200) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('jwt', response.body);
+      UserSession()
+        ..id = response.data["user"]["userId"]
+        ..name = response.data["user"]["name"]
+        ..lastName = response.data["user"]["lastName"]
+        ..userName = response.data["user"]["username"]
+        ..token = response.data["jwt"];
       return true;
     } else {
       return false;
     }
-  }
-
-  Future<String> getUserIdFromSharedPreferences() async {
-
-    //ACCESSING ID AS LIST
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String prefsResponse = prefs.getString('jwt').toString();
-
-    //SPLIT ID
-    List<String> firstSplit = prefsResponse.split(':');
-    List<String> secondSplit = firstSplit[3].split('"');
-    List<String> thirdSplit = secondSplit[0].split(',');
-
-    //RETURNING ID
-    String userId = thirdSplit[0];
-
-    return userId;
-  }
-
-  Future<String> getUserTokenFromSharedPreferences() async {
-
-    //ACCESSING ID AS LIST
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String prefsResponse = prefs.getString('jwt').toString();
-
-    //SPLIT TOKEN
-    List<String> firstSplit = prefsResponse.split(':');
-    List<String> secondSplit = firstSplit[1].split('"');
-
-    //RETURNING TOKEN
-    String token = secondSplit[1];
-
-    return token;
   }
 
 }

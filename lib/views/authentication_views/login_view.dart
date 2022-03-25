@@ -82,6 +82,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       width: 300,
                       child: TextFormField(
+                        initialValue: "chane123@gmail.com",
                         style: const TextStyle(
                             fontSize: 14,
                             height: 0.5
@@ -111,6 +112,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       width: 300,
                       child: TextFormField(
+                        initialValue: "soyunachane",
                         style: const TextStyle(
                             fontSize: 14,
                             height: 0.5
@@ -142,8 +144,8 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         OpenContainer(
                           closedShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                          routeSettings: const RouteSettings(name: HomeView.routeName),
-                          openBuilder: (context, _) => const HomeView(),
+                          routeSettings: const RouteSettings(name: LoggedInView.routeName),
+                          openBuilder: (context, _) => const LoggedInView(),
                           closedBuilder: (_, open) => ClipRRect(
                             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                             child: Stack(
