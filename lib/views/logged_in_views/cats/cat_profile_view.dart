@@ -86,7 +86,9 @@ class _CatProfileViewState extends State<CatProfileView> {
                                     height: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2,
                                     width: screenSize.width,
                                     decoration: BoxDecoration(
-                                        image: DecorationImage(image: widget.catImage),
+                                        image: DecorationImage(
+                                            image: widget.catImage,
+                                            fit: BoxFit.fitWidth),
                                         gradient: LinearGradient(
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomLeft,

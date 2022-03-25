@@ -36,7 +36,7 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
           Positioned(
             bottom: 0, right: 0,
             child: Transform.rotate(
-              angle: 3.1416/180*315,
+              angle: 3.1416/180*340,
               child: Image.asset(pawAsset,
                   height: 80,
                   width: 80,
@@ -46,7 +46,7 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
             )
           ),
           const Positioned(
-            left: 8, top: 8,
+            left: 15, top: 15,
             child: Text('Alergias')
           ),
           Positioned.fill(

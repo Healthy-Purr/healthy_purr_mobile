@@ -55,7 +55,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     final isSelected = index == widget.index;
     return IconTheme(
       data: IconThemeData(
-        color: isSelected? Colors.black38 : Colors.white,
+        color: isSelected? Colors.white : Colors.black26,
       ),
       child: IconButton(
         icon: icon,

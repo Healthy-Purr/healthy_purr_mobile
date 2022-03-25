@@ -46,7 +46,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
               )
           ),
           const Positioned(
-              left: 8, top: 8,
+              left: 15, top: 15,
               child: Text('Enfermedades', style: TextStyle(color: Colors.white),)
           ),
           Positioned.fill(

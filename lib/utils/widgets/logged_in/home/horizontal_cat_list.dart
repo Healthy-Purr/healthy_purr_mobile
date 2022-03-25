@@ -69,7 +69,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                     Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
                   },
                   child: Container(
-                      margin: const EdgeInsets.fromLTRB(3, 5, 3, 4),
+                      margin: const EdgeInsets.fromLTRB(3, 3, 3, 3),
                       height: 170,
                       width: 99,
                       decoration: BoxDecoration(
@@ -82,8 +82,8 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                 Positioned(
                   bottom: 10, left: 14,
                   child: BorderedText(
-                    strokeColor: Colors.black,
-                    strokeWidth: 3.0,
+                    strokeColor: Colors.black26,
+                    strokeWidth: 2.0,
                     child: Text(catList[index].name!,
                         style: const TextStyle(color: Colors.white)),
                   ),
