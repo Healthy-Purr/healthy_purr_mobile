@@ -79,11 +79,10 @@ class _VerticalCatListState extends State<VerticalCatList> {
                             borderRadius: const BorderRadius.all(
                                 Radius.circular(20.0)),
                             image: DecorationImage(
-                                image: selectedCatImage.url != ""
-                                    ? selectedCatImage
-                                    : defaultCatImage,
-                                fit: BoxFit.cover),
-                          )
+                                image: selectedCatImage,
+                                fit: BoxFit.cover,
+                            ),
+                          ),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

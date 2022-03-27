@@ -20,15 +20,17 @@ class _LoggedInViewState extends State<LoggedInView> {
 
   @override
   void initState() {
-    _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
-        Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
-          //Provider.of<CatListViewModel>(context, listen: false).selectedCat = Provider.of<CatListViewModel>(context, listen: false).getCats()[0];
-          Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList();
-          Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList();
-        }
-      )
+    // _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
+    //     Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
+    //       Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
+    //         Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList()
+    //       );
+    //     }
+    //   )
+    // );
+    Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
+        Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList()
     );
-
     super.initState();
   }
 
@@ -67,7 +69,8 @@ class _LoggedInViewState extends State<LoggedInView> {
           Positioned(
             top: 80, bottom: 90, right: 25, left: 25,
             child: FutureBuilder(
-              future: _future,
+              future: Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
+                  Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context)),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done) {
                   return IndexedStack(
@@ -78,8 +81,6 @@ class _LoggedInViewState extends State<LoggedInView> {
                         Text('3'),
                         Text('4'),
                       ]
-                    //     .map((children) => RefreshIndicator(onRefresh: _refresh,
-                    //     child: children)).toList(),
                   );
                 } else {
                   return const Center(child: CupertinoActivityIndicator());

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
@@ -33,7 +32,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
         itemBuilder: (context, index) {
 
           final selectedCat = catList[index];
-          final selectedCatImage = catImages[index];
+          var selectedCatImage = catImages[index];
 
           return Container(
             margin: const EdgeInsets.only(right: 16, bottom: 10),
@@ -74,9 +73,11 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                       width: 99,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-                        image: DecorationImage(image: catImages[index].url != "" ? catImages[index] :
-                            defaultCatImage, fit: BoxFit.fill),
-                      )
+                        image: DecorationImage(
+                            image: selectedCatImage,
+                            fit: BoxFit.cover),
+                      ),
+
                   ),
                 ),
                 Positioned(
@@ -84,7 +85,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                   child: BorderedText(
                     strokeColor: Colors.black26,
                     strokeWidth: 2.0,
-                    child: Text(catList[index].name!,
+                    child: Text(selectedCat.name!,
                         style: const TextStyle(color: Colors.white)),
                   ),
                 )

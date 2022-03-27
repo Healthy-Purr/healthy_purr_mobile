@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AddCatButton extends StatelessWidget {
@@ -9,18 +11,15 @@ class AddCatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        // Navigator.push(
-        //     context,
-        //     PageTransition(
-        //         duration: const Duration(milliseconds: 200),
-        //         reverseDuration: const Duration(milliseconds: 200),
-        //         type: PageTransitionType.rightToLeft,
-        //         child: const RegisterCatScreen()
-        //     )
-        // );
+        PageTransition(
+            duration: const Duration(milliseconds: 200),
+            reverseDuration: const Duration(milliseconds: 200),
+            type: PageTransitionType.rightToLeft,
+            child: const CatRegisterView()
+        );
       },
       child: Container(
-        height: 60, width: 60,
+        height: 65, width: 85,
         decoration: const BoxDecoration(
           color: primaryColor,
           boxShadow: [
@@ -32,13 +31,15 @@ class AddCatButton extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40.0),
-              bottomRight: Radius.circular(40.0)
+            topLeft: Radius.circular(40.0),
+            bottomRight: Radius.circular(40.0),
+            topRight: Radius.circular(8.0),
+            bottomLeft: Radius.circular(8.0)
           ),
         ),
         child: const Center(
-          child: Icon(
-            Icons.add_rounded,
+          child: FaIcon(
+            FontAwesomeIcons.plus,
             color: Colors.white,
             size: 45,
           )

@@ -27,6 +27,8 @@ class DiseaseListViewModel {
   Future<void> populateDiseaseList() async {
     List<Disease> auxDiseaseList = await DiseaseService().getAllDiseases();
 
+    _diseaseList.clear();
+
     for(var disease in auxDiseaseList) {
       _diseaseList.add(DiseaseViewModel(disease: disease));
     }
