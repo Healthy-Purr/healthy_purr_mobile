@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
-import 'package:healthy_purr_mobile_app/views/view.dart';
-import 'package:page_transition/page_transition.dart';
-
 class CatsView extends StatefulWidget {
   const CatsView({Key? key}) : super(key: key);
 
