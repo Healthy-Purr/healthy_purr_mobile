@@ -43,7 +43,6 @@ class _CatProfileViewState extends State<CatProfileView> {
 
   @override
   void initState() {
-
     _future = Provider.of<AllergyListViewModel>(context, listen: false).populateCatAllergyList(context).whenComplete(() =>
         Provider.of<DiseaseListViewModel>(context, listen: false).populateCatDiseasesList(context).whenComplete(() {
           catAllergiesList = Provider.of<AllergyListViewModel>(context, listen: false).getCatAllergies();

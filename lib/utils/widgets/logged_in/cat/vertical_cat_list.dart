@@ -100,18 +100,18 @@ class _VerticalCatListState extends State<VerticalCatList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text.rich(TextSpan(children: [
-                                const TextSpan(text: 'Edad: ', style: TextStyle(fontSize: 13)),
+                                const TextSpan(text: 'Edad: ', style: TextStyle(fontSize: 12)),
                                 TextSpan(
                                     text: selectedCat.age.toString() + ' años',
                                     style:
-                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                               ])),
                               Text.rich(TextSpan(children: [
-                                const TextSpan(text: 'Peso: ', style: TextStyle(fontSize: 13)),
+                                const TextSpan(text: 'Peso: ', style: TextStyle(fontSize: 12)),
                                 TextSpan(
                                     text: selectedCat.weight.toString(),
                                     style:
-                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                 const TextSpan(
                                     text: ' kg',
                                     style:
@@ -119,11 +119,11 @@ class _VerticalCatListState extends State<VerticalCatList> {
                               ])),
 
                               Text.rich(TextSpan(children: [
-                                const TextSpan(text: 'Sexo: ', style: TextStyle(fontSize: 13)),
+                                const TextSpan(text: 'Sexo: ', style: TextStyle(fontSize: 12)),
                                 TextSpan(
                                     text: selectedCat.gender.toString() == 'true' ? 'Macho' : 'Hembra',
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 13))
+                                        fontWeight: FontWeight.bold, fontSize: 12))
                               ]))
                             ]
                                 .map((children) => Padding(

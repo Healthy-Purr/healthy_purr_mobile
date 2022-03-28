@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/providers/provider.dart';
+import 'package:healthy_purr_mobile_app/services/camera_service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
+import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/camera_view.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class LoggedInView extends StatefulWidget {
@@ -47,7 +50,21 @@ class _LoggedInViewState extends State<LoggedInView> {
           bottomNavigationBarProvider.setPageIndex(index);
         },
       ),
-      floatingActionButton: const GradientFloatingActionButton(),
+      floatingActionButton: GradientFloatingActionButton(
+        height: 75,
+        width: 75,
+        onTap: () async {
+          await CameraService().getCameras().then((camera){
+            Navigator.push(context,
+                PageTransition(
+                    duration: const Duration(milliseconds: 200),
+                    reverseDuration: const Duration(milliseconds: 200),
+                    type: PageTransitionType.bottomToTop,
+                    child: CameraView(camera: camera)
+                )
+            );
+          });
+      },),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Stack(
         children: [

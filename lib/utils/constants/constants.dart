@@ -22,6 +22,8 @@ const Color updateCatImageButtonColor = Color(0xFFFFD28E);
 
 const Color updateCatInformationButtonColor = Color(0xFFFFB554);
 
+const Color evaluationOption = Color(0xFFFC5155);
+
 const Color addCatScheduleButtonColor =  Color(0xFF59E4C6);
 
 //-------------ASSETS-------------//
