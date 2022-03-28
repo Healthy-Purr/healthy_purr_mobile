@@ -27,6 +27,8 @@ class AllergyListViewModel {
   Future<void> populateAllergyList() async {
     List<Allergy> auxAllergyList = await AllergyService().getAllAllergies();
 
+    _allergyList.clear();
+
     for(var allergy in auxAllergyList) {
       _allergyList.add(AllergyViewModel(allergy: allergy));
     }

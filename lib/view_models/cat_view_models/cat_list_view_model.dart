@@ -4,31 +4,43 @@ import 'package:healthy_purr_mobile_app/services/service.dart';
 import '../../models/model.dart';
 import '../../view_models/view_model.dart';
 
-class CatListViewModel {
+class CatListViewModel extends ChangeNotifier {
 
   final List<CatViewModel> _catList = [];
 
-  final List<NetworkImage> _catImages = [];
+  final List<ImageProvider> _catImages = [];
 
   late CatViewModel selectedCat;
+
+  late NetworkImage newImage;
 
   List<CatViewModel> getCats() {
     return _catList;
   }
 
-  List<NetworkImage> getCatsImages() {
+  List<ImageProvider> getCatsImages() {
     return _catImages;
   }
 
   Future<void> populateCatList(BuildContext context) async {
+
     final userId = UserSession().id;
 
     List<Cat> auxCatList = await CatService().getCatsByUserId(userId.toString());
+
+    _catList.clear();
 
     for(var cat in auxCatList) {
       _catList.add(CatViewModel(cat: cat));
     }
 
+    notifyListeners();
+
+  }
+
+  setCatImageAtIndex(int index, ImageProvider newImage){
+    _catImages[index] = newImage;
+    notifyListeners();
   }
 
   Future<void> populateCatsImages(BuildContext context) async {
@@ -39,9 +51,13 @@ class CatListViewModel {
       auxList.add(await CatService().getCatImage(cat));
     }
 
+    _catImages.clear();
+
     for(var image in auxList) {
       _catImages.add(image);
     }
+
+    notifyListeners();
 
   }
 

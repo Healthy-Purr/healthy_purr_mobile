@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         //ListViewModels
-        Provider(create: (context) => CatListViewModel()),
+        ChangeNotifierProvider(create: (context) => CatListViewModel()),
         Provider(create: (context) => AllergyListViewModel()),
         Provider(create: (context) => DiseaseListViewModel()),
         Provider(create: (context) => EvaluationViewModel()),

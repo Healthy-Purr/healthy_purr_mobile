@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthy_purr_mobile_app/models/model.dart';
+import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
+import 'package:healthy_purr_mobile_app/views/view.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'dart:io';
 
 class CatProfileView extends StatefulWidget {
   final CatViewModel cat;
-  final NetworkImage catImage;
-  const CatProfileView({required this.cat, required this.catImage,
+  final ImageProvider catImage;
+  final int index;
+  const CatProfileView({required this.cat, required this.catImage, required this.index,
     Key? key}) : super(key: key);
 
   @override
@@ -23,6 +28,17 @@ class _CatProfileViewState extends State<CatProfileView> {
 
   List<Map<String, String>> catDiseasesList = [];
   List<Map<String, String>> catAllergiesList = [];
+
+  File? image;
+
+  Future pickImage(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) return;
+
+    final _temp = File(image.path);
+    setState(() => this.image = _temp);
+  }
+
   late var _future;
 
   @override
@@ -86,7 +102,9 @@ class _CatProfileViewState extends State<CatProfileView> {
                                     width: screenSize.width,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image: widget.catImage,
+                                            image: image == null
+                                            ? widget.catImage
+                                            : FileImage(image!) as ImageProvider,
                                             fit: BoxFit.fitWidth),
                                         gradient: LinearGradient(
                                           begin: Alignment.topLeft,
@@ -109,8 +127,18 @@ class _CatProfileViewState extends State<CatProfileView> {
                           top: 17, right: screenSize.width * 0.04,
                           child: ClipButton(
                             icon: Icons.add_a_photo_rounded,
-                            onTap: () {
-                              //TODO: ADD FUNCTION TO UPDATE PHOTO
+                            onTap: () async {
+                              await pickImage(ImageSource.gallery).whenComplete((){
+                                Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat).whenComplete((){
+                                  Provider.of<CatListViewModel>(context, listen: false).setCatImageAtIndex(widget.index, FileImage(image!));
+                                });
+
+                              });
+                              // Navigator.pushReplacement(context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => const LoggedInView(),
+                              //     )
+                              // );
                             },
                             color: updateCatImageButtonColor,
                           ),
@@ -205,7 +233,16 @@ class _CatProfileViewState extends State<CatProfileView> {
                           child: ClipButton(
                             icon: Icons.refresh,
                             onTap: () {
-                              //TODO: ADD FUNCTION TO UPDATE INFORMATION
+                              Navigator.push(context,
+                                  PageTransition(
+                                      duration: const Duration(milliseconds: 200),
+                                      reverseDuration: const Duration(milliseconds: 200),
+                                      type: PageTransitionType.rightToLeft,
+                                      child: CatUpdateInformationView(
+                                          cat: widget.cat
+                                      )
+                                  )
+                              );
                             },
                             color: updateCatInformationButtonColor,
                           ),

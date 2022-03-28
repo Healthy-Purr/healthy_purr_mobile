@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

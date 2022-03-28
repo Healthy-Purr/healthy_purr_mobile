@@ -191,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.1"
+  grouped_buttons_ns:
+    dependency: "direct main"
+    description:
+      name: grouped_buttons_ns
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   google_ml_kit:
     dependency: "direct main"
     description:

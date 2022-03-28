@@ -47,6 +47,7 @@ class _VerticalCatListState extends State<VerticalCatList> {
                         reverseDuration: const Duration(milliseconds: 200),
                         type: PageTransitionType.rightToLeft,
                         child: CatProfileView(
+                            index: index,
                             catImage: selectedCatImage,
                             cat: selectedCat
                         )
@@ -79,11 +80,10 @@ class _VerticalCatListState extends State<VerticalCatList> {
                             borderRadius: const BorderRadius.all(
                                 Radius.circular(20.0)),
                             image: DecorationImage(
-                                image: selectedCatImage.url != ""
-                                    ? selectedCatImage
-                                    : defaultCatImage,
-                                fit: BoxFit.cover),
-                          )
+                                image: Provider.of<CatListViewModel>(context).getCatsImages()[index],
+                                fit: BoxFit.cover,
+                            ),
+                          ),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
