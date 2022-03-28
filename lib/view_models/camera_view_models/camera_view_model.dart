@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class CameraViewModel extends ChangeNotifier{
 
-  List<File> _photos =  [];
+  final List<File> _photos =  [];
 
   List<File> getPhotos() {
     return _photos;

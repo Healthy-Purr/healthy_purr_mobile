@@ -38,6 +38,7 @@ class CameraViewState extends State<CameraView> {
       }
       setState(() {});
     });
+    controller.setFlashMode(FlashMode.off);
     SchedulerBinding.instance?.addPostFrameCallback((_) => _showDialog());
   }
 
