@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthy_purr_mobile_app/providers/provider.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
+import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:provider/provider.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         Provider(create: (context) => CatListViewModel()),
         Provider(create: (context) => AllergyListViewModel()),
         Provider(create: (context) => DiseaseListViewModel()),
+        ChangeNotifierProvider(create: (context) => CameraViewModel()),
         //Provider(create: (context) => UserViewModel()),
         //Services
         ChangeNotifierProvider(create: (context) => UserService()),
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          textTheme: GoogleFonts.ralewayTextTheme(Theme.of(context).textTheme)),
+          textTheme: GoogleFonts.comfortaaTextTheme(Theme.of(context).textTheme)),
         home: const AuthenticationView(),
       ),
     );

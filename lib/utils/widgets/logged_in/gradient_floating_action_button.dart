@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthy_purr_mobile_app/services/camera_service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+
+import '../../../views/logged_in_views/camera/camera_view.dart';
 
 class GradientFloatingActionButton extends StatefulWidget {
-  const GradientFloatingActionButton({Key? key}) : super(key: key);
+  final VoidCallback onTap;
+  final double height;
+  final double width;
+  const GradientFloatingActionButton({Key? key, required this.onTap, required this.height, required this.width}) : super(key: key);
 
   @override
   _GradientFloatingActionButtonState createState() => _GradientFloatingActionButtonState();
@@ -11,11 +20,13 @@ class GradientFloatingActionButton extends StatefulWidget {
 class _GradientFloatingActionButtonState extends State<GradientFloatingActionButton>{
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5.0),
-      child: Ink(
-        height: 75,
-        width: 75,
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        height: widget.height,
+        width: widget.width,
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(18),
         decoration: const ShapeDecoration(
           gradient: LinearGradient(
             colors: [
@@ -26,21 +37,8 @@ class _GradientFloatingActionButtonState extends State<GradientFloatingActionBut
           ),
           shape: CircleBorder(),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Ink(
-            width: 15, height: 15,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/camera_icon.png'))
-            ),
-            child: InkWell(
-              onTap: () {
-                //TODO: ADD CAMERA VIEW
-              },
-              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-            ),
-          ),
+        child: SvgPicture.asset(
+          'assets/images/camera_icon.svg',
         ),
       ),
     );

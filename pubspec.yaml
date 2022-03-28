@@ -15,8 +15,10 @@ dependencies:
   animations: ^2.0.2
   async: ^2.8.1
   bordered_text: ^2.0.0
+  camera: ^0.9.4+14
   cupertino_icons: ^1.0.2
   dio: ^4.0.4
+  flutter_svg: ^1.0.3
   flutter_native_image: ^0.0.6+1
   font_awesome_flutter: ^9.1.0
   google_fonts: ^2.1.0
