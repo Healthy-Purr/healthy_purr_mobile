@@ -36,7 +36,9 @@ class CatService with ChangeNotifier {
     return NetworkImage(uri.toString(), headers: HeadersService().getHeaders());
   }
 
-  void uploadCatImage(File file, CatViewModel cat) async {
+  Future<bool> uploadCatImage(File file, CatViewModel cat) async {
+    bool resp = false;
+
     var uri = Uri.parse('${url}cats/${cat.catId}/picture');
 
     var request = http.MultipartRequest("PUT", uri);
@@ -51,8 +53,13 @@ class CatService with ChangeNotifier {
 
     request.files.add(multipartFile);
 
-    await request.send();
+    await request.send().then((value){
+      if(value.statusCode == 200){
+        resp = true;
+      }
+    });
 
+    return resp;
   }
 
   Future<void> createCat(CatRegisterDto catDto, int userId) async {

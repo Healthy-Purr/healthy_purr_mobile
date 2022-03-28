@@ -8,15 +8,17 @@ class CatListViewModel extends ChangeNotifier {
 
   final List<CatViewModel> _catList = [];
 
-  final List<NetworkImage> _catImages = [];
+  final List<ImageProvider> _catImages = [];
 
   late CatViewModel selectedCat;
+
+  late NetworkImage newImage;
 
   List<CatViewModel> getCats() {
     return _catList;
   }
 
-  List<NetworkImage> getCatsImages() {
+  List<ImageProvider> getCatsImages() {
     return _catImages;
   }
 
@@ -34,6 +36,11 @@ class CatListViewModel extends ChangeNotifier {
 
     notifyListeners();
 
+  }
+
+  setCatImageAtIndex(int index, ImageProvider newImage){
+    _catImages[index] = newImage;
+    notifyListeners();
   }
 
   Future<void> populateCatsImages(BuildContext context) async {

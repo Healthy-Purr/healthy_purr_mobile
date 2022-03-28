@@ -60,11 +60,16 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                             reverseDuration: const Duration(milliseconds: 200),
                             type: PageTransitionType.rightToLeft,
                             child: CatProfileView(
+                                index: index,
                                 catImage: selectedCatImage,
                                 cat: selectedCat
                             )
                         )
-                    );
+                    ).whenComplete((){
+                      setState(() {
+
+                      });
+                    });
                     Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
                   },
                   child: Container(
@@ -74,7 +79,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                         image: DecorationImage(
-                            image: selectedCatImage,
+                            image: Provider.of<CatListViewModel>(context).getCatsImages()[index],
                             fit: BoxFit.cover),
                       ),
 

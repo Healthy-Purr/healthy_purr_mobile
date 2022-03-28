@@ -11,12 +11,12 @@ class AddCatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        PageTransition(
+        Navigator.push(context, PageTransition(
             duration: const Duration(milliseconds: 200),
             reverseDuration: const Duration(milliseconds: 200),
             type: PageTransitionType.rightToLeft,
             child: const CatRegisterView()
-        );
+        ));
       },
       child: Container(
         height: 65, width: 85,

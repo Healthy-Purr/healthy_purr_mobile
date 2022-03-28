@@ -13,8 +13,9 @@ import 'dart:io';
 
 class CatProfileView extends StatefulWidget {
   final CatViewModel cat;
-  final NetworkImage catImage;
-  const CatProfileView({required this.cat, required this.catImage,
+  final ImageProvider catImage;
+  final int index;
+  const CatProfileView({required this.cat, required this.catImage, required this.index,
     Key? key}) : super(key: key);
 
   @override
@@ -128,14 +129,17 @@ class _CatProfileViewState extends State<CatProfileView> {
                           child: ClipButton(
                             icon: Icons.add_a_photo_rounded,
                             onTap: () async {
-                              await pickImage(ImageSource.gallery).then((value){
-                                Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat);
+                              await pickImage(ImageSource.gallery).whenComplete((){
+                                Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat).whenComplete((){
+                                  Provider.of<CatListViewModel>(context, listen: false).setCatImageAtIndex(widget.index, FileImage(image!));
+                                });
+
                               });
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoggedInView(),
-                                  )
-                              );
+                              // Navigator.pushReplacement(context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => const LoggedInView(),
+                              //     )
+                              // );
                             },
                             color: updateCatImageButtonColor,
                           ),
