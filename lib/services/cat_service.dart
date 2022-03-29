@@ -106,4 +106,19 @@ class CatService with ChangeNotifier {
 
   }
 
+  Future<bool> deleteCat(CatViewModel cat) async {
+    final dio = Dio();
+
+    var uri = '${url}cats/${cat.catId}/delete';
+
+    Response<String> response = await dio.put(uri, options: Options(
+        headers: HeadersService().getHeaders()));
+
+    if(response.statusCode == 200 && response.data!.contains('deleted')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
