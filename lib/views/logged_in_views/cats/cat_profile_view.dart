@@ -104,7 +104,7 @@ class _CatProfileViewState extends State<CatProfileView> {
                                         image: DecorationImage(
                                             image: image == null
                                             ? widget.catImage
-                                            : FileImage(image!) as ImageProvider,
+                                            : FileImage(image!),
                                             fit: BoxFit.fitWidth),
                                         gradient: LinearGradient(
                                           begin: Alignment.topLeft,

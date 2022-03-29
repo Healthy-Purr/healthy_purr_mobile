@@ -21,6 +21,8 @@ class CatViewModel {
 
   bool? get status => cat.status;
 
+  set newStatus(bool newStatus) => cat.status = newStatus;
+
   int? get userId => cat.userId;
 
 }

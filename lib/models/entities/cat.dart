@@ -6,7 +6,7 @@ class Cat {
   final bool? gender;
   final bool? hasDisease;
   final bool? isAllergic;
-  final bool? status;
+  bool? status;
   final int? userId;
 
   Cat({

@@ -31,48 +31,49 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
         itemCount: catList.length,
         itemBuilder: (context, index) {
 
-          final selectedCat = catList[index];
+          final CatViewModel selectedCat = catList[index];
           var selectedCatImage = catImages[index];
 
-          return Container(
-            margin: const EdgeInsets.only(right: 16, bottom: 10),
-            height: 180,
-            width: 105,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: const Offset(0, 4),
-                )
-              ]
-            ),
-            child: Stack(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        PageTransition(
-                            duration: const Duration(milliseconds: 200),
-                            reverseDuration: const Duration(milliseconds: 200),
-                            type: PageTransitionType.rightToLeft,
-                            child: CatProfileView(
-                                index: index,
-                                catImage: selectedCatImage,
-                                cat: selectedCat
-                            )
-                        )
-                    ).whenComplete((){
-                      setState(() {
+          if(selectedCat.status == true) {
+            return Container(
+              margin: const EdgeInsets.only(right: 16, bottom: 10),
+              height: 180,
+              width: 105,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+              ),
+              child: Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          PageTransition(
+                              duration: const Duration(milliseconds: 200),
+                              reverseDuration: const Duration(milliseconds: 200),
+                              type: PageTransitionType.rightToLeft,
+                              child: CatProfileView(
+                                  index: index,
+                                  catImage: selectedCatImage,
+                                  cat: selectedCat
+                              )
+                          )
+                      ).whenComplete((){
+                        setState(() {
 
+                        });
                       });
-                    });
-                    Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
-                  },
-                  child: Container(
+                      Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
+                    },
+                    child: Container(
                       margin: const EdgeInsets.fromLTRB(3, 3, 3, 3),
                       height: 170,
                       width: 99,
@@ -83,20 +84,24 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                             fit: BoxFit.cover),
                       ),
 
+                    ),
                   ),
-                ),
-                Positioned(
-                  bottom: 10, left: 14,
-                  child: BorderedText(
-                    strokeColor: Colors.black26,
-                    strokeWidth: 2.0,
-                    child: Text(selectedCat.name!,
-                        style: const TextStyle(color: Colors.white)),
-                  ),
-                )
-              ],
-            ),
-          );
+                  Positioned(
+                    bottom: 10, left: 14,
+                    child: BorderedText(
+                      strokeColor: Colors.black26,
+                      strokeWidth: 2.0,
+                      child: Text(selectedCat.name!,
+                          style: const TextStyle(color: Colors.white)),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+          else {
+            return const SizedBox();
+          }
         },
       ),
     );
