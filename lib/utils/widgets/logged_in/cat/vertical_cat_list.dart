@@ -85,14 +85,44 @@ class _VerticalCatListState extends State<VerticalCatList> {
                         extentRatio: 0.30,
                         children: [
                           SlidableAction(
-                            onPressed: (context) async {
-                              Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
-                                if(value) {
-                                  setState(() {
-                                    selectedCat.newStatus = false;
-                                  });
-                                }
-                              });
+                            onPressed: (context) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text(alertDialogTitle),
+                                      content: const Text(alertDialogContent),
+                                      actions: [
+                                        ElevatedButton(
+                                          child: const Text(alertDialogConfirmAction),
+                                          onPressed: () async {
+                                            Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
+                                              if(value) {
+                                                setState(() {
+                                                  selectedCat.newStatus = false;
+                                                });
+                                              }
+                                            }).whenComplete((){
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: primaryColor
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text(alertDialogDismissAction),
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              primary: primaryColor
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  }
+                              );
                             },
                             backgroundColor: Colors.red,
                             icon: Icons.delete,

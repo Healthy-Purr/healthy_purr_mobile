@@ -35,3 +35,13 @@ const String topRightDecoration = 'assets/images/top-right_decoration.png';
 const String healthyPurrLogo = 'assets/images/safety_purr_logocolor.png';
 
 const String pawAsset = 'assets/images/paw.png';
+
+//-------------ALERT DIALOG CONTENT-------------//
+
+const String alertDialogTitle = '¿Seguro que deseas realizar esta acción?';
+
+const String alertDialogContent = 'Esta acción no podrá revertirse. ¿Estás de acuerdo?';
+
+const String alertDialogConfirmAction = 'Confirmar';
+
+const String alertDialogDismissAction = 'Volver';
