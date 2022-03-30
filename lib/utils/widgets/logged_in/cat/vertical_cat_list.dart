@@ -90,8 +90,11 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text(alertDialogTitle),
-                                      content: const Text(alertDialogContent),
+                                      title: const Text(alertDialogTitle, style: TextStyle(fontSize: 18.0)),
+                                      content: const Text(alertDialogContent, style: TextStyle(fontSize: 14.0)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.0)
+                                      ),
                                       actions: [
                                         ElevatedButton(
                                           child: const Text(alertDialogConfirmAction),
@@ -107,7 +110,10 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                             });
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            primary: primaryColor
+                                            primary: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(25.0)
+                                            )
                                           ),
                                         ),
                                         ElevatedButton(
@@ -116,10 +122,16 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                             Navigator.pop(context);
                                           },
                                           style: ElevatedButton.styleFrom(
-                                              primary: primaryColor
+                                            primary: primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25.0)
+                                            )
                                           ),
                                         )
-                                      ],
+                                      ].map((e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        child: e,
+                                      )).toList(),
                                     );
                                   }
                               );
