@@ -36,7 +36,13 @@ const String healthyPurrLogo = 'assets/images/safety_purr_logocolor.png';
 
 const String pawAsset = 'assets/images/paw.png';
 
+const String photoInstruction = 'assets/images/take_photo_example.png';
+
+const String selectOptionInstruction = 'assets/images/select_option.png';
+
 //-------------ALERT DIALOG CONTENT-------------//
+
+//--------DELETE CAT--------//
 
 const String alertDialogTitle = '¿Seguro que deseas realizar esta acción?';
 
@@ -45,3 +51,9 @@ const String alertDialogContent = 'Esta acción no podrá revertirse. ¿Estás d
 const String alertDialogConfirmAction = 'Confirmar';
 
 const String alertDialogDismissAction = 'Volver';
+
+//--------CAMERA ALERT DIALOG--------//
+
+const String alertDialogPhotoInstruction = 'Tome una foto a los ingredientes y análisis garantizado de la comida para gatos';
+
+const String alertDialogEvaluationInstruction = '¿Desea continuar con la evaluación o prefiere realizar una comparación entre más comidas?';

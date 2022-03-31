@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         Provider(create: (context) => DiseaseListViewModel()),
         Provider(create: (context) => EvaluationViewModel()),
         ChangeNotifierProvider(create: (context) => CameraViewModel()),
-        //Provider(create: (context) => UserViewModel()),
+        Provider(create: (context) => UserViewModel()),
         //Services
         ChangeNotifierProvider(create: (context) => UserService()),
         ChangeNotifierProvider(create: (context) => CatService()),
