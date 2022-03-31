@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -47,46 +46,40 @@ class CameraViewState extends State<CameraView> {
       barrierColor: Colors.black26,
       context: context,
       builder: (BuildContext context) {
-        return Material(
-          color: Colors.black54,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 285),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25)
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Tome una foto a los ingredientes y análisis garantizado de la comida para gatos',
-                    style: TextStyle(fontSize: 12),
-                    textAlign: TextAlign.justify,),
-                  Image .asset('assets/images/take_photo_example.png'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () { Navigator.pop(context); },
-                        child: const Text('No volver a mostrar', style: TextStyle(fontSize: 12, color: Colors.grey),),
-                      ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            side: const BorderSide(width: 2.0, color: complementaryColor)),
-                        onPressed: (){},
-                        child: const Text('Continuar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0)
           ),
+          title: const Text(
+            alertDialogPhotoInstruction,
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.justify
+          ),
+          content: Image.asset(
+            photoInstruction,
+            width: 120, height: 120,
+            fit: BoxFit.contain,
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.black
+              ),
+              onPressed: () { Navigator.pop(context); },
+              child: const Text('No volver a mostrar', style: TextStyle(fontSize: 12, color: Colors.grey),),
+            ),
+            OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.pink[100],
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  side: const BorderSide(width: 2.0, color: complementaryColor)
+                ),
+                onPressed: (){},
+                child: const Text('Continuar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
+            )
+          ],
         );
       },
     );
@@ -97,53 +90,44 @@ class CameraViewState extends State<CameraView> {
       barrierColor: Colors.black26,
       context: context,
       builder: (BuildContext context) {
-        return Material(
-          color: Colors.black54,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 285),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25)
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Tome una foto a los ingredientes y análisis garantizado de la comida para gatos',
-                    style: TextStyle(fontSize: 12),
-                    textAlign: TextAlign.justify,),
-                  Image.asset('assets/images/select_option.png'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                              side: const BorderSide(width: 2.0, color: complementaryColor)),
-                          onPressed: (){
-                            Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(File(photo.path));
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Comparar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
-                      ),
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                              side: const BorderSide(width: 2.0, color: evaluationOption)),
-                          onPressed: (){},
-                          child: const Text('Evaluar', style: TextStyle(color: evaluationOption, fontWeight: FontWeight.w500),)
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0)
           ),
+          title: const Text(
+            alertDialogEvaluationInstruction,
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.justify),
+          content: Image.asset(
+            selectOptionInstruction,
+            width: 230, height: 145,
+            fit: BoxFit.contain,
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 12.5),
+          actions: [
+            OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.pink[100],
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  side: const BorderSide(width: 2.0, color: complementaryColor)
+                ),
+                onPressed: (){
+                  Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(File(photo.path));
+                  Navigator.pop(context);
+                },
+                child: const Text('Comparar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
+            ),
+            OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.red[100],
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  side: const BorderSide(width: 2.0, color: evaluationOption)
+                ),
+                onPressed: (){},
+                child: const Text('Evaluar', style: TextStyle(color: evaluationOption, fontWeight: FontWeight.w500),)
+            )
+          ],
         );
       },
     );

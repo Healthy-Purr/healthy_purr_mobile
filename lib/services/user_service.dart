@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:healthy_purr_mobile_app/services/service.dart';
 import '../models/model.dart';
 import '../utils/util.dart';
 
@@ -52,6 +53,23 @@ class UserService with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  Future<ImageProvider> getUserImage(int userId) async {
+
+    final dio = Dio();
+
+    var uri = '${url}users/$userId/picture';
+
+    Response<dynamic> response = await dio.get(uri,
+    options: Options(headers: HeadersService().getHeaders()));
+
+    if(response.statusCode == 200 && response.runtimeType != String) {
+      return NetworkImage(uri.toString(), headers: HeadersService().getHeaders());
+    } else {
+      return const AssetImage('assets/images/user.png');
+    }
+
   }
 
 }

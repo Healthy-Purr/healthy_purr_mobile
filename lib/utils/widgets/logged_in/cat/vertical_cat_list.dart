@@ -85,14 +85,56 @@ class _VerticalCatListState extends State<VerticalCatList> {
                         extentRatio: 0.30,
                         children: [
                           SlidableAction(
-                            onPressed: (context) async {
-                              Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
-                                if(value) {
-                                  setState(() {
-                                    selectedCat.newStatus = false;
-                                  });
-                                }
-                              });
+                            onPressed: (context) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text(alertDialogTitle, style: TextStyle(fontSize: 18.0)),
+                                      content: const Text(alertDialogContent, style: TextStyle(fontSize: 14.0)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.0)
+                                      ),
+                                      actions: [
+                                        ElevatedButton(
+                                          child: const Text(alertDialogConfirmAction),
+                                          onPressed: () async {
+                                            Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
+                                              if(value) {
+                                                setState(() {
+                                                  selectedCat.newStatus = false;
+                                                });
+                                              }
+                                            }).whenComplete((){
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(25.0)
+                                            )
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text(alertDialogDismissAction),
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25.0)
+                                            )
+                                          ),
+                                        )
+                                      ].map((e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        child: e,
+                                      )).toList(),
+                                    );
+                                  }
+                              );
                             },
                             backgroundColor: Colors.red,
                             icon: Icons.delete,

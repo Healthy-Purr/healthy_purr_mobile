@@ -1,9 +1,9 @@
 //CONSTANTS
 export 'constants/constants.dart';
 
-//------------WIDGETS------------//
+//----------------------------WIDGETS----------------------------//
 
-//---AUTHENTICATION---//
+//------------AUTHENTICATION------------//
 export 'widgets/authentication/register_button.dart';
 export 'widgets/authentication/forgot_password_button.dart';
 export 'widgets/authentication/go_to_login_buton.dart';
@@ -25,3 +25,8 @@ export 'widgets/logged_in/cat/cat_details_card.dart';
 export 'widgets/logged_in/cat/cat_allergies_container.dart';
 export 'widgets/logged_in/cat/cat_diseases_container.dart';
 export 'widgets/logged_in/cat/clip_button.dart';
+
+//------------USER-------------//
+export 'widgets/user/cat_count_container.dart';
+export 'widgets/user/logout_button.dart';
+export 'widgets/user/go_to_edit_profile_button.dart';
