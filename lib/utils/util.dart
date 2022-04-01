@@ -1,5 +1,6 @@
 //CONSTANTS
 export 'constants/constants.dart';
+export 'constants/messages.dart';
 
 //----------------------------WIDGETS----------------------------//
 
@@ -30,3 +31,4 @@ export 'widgets/logged_in/cat/clip_button.dart';
 export 'widgets/user/cat_count_container.dart';
 export 'widgets/user/logout_button.dart';
 export 'widgets/user/go_to_edit_profile_button.dart';
+export 'widgets/user/go_back_button.dart';

@@ -90,14 +90,14 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text(alertDialogTitle, style: TextStyle(fontSize: 18.0)),
-                                      content: const Text(alertDialogContent, style: TextStyle(fontSize: 14.0)),
+                                      title: const Text(deleteCatAlertDialogTitle, style: TextStyle(fontSize: 18.0), textAlign: TextAlign.justify),
+                                      content: const Text(deleteCatAlertDialogContent, style: TextStyle(fontSize: 14.0), textAlign: TextAlign.justify),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(25.0)
                                       ),
                                       actions: [
                                         ElevatedButton(
-                                          child: const Text(alertDialogConfirmAction),
+                                          child: const Text(deleteCatAlertDialogConfirmAction),
                                           onPressed: () async {
                                             Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
                                               if(value) {
@@ -107,6 +107,10 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                               }
                                             }).whenComplete((){
                                               Navigator.pop(context);
+                                              NotificationService().showNotification(
+                                                  context,
+                                                  catDeleteSuccessful,
+                                                  "success");
                                             });
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -117,7 +121,7 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                           ),
                                         ),
                                         ElevatedButton(
-                                          child: const Text(alertDialogDismissAction),
+                                          child: const Text(deleteCatAlertDialogDismissAction),
                                           onPressed: (){
                                             Navigator.pop(context);
                                           },

@@ -55,7 +55,7 @@ class DiseaseListViewModel {
     for(var disease in _diseaseList) {
       for(var diseaseDto in _catDiseasesDtoList) {
         if(diseaseDto.diseaseId == disease.diseaseId) {
-          _catDiseasesList.add({"name": disease.name!, "descripion": disease.description!});
+          _catDiseasesList.add({"name": disease.name!, "description": disease.description!});
         }
       }
     }

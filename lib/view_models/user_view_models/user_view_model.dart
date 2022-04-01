@@ -13,6 +13,8 @@ class UserViewModel {
 
   Future<void> setUserImage() async {
 
+    _userImage = null;
+
     ImageProvider image = await UserService().getUserImage(UserSession().id!);
 
     _userImage = image;

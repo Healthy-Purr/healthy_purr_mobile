@@ -55,7 +55,7 @@ class AllergyListViewModel {
     for(var allergy in _allergyList) {
       for(var allergyDto in _catAllergyDtoList) {
         if(allergyDto.allergyId == allergy.allergyId) {
-          _catAllergiesList.add({"name": allergy.name!, "descripion": allergy.description!});
+          _catAllergiesList.add({"name": allergy.name!, "description": allergy.description!});
         }
       }
     }

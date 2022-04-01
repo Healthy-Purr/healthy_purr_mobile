@@ -30,6 +30,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
 
   //JUMPING DOTS ANIMATION WHEN SENDING HTTP REQUEST
   bool loader = false;
+  bool noImage = true;
 
   //GENDER
   String gender = "Macho";
@@ -38,9 +39,10 @@ class _CatRegisterViewState extends State<CatRegisterView> {
 
   void _saveForm() {
     final isValid = _formKey.currentState!.validate();
-    if (isValid) {
+    if (isValid && image != null) {
       setState(() {
         loader = true;
+        noImage = false;
       });
       _formKey.currentState!.save();
       Provider.of<CatService>(context, listen: false)
@@ -55,6 +57,10 @@ class _CatRegisterViewState extends State<CatRegisterView> {
               image = null;
               loader = false;
             });
+            NotificationService().showNotification(
+                context,
+                catRegisterSuccessful,
+                "success");
             Navigator.pushReplacement(context,
                 MaterialPageRoute(
                   builder: (context) => const LoggedInView(),
@@ -71,7 +77,10 @@ class _CatRegisterViewState extends State<CatRegisterView> {
       if (image == null) return;
 
       final _temp = File(image.path);
-      setState(() => this.image = _temp);
+      setState(() {
+        this.image = _temp;
+        noImage = false;
+      });
   }
 
   @override
@@ -145,6 +154,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                           children: [
                             Column(
                               children: [
+                                //NAME
                                 SizedBox(
                                   width: 180,
                                   child: TextFormField(
@@ -175,6 +185,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                             _toSend.hasDisease);
                                       }),
                                 ),
+                                //AGE
                                 SizedBox(
                                   width: 180,
                                   child: TextFormField(
@@ -206,6 +217,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                     },
                                   ),
                                 ),
+                                //WEIGHT
                                 SizedBox(
                                   width: 180,
                                   child: TextFormField(
@@ -237,6 +249,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                     },
                                   ),
                                 ),
+                                //GENDER
                                 Container(
                                   height: 50,
                                   width: 180,
@@ -249,7 +262,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                       borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                                       value: gender,
                                       icon: const Icon(Icons.arrow_forward_ios, size: 15.0),
-                                      style: GoogleFonts.raleway(color: Colors.black54),
+                                      style: GoogleFonts.comfortaa(color: Colors.black54),
                                       onChanged: (String? newValue){
                                         setState((){
                                           gender = newValue!;
@@ -286,61 +299,74 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                 child: e,
                               )).toList(),
                             ),
-                            Container(
-                              height: 160,
-                              width: 130,
-                              margin: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 25.0),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffFFD28E),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(20.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 1,
-                                      offset: const Offset(0, 3),
-                                    )
-                                  ]),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    image != null
-                                        ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image.file(
-                                        image!,
-                                        width: 120,
-                                        height: 130,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                        : Container(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20.0))),
-                                        height: 130,
-                                        width: 120,
-                                        child: const Center(
-                                            child: Icon(Icons.account_circle,
-                                                size: 50.0, color: Colors.black38))),
-                                    Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Text('Añadir Foto',
-                                              style: TextStyle(
-                                                  fontSize: 12.0, color: Colors.white)),
-                                          const SizedBox(width: 5.0),
-                                          InkWell(
-                                            child: const Icon(Icons.add_a_photo_rounded,
-                                                size: 14.0, color: Colors.white),
-                                            onTap: () async {
-                                              pickImage(ImageSource.gallery);
-                                            },
+                            //IMAGE
+                            Stack(
+                              alignment: AlignmentDirectional.center,
+                              children: [
+                                Container(
+                                  height: 160,
+                                  width: 130,
+                                  margin: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 25.0),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffFFD28E),
+                                      borderRadius:
+                                      const BorderRadius.all(Radius.circular(20.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset: const Offset(0, 3),
+                                        )
+                                      ]),
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        image != null
+                                            ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          child: Image.file(
+                                            image!,
+                                            width: 120,
+                                            height: 130,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ])
-                                  ]),
+                                        )
+                                            : Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20.0))),
+                                            height: 130,
+                                            width: 120,
+                                            child: const Center(
+                                                child: Icon(Icons.account_circle,
+                                                    size: 50.0, color: Colors.black38))),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              const Text('Añadir Foto',
+                                                  style: TextStyle(
+                                                      fontSize: 12.0, color: Colors.white)),
+                                              const SizedBox(width: 5.0),
+                                              InkWell(
+                                                child: const Icon(Icons.add_a_photo_rounded,
+                                                    size: 14.0, color: Colors.white),
+                                                onTap: () async {
+                                                  pickImage(ImageSource.gallery);
+                                                },
+                                              ),
+                                            ]),
+                                      ]),
+                                ),
+                                noImage == true
+                                ? const Positioned(
+                                  bottom: 0, left: 30,
+                                  child: Text('Ingresa una foto', style: TextStyle(
+                                      color: Colors.red, fontSize: 11)),
+                                )
+                                : const SizedBox()
+                              ],
                             ),
                           ],
                         ),
@@ -513,7 +539,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                             ),
                                             child: Center(
                                               child: Text('Continuar',
-                                                  style: GoogleFonts.raleway()),
+                                                  style: GoogleFonts.comfortaa()),
                                             ),
                                           ),
                                         ),

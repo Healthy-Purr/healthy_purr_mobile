@@ -37,7 +37,7 @@ dependencies:
   simple_animations: ^4.0.1
   string_validator: ^0.3.0
   string_similarity: ^2.0.0
-
+  top_snackbar_flutter: ^1.0.2
 
 
 

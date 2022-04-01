@@ -73,6 +73,10 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
             setState(() {
               loader = false;
             });
+            NotificationService().showNotification(
+                context,
+                catUpdateSuccessful,
+                "success");
             Navigator.pushReplacement(context,
                 MaterialPageRoute(
                   builder: (context) => const LoggedInView(),
@@ -453,7 +457,7 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                                               ),
                                               child: Center(
                                                 child: Text('Continuar',
-                                                    style: GoogleFonts.raleway()),
+                                                    style: GoogleFonts.comfortaa()),
                                               ),
                                             ),
                                           ),

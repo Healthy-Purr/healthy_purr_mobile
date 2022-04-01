@@ -34,7 +34,7 @@ class GoToLoginButton extends StatelessWidget {
                 textStyle: const TextStyle(fontSize: 18),
               ),
               child: Text('Iniciar Sesión',
-                  style: GoogleFonts.raleway()),
+                  style: GoogleFonts.comfortaa()),
             ),
           ),
         ],

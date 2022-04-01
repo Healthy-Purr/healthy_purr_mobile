@@ -54,7 +54,7 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
   final _formKey = GlobalKey<FormState>();
 
   File? image;
-  late bool loader;
+  bool loader = false;
   bool isHiddenPassword = false;
 
   Future pickImage(ImageSource source) async {
@@ -68,13 +68,16 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      Provider.of<RegisterProvider>(context, listen: false).updateLoader(true);
+      setState(() {
+        loader = true;
+      });
       Provider.of<UserService>(context, listen: false)
           .registerUser(_toSend, context)
           .then((value) {
         _formKey.currentState!.reset();
-        Provider.of<RegisterProvider>(context, listen: false)
-            .updateLoader(false);
+        setState(() {
+          loader = false;
+        });
       });
     }
   }
@@ -272,12 +275,12 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
                       suffixIcon: InkWell(
-                        child: isHiddenPassword == true
+                        child: isHiddenPassword == false
                             ? const Icon(Icons.visibility)
                             : const Icon(Icons.visibility_off),
                         onTap: _togglePassword,
                       )),
-                  obscureText: isHiddenPassword,
+                  obscureText: !isHiddenPassword,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   textInputAction: TextInputAction.done,
                   validator: (value) {
@@ -329,13 +332,14 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
                             ),
                             child: Center(
                               child: Text('Continuar',
-                                  style: GoogleFonts.raleway()),
+                                  style: GoogleFonts.comfortaa()),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
+            const SizedBox(height: 20.0)
           ],
         ),
       ),

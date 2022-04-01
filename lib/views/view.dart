@@ -17,3 +17,4 @@ export 'logged_in_views/cats/cat_update_information_view.dart';
 
 //------USER------//
 export 'user_views/user_profile_view.dart';
+export 'user_views/user_update_information_view.dart';

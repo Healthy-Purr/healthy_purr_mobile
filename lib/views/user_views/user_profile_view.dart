@@ -103,6 +103,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                       ],
                     ),
                     const Spacer(),
+                    const GoBackToProfileButton(),
                     const LogoutButton()
                   ],
                 ),

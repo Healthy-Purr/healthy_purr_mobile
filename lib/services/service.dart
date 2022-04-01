@@ -4,3 +4,4 @@ export 'headers_service.dart';
 export 'disease_service.dart';
 export 'allergy_service.dart';
 export 'camera_service.dart';
+export 'notification_service.dart';

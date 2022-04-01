@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
 import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/photos_list_view.dart';
@@ -51,12 +49,12 @@ class CameraViewState extends State<CameraView> {
               borderRadius: BorderRadius.circular(25.0)
           ),
           title: const Text(
-            alertDialogPhotoInstruction,
+            cameraInstructionAlertDialogTitle,
             style: TextStyle(fontSize: 12),
             textAlign: TextAlign.justify
           ),
           content: Image.asset(
-            photoInstruction,
+            photoInstructionImageAsset,
             width: 120, height: 120,
             fit: BoxFit.contain,
           ),
@@ -68,7 +66,7 @@ class CameraViewState extends State<CameraView> {
                 primary: Colors.black
               ),
               onPressed: () { Navigator.pop(context); },
-              child: const Text('No volver a mostrar', style: TextStyle(fontSize: 12, color: Colors.grey),),
+              child: const Text(cameraInstructionDoNotShowAgain, style: TextStyle(fontSize: 12, color: Colors.grey),),
             ),
             OutlinedButton(
                 style: OutlinedButton.styleFrom(
@@ -77,7 +75,7 @@ class CameraViewState extends State<CameraView> {
                   side: const BorderSide(width: 2.0, color: complementaryColor)
                 ),
                 onPressed: (){},
-                child: const Text('Continuar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
+                child: const Text(cameraInstructionConfirmAction, style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
             )
           ],
         );
@@ -95,11 +93,11 @@ class CameraViewState extends State<CameraView> {
               borderRadius: BorderRadius.circular(25.0)
           ),
           title: const Text(
-            alertDialogEvaluationInstruction,
+            selectOptionAlertDialogTitle,
             style: TextStyle(fontSize: 12),
             textAlign: TextAlign.justify),
           content: Image.asset(
-            selectOptionInstruction,
+            selectOptionInstructionImageAsset,
             width: 230, height: 145,
             fit: BoxFit.contain,
           ),
@@ -116,7 +114,7 @@ class CameraViewState extends State<CameraView> {
                   Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(File(photo.path));
                   Navigator.pop(context);
                 },
-                child: const Text('Comparar', style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
+                child: const Text(selectOptionCompareAction, style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
             ),
             OutlinedButton(
                 style: OutlinedButton.styleFrom(
@@ -125,7 +123,7 @@ class CameraViewState extends State<CameraView> {
                   side: const BorderSide(width: 2.0, color: evaluationOption)
                 ),
                 onPressed: (){},
-                child: const Text('Evaluar', style: TextStyle(color: evaluationOption, fontWeight: FontWeight.w500),)
+                child: const Text(selectOptionEvaluateAction, style: TextStyle(color: evaluationOption, fontWeight: FontWeight.w500),)
             )
           ],
         );

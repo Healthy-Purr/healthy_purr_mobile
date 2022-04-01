@@ -129,16 +129,14 @@ class _CatProfileViewState extends State<CatProfileView> {
                             icon: Icons.add_a_photo_rounded,
                             onTap: () async {
                               await pickImage(ImageSource.gallery).whenComplete((){
+                                NotificationService().showNotification(
+                                    context,
+                                    catImageUpdateSuccessful,
+                                    "success");
                                 Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat).whenComplete((){
                                   Provider.of<CatListViewModel>(context, listen: false).setCatImageAtIndex(widget.index, FileImage(image!));
                                 });
-
                               });
-                              // Navigator.pushReplacement(context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => const LoggedInView(),
-                              //     )
-                              // );
                             },
                             color: updateCatImageButtonColor,
                           ),
