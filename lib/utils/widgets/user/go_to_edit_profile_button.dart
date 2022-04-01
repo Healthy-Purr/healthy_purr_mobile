@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/views/view.dart';
+import 'package:page_transition/page_transition.dart';
 
 class GoToEditProfileButton extends StatelessWidget {
   const GoToEditProfileButton({Key? key}) : super(key: key);
@@ -10,7 +12,14 @@ class GoToEditProfileButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, PageTransition(
+              duration: const Duration(milliseconds: 200),
+              reverseDuration: const Duration(milliseconds: 200),
+              type: PageTransitionType.rightToLeft,
+              child: const UserUpdateInformationView()
+          ));
+        },
         borderRadius: const BorderRadius.horizontal(left: Radius.circular(25.0)),
         splashColor: Colors.white30,
         child: Ink(

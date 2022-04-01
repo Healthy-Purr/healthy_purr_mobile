@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -27,7 +28,7 @@ class RegisterButton extends StatelessWidget {
           height: 50,
           child: Container(
             decoration: BoxDecoration(
-                border: Border.all(width: 3, color: const Color(0xffE7558F)),
+                border: Border.all(width: 3, color: complementaryColor),
                 borderRadius: const BorderRadius.all(Radius.circular(20.0))),
             padding:
             const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -36,7 +37,7 @@ class RegisterButton extends StatelessWidget {
                 'Regístrate',
                 style: TextStyle(
                   fontSize: 18.0,
-                  color: Color(0xffE7558F),
+                  color: complementaryColor,
                 ),
               ),
             ),

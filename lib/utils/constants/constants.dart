@@ -36,24 +36,42 @@ const String healthyPurrLogo = 'assets/images/safety_purr_logocolor.png';
 
 const String pawAsset = 'assets/images/paw.png';
 
-const String photoInstruction = 'assets/images/take_photo_example.png';
+const String photoInstructionImageAsset = 'assets/images/take_photo_example.png';
 
-const String selectOptionInstruction = 'assets/images/select_option.png';
+const String selectOptionInstructionImageAsset = 'assets/images/select_option.png';
 
 //-------------ALERT DIALOG CONTENT-------------//
 
 //--------DELETE CAT--------//
 
-const String alertDialogTitle = '¿Seguro que deseas realizar esta acción?';
+const String deleteCatAlertDialogTitle = '¿Seguro que deseas realizar esta acción?';
 
-const String alertDialogContent = 'Esta acción no podrá revertirse. ¿Estás de acuerdo?';
+const String deleteCatAlertDialogContent = 'Esta acción no podrá revertirse. ¿Estás de acuerdo?';
 
-const String alertDialogConfirmAction = 'Confirmar';
+const String deleteCatAlertDialogConfirmAction = 'Confirmar';
 
-const String alertDialogDismissAction = 'Volver';
+const String deleteCatAlertDialogDismissAction = 'Volver';
 
 //--------CAMERA ALERT DIALOG--------//
 
-const String alertDialogPhotoInstruction = 'Tome una foto a los ingredientes y análisis garantizado de la comida para gatos';
+const String cameraInstructionAlertDialogTitle = 'Tome una foto a los ingredientes y análisis garantizado de la comida para gatos';
 
-const String alertDialogEvaluationInstruction = '¿Desea continuar con la evaluación o prefiere realizar una comparación entre más comidas?';
+const String selectOptionAlertDialogTitle = '¿Desea continuar con la evaluación o prefiere realizar una comparación entre más comidas?';
+
+const String cameraInstructionDoNotShowAgain = 'No volver a mostrar';
+
+const String cameraInstructionConfirmAction = 'Continuar';
+
+const String selectOptionCompareAction = 'Comparar';
+
+const String selectOptionEvaluateAction = 'Evaluar';
+
+//--------LOGOUT--------//
+
+const String logoutAlertDialogTitle = '¿Seguro que deseas realizar esta acción?';
+
+const String logoutAlertDialogContent = 'Al confirmar cerrarás sesión. Para poder utilizar los servicios de Healthy Purr, deberás iniciar sesión nuevamente.';
+
+const String logoutAlertDialogConfirmAction = 'Cerrar sesión';
+
+const String logoutAlertDialogDismissAction = 'Volver';
