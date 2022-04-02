@@ -30,7 +30,7 @@ class _VerticalCatListState extends State<VerticalCatList> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    catList = Provider.of<CatListViewModel>(context, listen: false).getCats();
+    catList = Provider.of<CatListViewModel>(context).getCats();
     catImages = Provider.of<CatListViewModel>(context, listen: false).getCatsImages();
 
     return SizedBox(
@@ -101,9 +101,7 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                           onPressed: () async {
                                             Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
                                               if(value) {
-                                                setState(() {
-                                                  selectedCat.newStatus = false;
-                                                });
+                                                Provider.of<CatListViewModel>(context, listen: false).deleteCat(selectedCat);
                                               }
                                             }).whenComplete((){
                                               Navigator.pop(context);

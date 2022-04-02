@@ -18,7 +18,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
 
     final screenSize = MediaQuery.of(context).size;
 
-    final catList = Provider.of<CatListViewModel>(context, listen: false).getCats();
+    final catList = Provider.of<CatListViewModel>(context).getCats();
 
     final catImages = Provider.of<CatListViewModel>(context, listen: false).getCatsImages();
 

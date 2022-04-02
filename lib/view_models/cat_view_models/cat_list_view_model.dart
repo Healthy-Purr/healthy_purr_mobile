@@ -18,6 +18,12 @@ class CatListViewModel extends ChangeNotifier {
     return _catList;
   }
 
+  deleteCat(CatViewModel selectedCat){
+    int index = _catList.indexOf(_catList.where((element) => element.catId! == selectedCat.catId!).first);
+    _catList[index].newStatus = false;
+    notifyListeners();
+  }
+
   List<ImageProvider> getCatsImages() {
     return _catImages;
   }
@@ -31,7 +37,9 @@ class CatListViewModel extends ChangeNotifier {
     _catList.clear();
 
     for(var cat in auxCatList) {
-      _catList.add(CatViewModel(cat: cat));
+      if(cat.status != false){
+        _catList.add(CatViewModel(cat: cat));
+      }
     }
 
     notifyListeners();
