@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy_purr_mobile_app/models/dtos/evaluation_dto.dart';
 import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evaluation_view_model.dart';
+import 'package:healthy_purr_mobile_app/views/logged_in_views/evaluation/evaluation_result_view.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/constants/constants.dart';
+import '../../../view_models/camera_view_models/camera_view_model.dart';
 
 class ComparisonListView extends StatefulWidget {
 
@@ -16,7 +20,7 @@ enum ContainerColors {first, second}
 
 class _ComparisonListViewState extends State<ComparisonListView> {
 
-  List<String> evaluationList = [];
+  List<EvaluatedFoodDto> evaluationList = [];
 
   @override
   void initState() {
@@ -65,18 +69,18 @@ class _ComparisonListViewState extends State<ComparisonListView> {
 
                       return GestureDetector(
                         onTap: () {
-                          // Navigator.push(context,
-                          //     PageTransition(
-                          //         duration: const Duration(milliseconds: 200),
-                          //         reverseDuration: const Duration(milliseconds: 200),
-                          //         type: PageTransitionType.rightToLeft,
-                          //         child: CatProfileView(
-                          //             catImage: selectedCatImage,
-                          //             cat: selectedCat
-                          //         )
-                          //     )
-                          // );
-                          // Provider.of<CatListViewModel>(context, listen: false).selectedCat = selectedCat;
+                          Navigator.push(context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 200),
+                                  reverseDuration: const Duration(milliseconds: 200),
+                                  type: PageTransitionType.rightToLeft,
+                                  child: EvaluationResultView(
+                                    index: index,
+                                    image: Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index],
+                                    evaluationResult: selectedEvaluation
+                                  )
+                              )
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 20),
@@ -115,11 +119,11 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                             Text.rich(TextSpan(children: [
                                               const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
                                               TextSpan(
-                                                  text: selectedEvaluation,
+                                                  text: selectedEvaluation.calcium.toString(),
                                                   style:
                                                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                             ])),
-                                            selectedEvaluation[index].contains('No')?
+                                            selectedEvaluation.calcium! < 30.0 ?
                                             const Icon( CupertinoIcons.clear_circled_solid, color: evaluationOption, size: 15,) :
                                             const Icon( CupertinoIcons.check_mark_circled_solid, color: addCatScheduleButtonColor, size: 15,)
 

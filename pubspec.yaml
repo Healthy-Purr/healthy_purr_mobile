@@ -37,6 +37,8 @@ dependencies:
   simple_animations: ^4.0.1
   string_validator: ^0.3.0
   string_similarity: ^2.0.0
+  syncfusion_flutter_charts: ^19.4.56
+  syncfusion_flutter_gauges: ^19.4.38
   top_snackbar_flutter: ^1.0.2
 
 

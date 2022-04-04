@@ -50,7 +50,7 @@ class CatService with ChangeNotifier {
     var length = await file.length();
 
     var multipartFile = http.MultipartFile('file', stream, length, filename: file.path.split('/').last);
-
+  
     request.files.add(multipartFile);
 
     await request.send().then((value){
