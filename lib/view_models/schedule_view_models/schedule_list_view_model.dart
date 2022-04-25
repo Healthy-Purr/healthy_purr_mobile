@@ -29,6 +29,8 @@ class ScheduleListViewModel extends ChangeNotifier {
 
   late ScheduleMeal _selectedScheduleMealDto;
 
+  bool newDryFood = false, newDampFood = false, newMedicine = false;
+
   Duration _timeToRegister = const Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0);
 
   Duration _timeToUpdate = const Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0);
@@ -43,8 +45,21 @@ class ScheduleListViewModel extends ChangeNotifier {
     return _selectedScheduleMealDto;
   }
 
+  cleanUpdateFields(){
+    newDryFood = false;
+    newDampFood = false;
+    newMedicine = false;
+    _timeToUpdate = const Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0);
+    notifyListeners();
+  }
+
   setScheduleMealDto(ScheduleMeal newSchedule){
     _selectedScheduleMealDto = newSchedule;
+
+    newDryFood = _selectedScheduleMealDto.isDry!;
+    newDampFood = _selectedScheduleMealDto.isDamp!;
+    newMedicine = _selectedScheduleMealDto.hasMedicine!;
+
     notifyListeners();
   }
 
@@ -135,6 +150,12 @@ class ScheduleListViewModel extends ChangeNotifier {
 
   Future<void> updateScheduleMeal(int index) async{
 
+    _selectedScheduleMealDto.isDry = newDryFood;
+
+    _selectedScheduleMealDto.isDamp = newDampFood;
+
+    _selectedScheduleMealDto.hasMedicine = newMedicine;
+
     _selectedScheduleMealDto.hour = _timeToUpdate.toString();
 
     _selectedScheduleMealDto.hour = _selectedScheduleMealDto.hour!.substring(0, _selectedScheduleMealDto.hour!.length - 4);
@@ -150,22 +171,22 @@ class ScheduleListViewModel extends ChangeNotifier {
   }
 
   updateDryFood(){
-    _selectedScheduleMealDto.isDry = !_selectedScheduleMealDto.isDry!;
+    newDryFood = !newDryFood;
     notifyListeners();
   }
 
   updateDampFood(){
-    _selectedScheduleMealDto.isDamp = !_selectedScheduleMealDto.isDamp!;
+    newDampFood = !newDampFood;
     notifyListeners();
   }
 
   updateMedicine(){
-    _selectedScheduleMealDto.hasMedicine = !_selectedScheduleMealDto.hasMedicine!;
+    newMedicine = !newMedicine;
     notifyListeners();
   }
 
 
-  Future<bool> registerSchedule(BuildContext context) async{
+  Future<bool> registerSchedule(BuildContext context) async {
 
     _scheduleMealToRegister.hour = _timeToRegister.toString();
 

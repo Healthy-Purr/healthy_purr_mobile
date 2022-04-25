@@ -82,7 +82,7 @@ class _ScheduleListState extends State<ScheduleList> {
                     ],
                   ),
                   SizedBox(
-                    height: 300,
+                    height: 200,
                     width: 300,
                     child: PageView(
                       children: [
@@ -109,7 +109,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                             Text('Comida seca', style: TextStyle(fontSize: 12)),
                                             CircleAvatar(
                                               radius: 18,
-                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().isDry! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).newDryFood ? primaryColor : Colors.grey.withOpacity(0.3),
                                               child: InkWell(
                                                   onTap: (){
                                                     Provider.of<ScheduleListViewModel>(context, listen: false).updateDryFood();
@@ -143,7 +143,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                             Text('Comida humeda', style: TextStyle(fontSize: 12)),
                                             CircleAvatar(
                                               radius: 18,
-                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().isDamp! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).newDampFood ? primaryColor : Colors.grey.withOpacity(0.3),
                                               child: InkWell(
                                                   onTap: (){
                                                     Provider.of<ScheduleListViewModel>(context, listen: false).updateDampFood();
@@ -177,7 +177,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                             Text('Medicina', style: TextStyle(fontSize: 12)),
                                             CircleAvatar(
                                               radius: 18,
-                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().hasMedicine! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                              backgroundColor: Provider.of<ScheduleListViewModel>(context).newMedicine ? primaryColor : Colors.grey.withOpacity(0.3),
                                               child: InkWell(
                                                   onTap: (){
                                                     Provider.of<ScheduleListViewModel>(context, listen: false).updateMedicine();
@@ -203,9 +203,30 @@ class _ScheduleListState extends State<ScheduleList> {
                       ],
                     ),
                   ),
-                  ElevatedButton(onPressed: (){ Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
-                    Navigator.pop(context);
-                  }); }, child: Text('Actualizar'))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                          onTap: (){
+                        Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+                        Navigator.pop(context);
+                        },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              padding: EdgeInsets.all(10),
+                              child: Text('Cancelar', style: TextStyle(color: Colors.black),))),
+                      InkWell(
+                          onTap: (){
+                            Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
+                        Navigator.pop(context);
+                      }); },
+
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              padding: EdgeInsets.all(10),
+                              child: Text('Actualizar', style: TextStyle(color: primaryColor)))),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -289,6 +310,7 @@ class _ScheduleListState extends State<ScheduleList> {
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(selectedSchedule.hour!.length > 8 ?
                               selectedSchedule.hour!.substring(0, selectedSchedule.hour!.length - 6) :

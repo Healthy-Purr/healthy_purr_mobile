@@ -87,7 +87,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                     ],
                   ),
                   SizedBox(
-                    height: 300,
+                    height: 250,
                     width: 300,
                     child: PageView(
                       children: [
@@ -208,9 +208,30 @@ class _ScheduleViewState extends State<ScheduleView> {
                       ],
                     ),
                   ),
-                  ElevatedButton(onPressed: (){ Provider.of<ScheduleListViewModel>(context, listen: false).registerSchedule(context).whenComplete((){
-                    Navigator.pop(context);
-                  }); }, child: Text('Registrar'))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                          onTap: (){
+                            Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              padding: EdgeInsets.all(10),
+                              child: Text('Cancelar', style: TextStyle(color: Colors.black),))),
+                      InkWell(
+                          onTap: (){
+                            Provider.of<ScheduleListViewModel>(context, listen: false).registerSchedule(context).whenComplete((){
+                            Navigator.pop(context);
+                            });
+                            },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              padding: EdgeInsets.all(10),
+                              child: Text('Registrar', style: TextStyle(color: primaryColor)))),
+                    ],
+                  )
                 ],
               ),
             ),
