@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/models/dtos/evaluation_dto.dart';
+import 'package:healthy_purr_mobile_app/models/entities/cat_food_analysis.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -9,7 +10,7 @@ import 'dart:io';
 import '../../../utils/widgets/evaluation/evaluation_circular_charts.dart';
 
 class EvaluationResultView extends StatefulWidget {
-  final EvaluatedFoodDto evaluationResult;
+  final CatFoodAnalysis evaluationResult;
   final File image;
   final int index;
   const EvaluationResultView({required this.evaluationResult, required this.image, required this.index,
@@ -30,8 +31,8 @@ class _EvaluationResultViewState extends State<EvaluationResultView> {
 
   @override
   void initState() {
-    evaluationData = [widget.evaluationResult.protein!, widget.evaluationResult.fat!, widget.evaluationResult.moisture!,
-      widget.evaluationResult.fiber!, widget.evaluationResult.calcium!, widget.evaluationResult.phosphorus!];
+    evaluationData = [widget.evaluationResult.analysis!.protein! * 100, widget.evaluationResult.analysis!.fat! * 100, widget.evaluationResult.analysis!.moisture! * 100,
+      widget.evaluationResult.analysis!.fiber! * 100, widget.evaluationResult.analysis!.calcium! * 100, widget.evaluationResult.analysis!.phosphorus! * 100];
 
     super.initState();
   }
@@ -130,9 +131,9 @@ class _EvaluationResultViewState extends State<EvaluationResultView> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const CircleAvatar(
+                                  CircleAvatar(
                                     backgroundColor: addCatScheduleButtonColor,
-                                    child: Text('90%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                    child: Text(widget.evaluationResult.result.toStringAsFixed(1) + '%', style: TextStyle(fontSize: 25, color: Colors.white),),
                                     maxRadius: 45,
                                     minRadius: 35,
                                   ),

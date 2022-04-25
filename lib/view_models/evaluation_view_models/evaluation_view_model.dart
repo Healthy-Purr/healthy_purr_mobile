@@ -2,21 +2,31 @@ import 'dart:io';
 
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:healthy_purr_mobile_app/models/dtos/evaluation_dto.dart';
+import 'package:healthy_purr_mobile_app/models/entities/cat_food_analysis.dart';
 import 'package:healthy_purr_mobile_app/models/entities/evaluation_result.dart';
+import 'package:healthy_purr_mobile_app/services/evaluation_service.dart';
+
+import '../../utils/prediction.dart';
 
 class EvaluationViewModel{
 
-  final List<EvaluatedFoodDto> _evaluations =  [];
+  final List<CatFoodAnalysis> _evaluations =  [];
+  final List<double> _finalEvaluationList = [];
+  final EvaluationService _evaluationService = EvaluationService();
 
-  List<EvaluatedFoodDto> getEvaluations() {
+  List<CatFoodAnalysis> getEvaluations() {
     return _evaluations;
+  }
+
+  List<double> getFinalEvaluationList(){
+    return _finalEvaluationList;
   }
 
   clearEvaluationList(){
     _evaluations.clear();
   }
 
-  Future<void> evaluateCatFood(File file, int fileIndex) async{
+  Future<String> getTextCatFood(File file) async{
 
     String _text = '';
 
@@ -28,24 +38,21 @@ class EvaluationViewModel{
     _recognisedText = await textDetector.processImage(inputImage);
     _text = _recognisedText.text;
 
-    _evaluations.add(EvaluatedFoodDto());
+    _evaluations.add(CatFoodAnalysis());
 
-    if(_text.isNotEmpty){
-      _evaluations[fileIndex].protein = 10.0;
-      _evaluations[fileIndex].fat = 15.0;
-      _evaluations[fileIndex].moisture = 12.0;
-      _evaluations[fileIndex].fiber = 20.0;
-      _evaluations[fileIndex].calcium = 50.0;
-      _evaluations[fileIndex].phosphorus = 8.0;
-    }
-    else{
-      _evaluations[fileIndex].protein = 5.0;
-      _evaluations[fileIndex].fat = 10.0;
-      _evaluations[fileIndex].moisture = 5.0;
-      _evaluations[fileIndex].fiber = 5.0;
-      _evaluations[fileIndex].calcium = 20.0;
-      _evaluations[fileIndex].phosphorus = 5.0;
-    }
-    
+    return _text;
+  }
+
+  Future<CatFoodAnalysis> getCatFoodAnalysis(String text) async{
+    return await _evaluationService.getFoodEvaluation(text);
+  }
+
+
+  Future<void> evaluateCatFood(CatFoodAnalysis catFoodAnalysis, int fileIndex) async{
+    await calculateFoodAffinity(0.0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, catFoodAnalysis).then((result){
+      catFoodAnalysis.setResult(result);
+      _evaluations[fileIndex] = catFoodAnalysis;
+      _finalEvaluationList.add(result);
+    });
   }
 }

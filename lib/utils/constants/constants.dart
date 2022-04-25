@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 const String url = "https://healthypurr.herokuapp.com/";
 
+const String evaluationUrl = "https://healthy-purr-evaluation.herokuapp.com/evaluation";
+
 //-------------COLORS-------------//
 
-const Color complementaryColor = Color(0xFFE7558F);
+const Color complementaryColor = Color(0xFFE95F8F);
 
 const Color secondaryColor = Color(0xFFFAB98F);
 

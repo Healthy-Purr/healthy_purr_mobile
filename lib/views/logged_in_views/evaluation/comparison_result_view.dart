@@ -5,6 +5,7 @@ import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evalu
 import 'package:healthy_purr_mobile_app/views/logged_in_views/evaluation/evaluation_result_view.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '../../../models/entities/cat_food_analysis.dart';
 import '../../../utils/constants/constants.dart';
 import '../../../view_models/camera_view_models/camera_view_model.dart';
 
@@ -20,7 +21,7 @@ enum ContainerColors {first, second}
 
 class _ComparisonListViewState extends State<ComparisonListView> {
 
-  List<EvaluatedFoodDto> evaluationList = [];
+  List<CatFoodAnalysis> evaluationList = [];
 
   @override
   void initState() {
@@ -119,11 +120,11 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                             Text.rich(TextSpan(children: [
                                               const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
                                               TextSpan(
-                                                  text: selectedEvaluation.calcium.toString(),
+                                                  text: selectedEvaluation.result.toStringAsFixed(1),
                                                   style:
                                                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                             ])),
-                                            selectedEvaluation.calcium! < 30.0 ?
+                                            selectedEvaluation.result < 0.5 ?
                                             const Icon( CupertinoIcons.clear_circled_solid, color: evaluationOption, size: 15,) :
                                             const Icon( CupertinoIcons.check_mark_circled_solid, color: addCatScheduleButtonColor, size: 15,)
 
@@ -146,9 +147,9 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                   ],
                                 ),
                                 const Spacer(),
-                                const CircleAvatar(
+                                CircleAvatar(
                                   backgroundColor: addCatScheduleButtonColor,
-                                  child: Text('90%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                  child: Text(selectedEvaluation.result.toStringAsFixed(1) + '%', style: TextStyle(fontSize: 25, color: Colors.white),),
                                   maxRadius: 45,
                                   minRadius: 35,
                                 ),

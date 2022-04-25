@@ -44,10 +44,10 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withOpacity(0.05),
                       spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: const Offset(0, 4),
+                      blurRadius: 5,
+                      offset: const Offset(0, 7),
                     )
                   ]
               ),

@@ -71,10 +71,10 @@ class _VerticalCatListState extends State<VerticalCatList> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 4),
+                          color: Colors.black.withOpacity(0.05),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 6),
                         )
                       ]),
                   child: ClipRRect(

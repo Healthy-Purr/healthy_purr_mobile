@@ -5,6 +5,7 @@ import 'package:healthy_purr_mobile_app/providers/provider.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evaluation_view_model.dart';
+import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_list_view_model.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:provider/provider.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         Provider(create: (context) => DiseaseListViewModel()),
         Provider(create: (context) => EvaluationViewModel()),
         ChangeNotifierProvider(create: (context) => CameraViewModel()),
+        ChangeNotifierProvider(create: (context) => ScheduleListViewModel()),
         Provider(create: (context) => UserViewModel()),
         //Services
         ChangeNotifierProvider(create: (context) => UserService()),

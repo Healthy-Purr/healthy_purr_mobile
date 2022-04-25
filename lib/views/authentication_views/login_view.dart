@@ -167,13 +167,13 @@ class _LoginViewState extends State<LoginView> {
                               children: [
                                 Positioned.fill(
                                   child: Container(
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          complementaryColor,
+                                          complementaryColor.withOpacity(0.8),
                                           secondaryColor,
                                         ],
-                                        stops: [0.05, 1],
+                                        stops: const [0.05, 0.6],
                                       ),
                                     ),
                                   ),

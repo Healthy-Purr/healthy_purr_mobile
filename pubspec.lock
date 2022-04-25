@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  dotted_line:
+    dependency: "direct main"
+    description:
+      name: dotted_line
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -595,6 +602,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
+  tflite_flutter:
+    dependency: "direct main"
+    description:
+      name: tflite_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   top_snackbar_flutter:
     dependency: "direct main"
     description:

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/providers/provider.dart';
 import 'package:healthy_purr_mobile_app/services/camera_service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_list_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/camera_view.dart';
+import 'package:healthy_purr_mobile_app/views/logged_in_views/schedule/schedule_view.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -25,11 +27,13 @@ class _LoggedInViewState extends State<LoggedInView> {
   void initState() {
     _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
         Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
-          Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
-            Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList().whenComplete(() =>
-              Provider.of<UserViewModel>(context, listen: false).setUserImage()
-            )
-          );
+          Provider.of<ScheduleListViewModel>(context, listen: false).populateScheduleList(context).whenComplete((){
+            Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
+                Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList().whenComplete(() =>
+                    Provider.of<UserViewModel>(context, listen: false).setUserImage()
+                )
+            );
+          });
         }
       )
     );
@@ -93,7 +97,7 @@ class _LoggedInViewState extends State<LoggedInView> {
                       children: const [
                         HomeView(),
                         CatsView(),
-                        Text('3'),
+                        ScheduleView(),
                         Text('4'),
                       ]
                   );

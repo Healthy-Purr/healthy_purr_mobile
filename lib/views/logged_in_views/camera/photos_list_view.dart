@@ -93,21 +93,24 @@ class _PhotosListViewState extends State<PhotosListView> {
                                       Text('Comida ${index + 1}', style: const TextStyle(fontSize: 12),),
                                       FutureBuilder(
                                         future: Future.wait([
-                                          Provider.of<EvaluationViewModel>(context, listen: false).evaluateCatFood(Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index],
-                                              index).then((value) {
-                                            if(Provider.of<EvaluationViewModel>(context, listen: false).getEvaluations().isNotEmpty){
-                                              if(Provider.of<EvaluationViewModel>(context, listen: false).getEvaluations().length == Provider.of<CameraViewModel>(context, listen: false).getPhotos().length){
-                                                Navigator.pushReplacement(context,
-                                                    PageTransition(
-                                                        duration: const Duration(milliseconds: 200),
-                                                        reverseDuration: const Duration(milliseconds: 200),
-                                                        type: PageTransitionType.rightToLeft,
-                                                        child: const ComparisonListView()
-                                                    )
-                                                );
-                                              }
-                                            }
-                                          }),
+                                          Provider.of<EvaluationViewModel>(context, listen: false).getTextCatFood(Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index]).then((value) {
+                                                Provider.of<EvaluationViewModel>(context, listen: false).getCatFoodAnalysis(value).then((catFoodAnalysis){
+                                                  Provider.of<EvaluationViewModel>(context, listen: false).evaluateCatFood(catFoodAnalysis, index).whenComplete((){
+                                                    if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().isNotEmpty){
+                                                      if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().length == Provider.of<CameraViewModel>(context, listen: false).getPhotos().length){
+                                                        Navigator.pushReplacement(context,
+                                                            PageTransition(
+                                                                duration: const Duration(milliseconds: 200),
+                                                                reverseDuration: const Duration(milliseconds: 200),
+                                                                type: PageTransitionType.rightToLeft,
+                                                                child: const ComparisonListView()
+                                                            )
+                                                        );
+                                                      }
+                                                    }
+                                                  });
+                                                });
+                                            }),
                                         ]),
                                         builder: (context, snapshot){
                                           if(snapshot.hasData){
