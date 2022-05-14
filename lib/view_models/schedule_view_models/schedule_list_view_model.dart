@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthy_purr_mobile_app/models/entities/schedule.dart';
 import 'package:healthy_purr_mobile_app/models/entities/schedule_meal.dart';
 import 'package:healthy_purr_mobile_app/services/schedule_service.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/dtos/schedule_meal_dto.dart';
 import '../../models/entities/day.dart';
+import '../../services/local_notification_service.dart';
 
 
 class FoodOption{
@@ -21,7 +23,7 @@ class FoodOption{
 
 class ScheduleListViewModel extends ChangeNotifier {
 
-  final List<ScheduleViewModel?> _scheduleList = [null, null, null, null, null, null, null];
+  List<ScheduleViewModel?> _scheduleList = [null, null, null, null, null, null, null];
 
   final ScheduleService _scheduleService = ScheduleService();
 
@@ -35,7 +37,7 @@ class ScheduleListViewModel extends ChangeNotifier {
 
   Duration _timeToUpdate = const Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0);
 
-  Day selectedDay = Day(1, 'Lunes', 'L', DateTime(2022, 5, 2));
+  MealDay selectedDay = MealDay(0, 'Lunes', 'L', DateTime(2022, 5, 2));
 
   bool _registering = false;
 
@@ -43,6 +45,10 @@ class ScheduleListViewModel extends ChangeNotifier {
 
   ScheduleMeal getSelectedScheduleMealDto(){
     return _selectedScheduleMealDto;
+  }
+
+  resetScheduleList(){
+    _scheduleList = [null, null, null, null, null, null, null];
   }
 
   cleanUpdateFields(){
@@ -104,7 +110,7 @@ class ScheduleListViewModel extends ChangeNotifier {
     return _scheduleList;
   }
 
-  setSelectedDay(Day newDay){
+  setSelectedDay(MealDay newDay){
     selectedDay = newDay;
     notifyListeners();
   }
@@ -127,6 +133,21 @@ class ScheduleListViewModel extends ChangeNotifier {
 
   }
 
+  List<ScheduleMeal> getTodayScheduleList() {
+
+    DateTime today = DateTime.now();
+
+    ScheduleViewModel? _scheduleListAux = _scheduleList[today.weekday - 1];
+
+    if(_scheduleListAux != null){
+      return _scheduleListAux.scheduleMealList;
+    }
+    else{
+      return [];
+    }
+
+  }
+
   Future<void> populateScheduleList(BuildContext context) async {
 
     String id = Provider.of<CatListViewModel>(context, listen: false).getCats()[0].catId.toString();
@@ -139,7 +160,14 @@ class ScheduleListViewModel extends ChangeNotifier {
       List<ScheduleMeal> auxScheduleMealList = await _scheduleService.getScheduleMeal(schedule.scheduleId.toString());
 
       if(auxScheduleMealList.isNotEmpty) {
-        _scheduleList[schedule.day!.weekday] = ScheduleViewModel(schedule: schedule, scheduleMealList: auxScheduleMealList);
+        if(auxScheduleMealList[0].isDamp != false || auxScheduleMealList[0].isDry != false || auxScheduleMealList[0].hasMedicine != false){
+          if(_scheduleList[schedule.day!.weekday - 1] != null){
+            _scheduleList[schedule.day!.weekday - 1]!.scheduleMealList.add(auxScheduleMealList[0]);
+          }
+          else{
+            _scheduleList[schedule.day!.weekday - 1] = ScheduleViewModel(schedule: schedule, scheduleMealList: auxScheduleMealList);
+          }
+        }
       }
 
     }
@@ -162,6 +190,7 @@ class ScheduleListViewModel extends ChangeNotifier {
 
     await _scheduleService.updateMeal(_selectedScheduleMealDto).whenComplete((){
       updateLocalScheduleList(index);
+      LocalNotificationService.showBreakfastScheduledNotification(id: _selectedScheduleMealDto.mealId!, day: selectedDay.id!, title: 'Hora de alimentar a tu gatito!!', body: 'No olvides darle su medicina.', time: Time(_timeToUpdate.inHours, _timeToUpdate.inMinutes.remainder(60), 0));
     });
   }
 
@@ -185,6 +214,25 @@ class ScheduleListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteScheduleMeal(int index, ScheduleMeal meal) async{
+
+    meal.isDry = false;
+
+    meal.isDamp = false;
+
+    meal.hasMedicine = false;
+
+    meal.hour = '00:00:00.00';
+
+    await _scheduleService.updateMeal(meal).whenComplete((){
+      deleteLocalScheduleList(index);
+    });
+  }
+
+  deleteLocalScheduleList(int index) {
+    _scheduleList[selectedDay.id!]!.scheduleMealList.removeAt(index);
+    notifyListeners();
+  }
 
   Future<bool> registerSchedule(BuildContext context) async {
 
@@ -197,6 +245,7 @@ class ScheduleListViewModel extends ChangeNotifier {
     await _scheduleService.registerSchedule(catId, selectedDay.date!).then((scheduleId) async {
       await _scheduleService.registerMeal(scheduleId, _scheduleMealToRegister).then((value){
         addScheduleRegistered(scheduleId, catId);
+        LocalNotificationService.showBreakfastScheduledNotification(id: value, day: selectedDay.id! + 1, title: 'Hora de alimentar a tu gatito!!', body: 'No olvides darle su medicina.', time: Time(_timeToRegister.inHours, _timeToRegister.inMinutes.remainder(60), 0));
         return value;
       });
     });
@@ -212,8 +261,10 @@ class ScheduleListViewModel extends ChangeNotifier {
       _scheduleList[selectedDay.id!]!.scheduleMealList.add(_scheduleMealToRegister);
     }
     else{
-      _scheduleList.add(ScheduleViewModel(schedule: Schedule.fromSchedule(scheduleId, catId, true, selectedDay.date, ''), scheduleMealList: [_scheduleMealToRegister]));
+      _scheduleList[selectedDay.id!] = ScheduleViewModel(schedule: Schedule.fromSchedule(scheduleId, catId, true, selectedDay.date, ''), scheduleMealList: [_scheduleMealToRegister]);
     }
+
+    setSelectedDay(selectedDay);
 
     notifyListeners();
   }

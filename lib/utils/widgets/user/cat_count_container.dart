@@ -19,23 +19,22 @@ class CatCountContainer extends StatelessWidget {
       }
     }
 
-    return Container(
-      height: 47.5, width: 120,
-      margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const FaIcon(FontAwesomeIcons.cat, size: 40),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+    return Row(
+      children: [
+        Image.asset('assets/images/cat_siloutte.png', height: 60,),
+        const SizedBox(width: 20,),
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(numberOfCats.length.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-              const Text('Gatos', style: TextStyle(fontSize: 12))
+              Text(numberOfCats.length.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0, color: Colors.black)),
+              const Text('Gatos', style: TextStyle(fontSize: 16, color: Colors.black))
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

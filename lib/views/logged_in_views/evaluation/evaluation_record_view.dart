@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:healthy_purr_mobile_app/utils/util.dart';
-class CatsView extends StatefulWidget {
-  const CatsView({Key? key}) : super(key: key);
+import 'package:flutter/cupertino.dart';
+import 'package:healthy_purr_mobile_app/utils/widgets/evaluation/evaluation_list.dart';
+
+class EvaluationRecordView extends StatefulWidget {
+  const EvaluationRecordView({Key? key}) : super(key: key);
 
   @override
-  State<CatsView> createState() => _CatsViewState();
+  State<EvaluationRecordView> createState() => _EvaluationRecordViewState();
 }
 
-class _CatsViewState extends State<CatsView> {
+class _EvaluationRecordViewState extends State<EvaluationRecordView> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +23,20 @@ class _CatsViewState extends State<CatsView> {
           const Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Mis Gatos',
+              'Historial',
               style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Expanded(
             child: Stack(
               children: const [
-                VerticalCatList(),
-                Positioned(
-                    bottom: 0, right: 0,
-                    child: AddCatButton()
-                ),
+                EvaluationList(),
               ],
             ),
           ),

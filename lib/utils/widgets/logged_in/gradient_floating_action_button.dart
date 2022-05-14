@@ -32,10 +32,10 @@ class _GradientFloatingActionButtonState extends State<GradientFloatingActionBut
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
             colors: [
-              complementaryColor.withOpacity(0.9),
+              complementaryColor,
               secondaryColor,
             ],
-            stops: [0.001, 0.7],
+            stops: [0.05, 0.7],
           ),
           shape: CircleBorder(),
         ),

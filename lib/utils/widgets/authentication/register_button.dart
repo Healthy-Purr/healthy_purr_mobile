@@ -28,7 +28,7 @@ class RegisterButton extends StatelessWidget {
           height: 50,
           child: Container(
             decoration: BoxDecoration(
-                border: Border.all(width: 3, color: complementaryColor),
+                border: Border.all(width: 2.5, color: darkColor),
                 borderRadius: const BorderRadius.all(Radius.circular(20.0))),
             padding:
             const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -36,8 +36,8 @@ class RegisterButton extends StatelessWidget {
               child: Text(
                 'Regístrate',
                 style: TextStyle(
-                  fontSize: 18.0,
-                  color: complementaryColor,
+                  fontSize: 16.0,
+                  color: darkColor, fontWeight: FontWeight.bold,
                 ),
               ),
             ),

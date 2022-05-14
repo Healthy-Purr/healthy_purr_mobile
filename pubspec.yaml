@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   animations: ^2.0.2
   async: ^2.8.1
   bordered_text: ^2.0.0
@@ -19,20 +22,28 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^4.0.4
   dotted_line: ^3.1.0
+  flutter_image_compress: ^1.1.0
+  flutter_launcher_icons: ^0.9.2
+  flutter_local_notifications: ^9.4.0
   flutter_slidable: ^1.2.0
   flutter_svg: ^1.0.3
   flutter_native_image: ^0.0.6+1
+  flutter_native_timezone: ^2.0.0
   font_awesome_flutter: ^9.1.0
+  geocoding: ^2.0.4
+  geolocator: ^8.2.0
   google_fonts: ^2.1.0
   grouped_buttons_ns: ^1.0.0
   google_ml_kit: ^0.7.3
   http: ^0.13.4
   image: ^3.1.1
   image_picker: ^0.8.4+4
+  intl: ^0.17.0
   jumping_dot: ^0.0.4
   page_transition: ^2.0.4
   provider: ^6.0.1
   progress_indicators: ^1.0.0
+  rxdart: ^0.27.3
   shared_preferences: ^2.0.11
   shimmer: ^2.0.0
   simple_animations: ^4.0.1
@@ -44,8 +55,12 @@ dependencies:
   top_snackbar_flutter: ^1.0.2
 
 
-
-
+flutter_icons:
+  image_path: "assets/icons/launcher_icon.png"
+  #image_path_android: "assets/icons/launcher_icon.png"
+  #image_path_ios: "assets/icons/launcher_icon.png"
+  android: true
+  ios: false
 
 
 dev_dependencies:

@@ -29,7 +29,13 @@ Future<double> calculateFoodAffinity(
   var output = List.filled(1, 0).reshape([1, 1]);
   interpreter.run(input, output);
 
-  double result = output[0][0] * 100;
+  double result = output[0][0];
+
+  if(result > 1){
+    result = 1;
+  }
+
+  interpreter.close();
 
   return result;
 

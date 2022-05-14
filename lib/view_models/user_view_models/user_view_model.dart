@@ -3,7 +3,7 @@ import '../../models/model.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 
 
-class UserViewModel {
+class UserViewModel{
 
   ImageProvider? _userImage;
 

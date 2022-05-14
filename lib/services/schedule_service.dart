@@ -73,7 +73,7 @@ class ScheduleService with ChangeNotifier {
   }
 
 
-  Future<bool> registerMeal(int scheduleId, ScheduleMeal mealToRegister) async {
+  Future<int> registerMeal(int scheduleId, ScheduleMeal mealToRegister) async {
 
     final dio = Dio();
 
@@ -93,10 +93,11 @@ class ScheduleService with ChangeNotifier {
     ));
 
     if (response.statusCode == 200) {
-      return true;
+      int result = response.data["data"]["mealId"];
+      return result;
     }
 
-    return false;
+    return 0;
   }
 
   Future<bool> updateMeal(ScheduleMeal mealToRegister) async {
@@ -112,9 +113,9 @@ class ScheduleService with ChangeNotifier {
       'description': ''
     });
 
-    var uri = '${url}meals';
+    var uri = '${url}meals/${mealToRegister.mealId}';
 
-    var response = await dio.put(uri, queryParameters: {'mealId' : mealToRegister.mealId }, data: body, options: Options(
+    var response = await dio.put(uri, data: body, options: Options(
         headers: HeadersService().getHeaders()
     ));
 

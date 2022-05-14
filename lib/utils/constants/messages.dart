@@ -3,14 +3,14 @@
 
 //-------LOGIN-------//
 
-const String loginSuccessful = 'Bienvenid@, esperamos que disfrutes de nuestra aplicación.';
+const String loginSuccessful = 'Bienvenid@ de nuevo a la aplicación.';
 
 const String loginError = '¡Ups!, parece que el usuario o contraseña son incorrectos.';
 
 
 //-------CATS-------//
 
-const String catRegisterSuccessful = '¡Felicidades!, se ha registrado este gato con éxito.';
+const String catRegisterSuccessful = '¡Felicidades!, se registró el gato con éxito.';
 
 const String catDeleteSuccessful = 'Se ha eliminado este gato con éxito.';
 

@@ -10,6 +10,8 @@ class CatFoodAnalysis {
     this.taurine
   });
 
+  CatFoodAnalysis.fromCopy(this.analysis, this.ingredients, this.taurine);
+
   setResult(double newValue){
     result = newValue;
   }
@@ -44,6 +46,17 @@ class Analysis {
     this.ash,
     this.carbohydrates
   });
+
+  Analysis.fromCopy(
+    this.calcium,
+    this.fiber,
+    this.phosphorus,
+    this.fat,
+    this.moisture,
+    this.protein,
+    this.ash,
+    this.carbohydrates
+  );
 
   factory Analysis.fromJson(Map<String, dynamic> catJson) {
     return Analysis(
@@ -83,6 +96,18 @@ class Ingredient {
     this.soy
   });
 
+  Ingredient.fromCopy(
+    this.meat,
+    this.pig,
+    this.colorant,
+    this.egg,
+    this.milk,
+    this.fish,
+    this.chicken,
+    this.cheese,
+    this.soy
+  );
+
   factory Ingredient.fromJson(Map<String, dynamic> catJson) {
     return Ingredient(
         meat: catJson['Carne'],
@@ -105,6 +130,10 @@ class Taurine {
   Taurine({
     this.taurine,
   });
+
+  Taurine.fromCopy(
+    this.taurine,
+  );
 
   factory Taurine.fromJson(Map<String, dynamic> catJson) {
     return Taurine(

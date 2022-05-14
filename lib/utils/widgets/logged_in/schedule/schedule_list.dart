@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/models/dtos/schedule_meal_dto.dart';
 import 'package:healthy_purr_mobile_app/models/entities/day.dart';
 import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_view_model.dart';
@@ -30,9 +32,44 @@ class _ScheduleListState extends State<ScheduleList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
           contentPadding: EdgeInsets.zero,
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            ElevatedButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: cancelButtonColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)
+                  )
+              ),
+            ),
+            ElevatedButton(
+              child: const Text('Actualizar'),
+              onPressed: () async {
+                Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
+                  Navigator.pop(context);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)
+                  )
+              ),
+            )
+          ].map((e) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: e,
+          )).toList(),
           content: Container(
             width: 300.0,
             child: ClipRRect(
@@ -58,7 +95,7 @@ class _ScheduleListState extends State<ScheduleList> {
                             child: Text(
                               Provider.of<ScheduleListViewModel>(context).getTimeToUpdate().inMinutes > 0 ?
                               _printDuration(Provider.of<ScheduleListViewModel>(context).getTimeToUpdate()) :
-                              Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().hour!,
+                              Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().hour!.substring(0, Provider.of<ScheduleListViewModel>(context).getSelectedScheduleMealDto().hour!.length - 3),
                               style: TextStyle(color: Colors.black),
                               textAlign: TextAlign.end,
                             ),
@@ -203,30 +240,6 @@ class _ScheduleListState extends State<ScheduleList> {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                          onTap: (){
-                        Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
-                        Navigator.pop(context);
-                        },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                              padding: EdgeInsets.all(10),
-                              child: Text('Cancelar', style: TextStyle(color: Colors.black),))),
-                      InkWell(
-                          onTap: (){
-                            Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
-                        Navigator.pop(context);
-                      }); },
-
-                          child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                              padding: EdgeInsets.all(10),
-                              child: Text('Actualizar', style: TextStyle(color: primaryColor)))),
-                    ],
-                  )
                 ],
               ),
             ),
@@ -254,7 +267,7 @@ class _ScheduleListState extends State<ScheduleList> {
             height: screenSize.height * 0.02,
           ),
           scheduleList.isNotEmpty ? SizedBox(
-            height: screenSize.height * 0.5,
+            height: screenSize.height * 0.6,
             width: screenSize.width * 0.6,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -264,69 +277,163 @@ class _ScheduleListState extends State<ScheduleList> {
 
                 final ScheduleMeal selectedSchedule = scheduleList[index];
 
-                return GestureDetector(
-                  onTap: (){
-                    Provider.of<ScheduleListViewModel>(context, listen: false).setScheduleMealDto(selectedSchedule);
-                    _showDialog(screenSize, index);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 15),
-                    width: screenSize.width * 0.6,
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          width: screenSize.width * 0.4,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(left: Radius.circular(20.0)),
-                            color: Color(0xFFFFF5E3),
-                          ),
+                return Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    height: 60,
+                    width: screenSize.width,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        extentRatio: 0.30,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text(deleteCatAlertDialogTitle, style: TextStyle(fontSize: 18.0), textAlign: TextAlign.justify),
+                                      content: const Text(deleteCatAlertDialogContent, style: TextStyle(fontSize: 14.0), textAlign: TextAlign.justify),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25.0)
+                                      ),
+                                      actions: [
+                                        ElevatedButton(
+                                          child: const Text(deleteCatAlertDialogConfirmAction),
+                                          onPressed: () async {
+                                            Provider.of<ScheduleListViewModel>(context, listen: false).deleteScheduleMeal(index,selectedSchedule).whenComplete((){
+                                              Navigator.pop(context);
+                                            });
+                                            // Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
+                                            //   if(value) {
+                                            //     Provider.of<CatListViewModel>(context, listen: false).deleteCat(selectedCat);
+                                            //   }
+                                            // }).whenComplete((){
+                                            //   Navigator.pop(context);
+                                            //   NotificationService().showNotification(
+                                            //       context,
+                                            //       catDeleteSuccessful,
+                                            //       "success");
+                                            // });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.red,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(25.0)
+                                              )
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text(deleteCatAlertDialogDismissAction),
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              primary: primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(25.0)
+                                              )
+                                          ),
+                                        )
+                                      ].map((e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        child: e,
+                                      )).toList(),
+                                    );
+                                  }
+                              );
+                            },
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete,
+                            label: 'Eliminar',
+                          )
+                        ],
+                      ),
+                      child: GestureDetector(
+                        onTap: (){
+                          Provider.of<ScheduleListViewModel>(context, listen: false).setScheduleMealDto(selectedSchedule);
+                          _showDialog(screenSize, index);
+                        },
+                        child: SizedBox(
+                          width: screenSize.width * 0.6,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Visibility(
-                                  visible: selectedSchedule.isDry! ,
-                                  child: Image.asset('assets/images/cat_dry_food.png', height: 40,)
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                width: screenSize.width * 0.4,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.horizontal(left: Radius.circular(20.0)),
+                                  color: Color(0xFFFFF5E3),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Visibility(
+                                        visible: selectedSchedule.isDry! ,
+                                        child: Image.asset('assets/images/cat_dry_food.png', height: 40,)
+                                    ),
+                                    Visibility(
+                                        visible: selectedSchedule.isDamp! ,
+                                        child: Image.asset('assets/images/cat_can.png', height: 40)
+                                    ),
+                                    Visibility(
+                                        visible: selectedSchedule.hasMedicine! ,
+                                        child: Image.asset('assets/images/cat_medicine.png', height: 40)
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Visibility(
-                                  visible: selectedSchedule.isDamp! ,
-                                  child: Image.asset('assets/images/cat_can.png', height: 40)
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  width: screenSize.width * 0.2,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFBFBFB),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(selectedSchedule.hour!.length > 8 ?
+                                    selectedSchedule.hour!.substring(0, selectedSchedule.hour!.length - 6) :
+                                      selectedSchedule.hour!.substring(0, selectedSchedule.hour!.length - 3), textAlign: TextAlign.end, style: TextStyle(fontSize: 20),),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              Visibility(
-                                  visible: selectedSchedule.hasMedicine! ,
-                                  child: Image.asset('assets/images/cat_medicine.png', height: 40)
-                              ),
+
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 15),
-                            height: 55,
-                            width: screenSize.width * 0.2,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.horizontal(right: Radius.circular(20.0)),
-                              color: Color(0xFFFBFBFB),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(selectedSchedule.hour!.length > 8 ?
-                              selectedSchedule.hour!.substring(0, selectedSchedule.hour!.length - 6) :
-                                selectedSchedule.hour!.substring(0, selectedSchedule.hour!.length - 3), textAlign: TextAlign.end, style: TextStyle(fontSize: 20),),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                      ],
+                      ),
                     ),
                   ),
                 );
               },
             ),
-          ) : Center(child: Text('No hay')),
+          ) : SizedBox(
+            height: screenSize.height * 0.6,
+            width: screenSize.width * 0.6,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      RotationTransition(
+                          turns: AlwaysStoppedAnimation(340 / 360),
+                          child: FaIcon(FontAwesomeIcons.paw, color: primaryColor.withOpacity(0.2), size: 60,)),
+                      Text('No tiene horarios este día', style: TextStyle(color: Colors.grey),),
+                    ],
+                  )
+                ],
+            ),
+          ),
         ],
       ),
     );

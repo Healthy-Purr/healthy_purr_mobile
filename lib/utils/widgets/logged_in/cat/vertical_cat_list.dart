@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
@@ -31,12 +32,12 @@ class _VerticalCatListState extends State<VerticalCatList> {
     final screenSize = MediaQuery.of(context).size;
 
     catList = Provider.of<CatListViewModel>(context).getCats();
-    catImages = Provider.of<CatListViewModel>(context, listen: false).getCatsImages();
+    catImages = Provider.of<CatListViewModel>(context).getCatsImages();
 
     return SizedBox(
       height: screenSize.height,
       width: screenSize.width,
-      child: ListView.builder(
+      child: catList.isNotEmpty ? ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: catList.length,
           itemBuilder: (context, index) {
@@ -90,14 +91,28 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text(deleteCatAlertDialogTitle, style: TextStyle(fontSize: 18.0), textAlign: TextAlign.justify),
-                                      content: const Text(deleteCatAlertDialogContent, style: TextStyle(fontSize: 14.0), textAlign: TextAlign.justify),
+                                      actionsAlignment: MainAxisAlignment.spaceBetween,
+                                      title: const Text('Eliminar gato', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold), textAlign: TextAlign.justify),
+                                      content: const Text(deleteCatAlertDialogContent, style: TextStyle(fontSize: 13.0), textAlign: TextAlign.justify),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(25.0)
                                       ),
                                       actions: [
                                         ElevatedButton(
-                                          child: const Text(deleteCatAlertDialogConfirmAction),
+                                          child: const Text('Cancelar'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: cancelButtonColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(25.0)
+                                            )
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text('Eliminar'),
                                           onPressed: () async {
                                             Provider.of<CatService>(context, listen: false).deleteCat(selectedCat).then((value){
                                               if(value) {
@@ -112,18 +127,7 @@ class _VerticalCatListState extends State<VerticalCatList> {
                                             });
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.red,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(25.0)
-                                            )
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          child: const Text(deleteCatAlertDialogDismissAction),
-                                          onPressed: (){
-                                            Navigator.pop(context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
                                             primary: primaryColor,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(25.0)
@@ -216,7 +220,17 @@ class _VerticalCatListState extends State<VerticalCatList> {
             } else {
               return const SizedBox();
             }
-          }),
+          }) : SizedBox(
+        height: screenSize.height,
+        width: screenSize.width,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            FaIcon(FontAwesomeIcons.cat, color: primaryColor.withOpacity(0.2), size: 60,),
+            Text('No tiene gatos aún', style: TextStyle(color: Colors.grey),),
+          ],
+        ),
+      ),
     );
   }
 }

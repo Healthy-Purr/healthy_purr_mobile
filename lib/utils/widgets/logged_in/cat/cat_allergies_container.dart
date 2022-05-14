@@ -47,7 +47,7 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
           ),
           const Positioned(
             left: 15, top: 15,
-            child: Text('Alergias')
+            child: Text('Alergias', style: TextStyle(fontWeight: FontWeight.bold),)
           ),
           Positioned.fill(
             child: Container(
@@ -59,7 +59,7 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
                 itemBuilder: (context, index) {
                   return Text('- ${widget.allergies[index]["name"]}');
                 }
-              ) : const Center(child: Text('Tu gatito no tiene alergias',
+              ) : const Center(child: Text('Tu gatito no tiene alergias', style: TextStyle(fontSize: 12),
                   textAlign: TextAlign.center)),
             ),
           ),

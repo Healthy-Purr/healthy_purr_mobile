@@ -1,18 +1,31 @@
-class EvaluationDto {
+class EvaluationResultDto {
   int? userId;
   int? catId;
+  int? evaluatedFoodId;
   String? description;
   double? accuracyRate;
   String? location;
 
-  EvaluationDto({
+  EvaluationResultDto({
     this.userId,
     this.catId,
+    this.evaluatedFoodId,
     this.description,
     this.accuracyRate,
     this.location
   });
+
+  Map toJson() => {
+    'userId' : userId,
+    'catId' : catId,
+    'evaluatedFoodId': evaluatedFoodId,
+    'description' : description,
+    'accuracyRate' : accuracyRate,
+    'location' : location
+  };
+
 }
+
 
 class EvaluatedFoodDto {
   double? protein;
@@ -30,4 +43,14 @@ class EvaluatedFoodDto {
     this.calcium,
     this.phosphorus,
     this.hasTaurine});
+
+  Map toJson() => {
+    'protein' : protein,
+    'fat' : fat,
+    'fiber' : fiber,
+    'moisture' : moisture,
+    'calcium' : calcium,
+    'phosphorus' : phosphorus,
+    'hasTaurine' : hasTaurine
+  };
 }

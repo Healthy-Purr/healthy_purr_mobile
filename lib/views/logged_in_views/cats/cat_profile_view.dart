@@ -76,17 +76,12 @@ class _CatProfileViewState extends State<CatProfileView> {
                     alignment: Alignment.topLeft, fit: BoxFit.contain
                 )
             ),
-            Positioned(
-              left: 25, top: MediaQuery.of(context).viewPadding.top,
-              child: Image.asset(healthyPurrLogo, height: 35,
-                  alignment: Alignment.topLeft, fit: BoxFit.contain),
-            ),
             FutureBuilder(
               future: _future,
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done) {
                   return Positioned(
-                    top: MediaQuery.of(context).viewPadding.top + 40, //logo size
+                    top: MediaQuery.of(context).viewPadding.top + 10, //logo size
                     bottom: 0, right: 0, left: 0,
                     child: Stack(
                       children: [
@@ -143,39 +138,44 @@ class _CatProfileViewState extends State<CatProfileView> {
                         ),
                         ///GO BACK BUTTON
                         Positioned(
-                          top: 25, left: 10,
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back, size: 35.0, color: Colors.white,),
-                            onPressed: ()=> Navigator.pop(context),
+                          top: 25, left: 5,
+                          child: CircleAvatar(
+                            backgroundColor: primaryColor,
+                            radius: 25,
+                            child: InkWell(
+                              child: const Icon(Icons.arrow_back_ios_rounded, size: 30.0, color: Colors.white,),
+                              onTap: ()=> Navigator.pop(context),
+                            ),
                           ),
                         ),
                         ///CAT INFORMATION
                         Positioned(
-                            top: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2, bottom: 0,
+                            top: (screenSize.height - MediaQuery.of(context).viewPadding.top - 100) / 2, bottom: 0,
                             child: Container(
                               height: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2,
                               width: screenSize.width,
                               decoration: const BoxDecoration(
-                                  color: catInformationContainerColor,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(20.0),)),
                               child: Container(
                                 margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
                                 child: Column(
                                   children: [
+                                    const SizedBox(height: 10.0),
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text('     ${widget.cat.name!}',
+                                      child: Text('   ${widget.cat.name!}',
                                         style: const TextStyle(
                                           fontSize: 22.0, fontWeight: FontWeight.bold,
                                         ), textAlign: TextAlign.start,
                                       ),
                                     ),
-                                    const SizedBox(height: 20.0),
+                                    const SizedBox(height: 10.0),
                                     Expanded(
                                       child: Container(
                                           decoration: const BoxDecoration(
-                                              color: Colors.white,
+                                              color: primaryColor,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20.0))
                                           ),
@@ -226,8 +226,8 @@ class _CatProfileViewState extends State<CatProfileView> {
                         ),
                         ///UPDATE CAT INFORMATION CLIP BUTTON
                         Positioned(
-                          top: ((screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2) - 3,
-                          right: screenSize.width * 0.14,
+                          top: ((screenSize.height - MediaQuery.of(context).viewPadding.top - 100) / 2) - 5,
+                          right: screenSize.width * 0.04,
                           child: ClipButton(
                             icon: Icons.refresh,
                             onTap: () {
@@ -242,26 +242,33 @@ class _CatProfileViewState extends State<CatProfileView> {
                                   )
                               );
                             },
-                            color: updateCatInformationButtonColor,
-                          ),
-                        ),
-                        ///ADD CAT SCHEDULE CLIP BUTTON
-                        Positioned(
-                          top: ((screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2) - 3,
-                          right: screenSize.width * 0.04,
-                          child: ClipButton(
-                            icon: Icons.calendar_today,
-                            onTap: () {
-                              //TODO: ADD FUNCTION TO ADD SCHEDULE
-                            },
-                            color: addCatScheduleButtonColor,
+                            color: complementaryColor,
                           ),
                         ),
                       ],
                     ),
                   );
                 } else {
-                  return const Center(child: CupertinoActivityIndicator());
+                  return Center(
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset("assets/images/logo_color.png", width: screenSize.width * 0.07,),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: screenSize.width * 0.14,
+                            height: screenSize.width * 0.14,
+                            child: const CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
                 }
               },
             )

@@ -35,7 +35,10 @@ class _EvaluationCircularChartsState extends State<EvaluationCircularCharts> {
               SizedBox(
                   height: screenSize.width/5,
                   width: screenSize.width/5,
-                  child:  SfRadialGauge(axes: <RadialAxis>[
+                  child:  SfRadialGauge(
+                      enableLoadingAnimation: true,
+                      animationDuration: 3000,
+                      axes: <RadialAxis>[
                     RadialAxis(
                         showLabels: false,
                         showTicks: false,

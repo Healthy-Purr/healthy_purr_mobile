@@ -19,7 +19,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
     return Container(
       height: parentSize.height, width: parentSize.width / 2.5,
       decoration: BoxDecoration(
-          color: diseasesContainerColor,
+          color: Color(0xFF08DBCC),
           borderRadius: const BorderRadius.all(
               Radius.circular(20.0)),
           boxShadow: [
@@ -47,7 +47,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
           ),
           const Positioned(
               left: 15, top: 15,
-              child: Text('Enfermedades', style: TextStyle(color: Colors.white),)
+              child: Text('Enfermedades', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)
           ),
           Positioned.fill(
             child: Container(
@@ -61,7 +61,7 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
                         style: const TextStyle(color: Colors.white));
                   }
               ) : const Center(child: Text('Tu gatito no tiene enfermedades',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 12),
                 textAlign: TextAlign.center),
               ),
             ),

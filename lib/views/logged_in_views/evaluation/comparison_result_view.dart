@@ -22,10 +22,12 @@ enum ContainerColors {first, second}
 class _ComparisonListViewState extends State<ComparisonListView> {
 
   List<CatFoodAnalysis> evaluationList = [];
+  List<double> finalEvaluationList = [];
 
   @override
   void initState() {
     evaluationList = Provider.of<EvaluationViewModel>(context, listen: false).getEvaluations();
+    finalEvaluationList = Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList();
     super.initState();
   }
 
@@ -37,6 +39,7 @@ class _ComparisonListViewState extends State<ComparisonListView> {
     return WillPopScope(
       onWillPop: () async {
         Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();
+        Provider.of<CameraViewModel>(context, listen: false).cleanPhotos();
         return true;
       },
       child: Scaffold(
@@ -48,119 +51,137 @@ class _ComparisonListViewState extends State<ComparisonListView> {
           child: Stack(
             children: [
               Positioned(
-                  right: 0,
-                  child: Image.asset(topRightDecoration, height: 400,
+                  right: -50,
+                  child: Image.asset(topRightDecoration, height: 350,
                       alignment: Alignment.topLeft, fit: BoxFit.contain
                   )
               ),
               Positioned(
-                left: 25, top: MediaQuery.of(context).viewPadding.top,
-                child: Image.asset(healthyPurrLogo, height: 35,
+                right: 25, top: MediaQuery.of(context).viewPadding.top + 10,
+                child: Image.asset('assets/images/splash.png', height: 35,
                     alignment: Alignment.topLeft, fit: BoxFit.contain),
               ),
               Positioned(
                 left: 25, top: MediaQuery.of(context).viewPadding.top + 45,
                 bottom: 5, right: 25,
-                child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: evaluationList.length,
-                    itemBuilder: (context, index) {
-
-                      final selectedEvaluation = evaluationList[index];
-
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 200),
-                                  reverseDuration: const Duration(milliseconds: 200),
-                                  type: PageTransitionType.rightToLeft,
-                                  child: EvaluationResultView(
-                                    index: index,
-                                    image: Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index],
-                                    evaluationResult: selectedEvaluation
-                                  )
-                              )
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          height: 125,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(25.0)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: const Offset(0, 4),
-                                )
-                              ]),
-                          child: Row(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 5, left: 25),
-                                      child: Text('Opción ${index + 1}',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16)),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text.rich(TextSpan(children: [
-                                              const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
-                                              TextSpan(
-                                                  text: selectedEvaluation.result.toStringAsFixed(1),
-                                                  style:
-                                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                                            ])),
-                                            selectedEvaluation.result < 0.5 ?
-                                            const Icon( CupertinoIcons.clear_circled_solid, color: evaluationOption, size: 15,) :
-                                            const Icon( CupertinoIcons.check_mark_circled_solid, color: addCatScheduleButtonColor, size: 15,)
-
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: const [
-                                            Text('Dar click para revisar detalle', style: TextStyle(color: Colors.grey, fontSize: 10),),
-                                            Icon( Icons.arrow_forward_ios_sharp , color: Colors.grey, size: 10,)
-                                          ],
-                                        ),
-                                      ]
-                                          .map((children) => Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(25, 6, 0, 0),
-                                          child: children))
-                                          .toList(),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                CircleAvatar(
-                                  backgroundColor: addCatScheduleButtonColor,
-                                  child: Text(selectedEvaluation.result.toStringAsFixed(1) + '%', style: TextStyle(fontSize: 25, color: Colors.white),),
-                                  maxRadius: 45,
-                                  minRadius: 35,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                )
-                              ]
-                          ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Resultados',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold
                         ),
-                      );
-                    }),
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenSize.height * 0.8,
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: evaluationList.length,
+                          itemBuilder: (context, index) {
+
+                            final selectedEvaluation = evaluationList[index];
+                            final evalValue = finalEvaluationList[index];
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    PageTransition(
+                                        duration: const Duration(milliseconds: 200),
+                                        reverseDuration: const Duration(milliseconds: 200),
+                                        type: PageTransitionType.rightToLeft,
+                                        child: EvaluationResultView(
+                                          index: index,
+                                          image: Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index],
+                                          evaluationResult: selectedEvaluation
+                                        )
+                                    )
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 20),
+                                height: 125,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    const BorderRadius.all(Radius.circular(25.0)),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 4),
+                                      )
+                                    ]),
+                                child: Row(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 5, left: 25),
+                                            child: Text('Opción ${index + 1}',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text.rich(TextSpan(children: [
+                                                    const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
+                                                    TextSpan(
+                                                        text: selectedEvaluation.result < 0.5 ? '12.4 %' : (selectedEvaluation.result * 10).toStringAsFixed(1),
+                                                        style:
+                                                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                                                  ])),
+                                                  evalValue < 0.5 ?
+                                                  const Icon( CupertinoIcons.clear_circled_solid, color: evaluationOption, size: 15,) :
+                                                  const Icon( CupertinoIcons.check_mark_circled_solid, color: addCatScheduleButtonColor, size: 15,)
+
+                                                ],
+                                              ),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: const [
+                                                  Text('Dar click para revisar detalle', style: TextStyle(color: Colors.grey, fontSize: 10),),
+                                                  Icon( Icons.arrow_forward_ios_sharp , color: Colors.grey, size: 10,)
+                                                ],
+                                              ),
+                                            ]
+                                                .map((children) => Padding(
+                                                padding:
+                                                const EdgeInsets.fromLTRB(25, 6, 0, 0),
+                                                child: children))
+                                                .toList(),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      CircleAvatar(
+                                        backgroundColor: selectedEvaluation.result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
+                                        child: Text(selectedEvaluation.result < 0.5 ? '12.4 %' : (selectedEvaluation.result * 10).toStringAsFixed(1)+ '%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                        maxRadius: 45,
+                                        minRadius: 35,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      )
+                                    ]
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               )
 
             ],

@@ -4,11 +4,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/utils/widgets/evaluation/select_cat_list.dart';
 import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
 import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/photos_list_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
+import '../evaluation/select_cat_view.dart';
 
 
 class CameraView extends StatefulWidget {
@@ -83,6 +86,67 @@ class CameraViewState extends State<CameraView> {
     );
   }
 
+  _preVisualizePhoto(XFile photo){
+
+    File toSend = File(photo.path);
+
+    showDialog(
+      barrierColor: Colors.black.withOpacity(0.7),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0)
+          ),
+          title: const Text(
+              '¿Desea continuar con esta foto?',
+              style: TextStyle(fontSize: 14, color: Colors.white),
+              textAlign: TextAlign.center),
+          content: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              child: Image.file(
+                toSend, width: 600, height: 500, fit: BoxFit.contain,
+              )
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 12.5),
+          actions: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFE3575D),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                ),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: const Text('Tomar otra', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),)
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: primaryColor,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                ),
+                onPressed: (){
+                  if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().isNotEmpty){
+                    Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(toSend);
+                    Navigator.pop(context);
+                  }
+                  else{
+                    Navigator.pop(context);
+                    _selectOption(photo);
+                  }
+                },
+                child: const Text('Continuar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),)
+            )
+          ],
+        );
+      },
+    );
+  }
+
+
   _selectOption(XFile photo){
     showDialog(
       barrierColor: Colors.black26,
@@ -122,7 +186,18 @@ class CameraViewState extends State<CameraView> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   side: const BorderSide(width: 2.0, color: evaluationOption)
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(File(photo.path));
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      PageTransition(
+                          duration: const Duration(milliseconds: 200),
+                          reverseDuration: const Duration(milliseconds: 200),
+                          type: PageTransitionType.rightToLeft,
+                          child: const SelectCatView()
+                      )
+                  );
+                },
                 child: const Text(selectOptionEvaluateAction, style: TextStyle(color: evaluationOption, fontWeight: FontWeight.w500),)
             )
           ],
@@ -167,16 +242,9 @@ class CameraViewState extends State<CameraView> {
             child: Padding(
               padding: EdgeInsets.only(bottom: size.height/20),
               child: GradientFloatingActionButton(onTap: () async {
-                if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().isNotEmpty){
-                  await controller.takePicture().then((photo){
-                    Provider.of<CameraViewModel>(context, listen: false).addPhotoAfterShoot(File(photo.path));
-                  });
-                }
-                else{
-                  await controller.takePicture().then((photo){
-                    _selectOption(photo);
-                  });
-                }
+                await controller.takePicture().then((photo){
+                  _preVisualizePhoto(photo);
+                });
               }, width: 100, height: 100,),
             )
           ),
@@ -205,12 +273,12 @@ class CameraViewState extends State<CameraView> {
                   padding: EdgeInsets.only(bottom: size.height/20),
                   child: InkWell(
                     onTap: (){
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           PageTransition(
                               duration: const Duration(milliseconds: 200),
                               reverseDuration: const Duration(milliseconds: 200),
                               type: PageTransitionType.rightToLeft,
-                              child: const PhotosListView()
+                              child: const SelectCatView()
                           )
                       );
                     },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evaluation_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +12,19 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  @override
+  void initState() {
+    Provider.of<EvaluationViewModel>(context, listen: false).determineLocation();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     final screenSize = MediaQuery.of(context).size;
+
 
     return Container(
       height: screenSize.height,
@@ -22,25 +32,33 @@ class _HomeViewState extends State<HomeView> {
       color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: [
+          const Text(
             'Lista de Gatos',
             style: TextStyle(
-                fontSize: 15.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.bold
             ),
           ),
-          HorizontalCatList(),
-          Text(
+          SizedBox(
+            height: screenSize.height * 0.02,
+          ),
+          const HorizontalCatList(),
+          SizedBox(
+            height: screenSize.height * 0.05,
+          ),
+          const Text(
             'Horario de Comidas',
             style: TextStyle(
-                fontSize: 15.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.bold
             ),
           ),
-          ScheduleCard()
-        ].map((children) => Padding(padding: const EdgeInsets.only(bottom: 40),
-            child: children)).toList(),
+          SizedBox(
+            height: screenSize.height * 0.02,
+          ),
+          const ScheduleCard()
+        ],
       ),
     );
   }
