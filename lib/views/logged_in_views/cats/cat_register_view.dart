@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grouped_buttons_ns/grouped_buttons_ns.dart';
 import 'package:healthy_purr_mobile_app/models/model.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
@@ -148,6 +147,7 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                         ),
                         Expanded(
                           child: ListView(
+                            physics: const BouncingScrollPhysics(),
                             children: [
                               //NAME
                               Container(

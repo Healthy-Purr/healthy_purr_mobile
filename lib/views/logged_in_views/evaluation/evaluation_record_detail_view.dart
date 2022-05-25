@@ -139,11 +139,12 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                             borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(25.0),)),
                         child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -237,7 +238,7 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                               const SizedBox(height: 20.0),
                               const Padding(
                                 padding: EdgeInsets.only(left: 25.0),
-                                child: Text('Analisis', style: TextStyle(fontSize: 12),),
+                                child: Text('Análisis', style: TextStyle(fontSize: 12),),
                               ),
                               const SizedBox(height: 10.0),
                               SizedBox(
@@ -255,7 +256,7 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Gato Evaluado', style: TextStyle(fontSize: 12),),
+                                    const Text('Gato Evaluado', style: TextStyle(fontSize: 12),),
                                     const SizedBox(height: 15.0),
                                     //:zenpan
                                     widget.evaluationResult.description!.contains(':zenpan') ?
@@ -275,7 +276,7 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                                               offset: const Offset(0, 6),
                                             )
                                           ]),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text('Resultado de evaluación general'),
                                       ),
                                     ): selectedCat != null ?
@@ -339,12 +340,12 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.black.withOpacity(0.05),
-                                                spreadRadius: 2,
+                                                spreadRadius: 5,
                                                 blurRadius: 5,
-                                                offset: const Offset(0, 6),
+                                                offset: const Offset(0, 2),
                                               )
                                             ]),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text('El gato no se encuentra en su lista', style: TextStyle(fontSize: 12, color: Colors.grey),),
                                       )
                                     ),

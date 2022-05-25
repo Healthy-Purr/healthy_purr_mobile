@@ -40,6 +40,7 @@ class _PhotosListViewState extends State<PhotosListView> {
           actionsAlignment: MainAxisAlignment.spaceBetween,
           title: const Text('Lo sentimos', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
           content: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: ListBody(
               children: const <Widget>[
                 Text('No se ha podido identificar texto en la foto por lo que no se pudo completar la evaluación', style: TextStyle(color: Colors.black, fontSize: 15)),

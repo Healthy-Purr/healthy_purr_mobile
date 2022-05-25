@@ -33,7 +33,6 @@ dependencies:
   geocoding: ^2.0.4
   geolocator: ^8.2.0
   google_fonts: ^2.1.0
-  grouped_buttons_ns: ^1.0.0
   google_ml_kit: ^0.7.3
   http: ^0.13.4
   image: ^3.1.1

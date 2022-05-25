@@ -101,13 +101,13 @@ class _EvaluationListState extends State<EvaluationList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                children: [
+                                children: const [
                                   Text.rich(TextSpan(children: [
-                                    const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
+                                    TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
                                     TextSpan(
                                         text: 'Recomendado',
                                         style:
-                                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                                        TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                   ])),
                                 ],
                               ),
@@ -150,7 +150,7 @@ class _EvaluationListState extends State<EvaluationList> {
         alignment: AlignmentDirectional.center,
         children: [
           FaIcon(FontAwesomeIcons.file, color: primaryColor.withOpacity(0.2), size: 60,),
-          Text('No tiene evaluaciones guardadas', style: TextStyle(color: Colors.grey),),
+          const Text('No tiene evaluaciones guardadas', style: TextStyle(color: Colors.grey),),
         ],
       ),
     );

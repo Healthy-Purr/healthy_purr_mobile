@@ -45,6 +45,12 @@ class AllergyListViewModel {
 
   }
 
+  Future<void> deactivateCatAllergiesList(BuildContext context) async {
+    for(var allergy in _catAllergyDtoList) {
+      await AllergyService().deactivateAllergy(allergy.catId!, allergy.allergyId!);
+    }
+  }
+
   Future<void> populateCatAllergyList(BuildContext context) async {
 
     _catAllergyDtoList.clear();

@@ -153,6 +153,7 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
             ),
             Expanded(
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Row(
                     children: [

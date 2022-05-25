@@ -47,6 +47,12 @@ class DiseaseListViewModel {
 
   }
 
+  Future<void> deactivateCatDiseasesList(BuildContext context) async {
+    for(var disease in _catDiseasesDtoList) {
+      await DiseaseService().deactivateDisease(disease.catId!, disease.diseaseId!);
+    }
+  }
+
   Future<void> populateCatDiseasesList(BuildContext context) async {
 
     _catDiseasesDtoList.clear();

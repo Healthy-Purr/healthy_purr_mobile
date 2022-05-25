@@ -30,7 +30,7 @@ class _EvaluationRecordViewState extends State<EvaluationRecordView> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Expanded(

@@ -27,6 +27,7 @@ export 'widgets/logged_in/cat/cat_details_card.dart';
 export 'widgets/logged_in/cat/cat_allergies_container.dart';
 export 'widgets/logged_in/cat/cat_diseases_container.dart';
 export 'widgets/logged_in/cat/clip_button.dart';
+export 'widgets/logged_in/cat/group_checkbox.dart';
 
 //------------USER-------------//
 export 'widgets/user/cat_count_container.dart';

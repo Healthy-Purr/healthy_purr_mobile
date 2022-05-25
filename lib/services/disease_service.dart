@@ -7,6 +7,23 @@ import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 
 class DiseaseService with ChangeNotifier {
 
+  Future<bool> deactivateDisease(int catId, int diseaseId) async {
+    final dio = Dio();
+
+    var uri = '${url}cat-diseases/cat/$catId/disease/$diseaseId/deactivate';
+
+    var response = await dio.put(uri, options: Options(
+        headers: HeadersService().getHeaders()
+    ));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   Future<List<Disease>> getAllDiseases() async {
 
     final dio = Dio();
