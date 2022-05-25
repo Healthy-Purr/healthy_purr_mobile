@@ -24,6 +24,18 @@ class DiseaseListViewModel {
     return _catDiseasesList;
   }
 
+  Future<void> registerDiseaseList(CatViewModel cat, List<String> catDiseases) async{
+
+    for(String disease in catDiseases){
+      await DiseaseService().registerCatDiseases(cat, getDiseaseId(disease));
+    }
+
+  }
+
+  int getDiseaseId(String diseaseName){
+    return _diseaseList.where((element) => element.name == diseaseName).first.diseaseId!;
+  }
+
   Future<void> populateDiseaseList() async {
     List<Disease> auxDiseaseList = await DiseaseService().getAllDiseases();
 

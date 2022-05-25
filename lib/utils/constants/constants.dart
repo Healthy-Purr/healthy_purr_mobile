@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 
 const String url = "https://healthypurr.herokuapp.com/";
 
+const String evaluationUrl = "https://healthy-purr-evaluation.herokuapp.com/evaluation";
+
 //-------------COLORS-------------//
 
-const Color complementaryColor = Color(0xFFE7558F);
+const Color complementaryColor = Color(0xFFE6BEA4);
 
-const Color secondaryColor = Color(0xFFFAB98F);
+const Color secondaryColor = Color(0xFFF6EED9);
 
 const Color primaryColor = Color(0xFFFFD28E);
+
+const Color darkColor = Color(0xFF48302E);
 
 const Color catInformationContainerColor = Color(0xFFFFE2B6);
 
@@ -21,6 +25,8 @@ const Color allergiesContainerColor = Color(0xFFFFE2B6);
 const Color updateCatImageButtonColor = Color(0xFFFFD28E);
 
 const Color updateCatInformationButtonColor = Color(0xFFFFB554);
+
+const Color cancelButtonColor = Color(0xFFE3575D);
 
 const Color evaluationOption = Color(0xFFFC5155);
 

@@ -47,4 +47,20 @@ class DiseaseService with ChangeNotifier {
 
   }
 
+  Future<bool> registerCatDiseases(CatViewModel cat, int diseaseId) async{
+
+    final dio = Dio();
+    var uri = '${url}cat-diseases/cat/${cat.catId}/disease/$diseaseId';
+
+    var response = await dio.post(uri, options: Options(
+        headers: HeadersService().getHeaders()
+    ));
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+
+    return false;
+  }
+
 }

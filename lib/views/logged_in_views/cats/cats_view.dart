@@ -24,7 +24,7 @@ class _CatsViewState extends State<CatsView> {
             child: Text(
               'Mis Gatos',
               style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 18.0,
                   fontWeight: FontWeight.bold
               ),
             ),

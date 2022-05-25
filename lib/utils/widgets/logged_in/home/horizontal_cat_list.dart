@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:bordered_text/bordered_text.dart';
+
+import '../../../constants/constants.dart';
 
 class HorizontalCatList extends StatefulWidget {
   const HorizontalCatList({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
     return SizedBox(
       height: 160,
       width: screenSize.width,
-      child: ListView.builder(
+      child: catList.isNotEmpty ? ListView.builder(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: catList.length,
@@ -44,10 +47,10 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withOpacity(0.05),
                       spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: const Offset(0, 4),
+                      blurRadius: 5,
+                      offset: const Offset(0, 7),
                     )
                   ]
               ),
@@ -103,6 +106,16 @@ class _HorizontalCatListState extends State<HorizontalCatList> {
             return const SizedBox();
           }
         },
+      ) : SizedBox(
+        height: screenSize.height * 0.5,
+        width: screenSize.width,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            FaIcon(FontAwesomeIcons.cat, color: primaryColor.withOpacity(0.2), size: 60,),
+            Text('No tiene gatos aún', style: TextStyle(color: Colors.grey),),
+          ],
+        ),
       ),
     );
   }

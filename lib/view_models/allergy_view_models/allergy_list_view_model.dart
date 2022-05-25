@@ -20,6 +20,16 @@ class AllergyListViewModel {
     return _catAllergyDtoList;
   }
 
+  Future<void> registerAllergyList(CatViewModel cat, List<String> catAllergies) async{
+    for(String allergy in catAllergies){
+      await AllergyService().registerCatAllergies(cat, getAllergyId(allergy));
+    }
+  }
+
+  int getAllergyId(String allergyName){
+    return _allergyList.where((element) => element.name == allergyName).first.allergyId!;
+  }
+
   List<Map<String, String>> getCatAllergies() {
     return _catAllergiesList;
   }

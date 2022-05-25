@@ -80,7 +80,7 @@ class _AuthenticationViewState extends State<AuthenticationView> {
                           alignment: Alignment.centerLeft,
                         ),
                         const SizedBox(
-                          height: 20.0,
+                          height: 30.0,
                         ),
                         GoToLoginButton(
                           goToLoginForm: () {
@@ -88,7 +88,7 @@ class _AuthenticationViewState extends State<AuthenticationView> {
                           }
                         ),
                         const SizedBox(
-                          height: 20.0,
+                          height: 30.0,
                         ),
                         const RegisterButton(),
                       ],

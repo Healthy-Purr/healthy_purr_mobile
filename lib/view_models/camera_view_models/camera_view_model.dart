@@ -7,6 +7,12 @@ class CameraViewModel extends ChangeNotifier{
 
   final List<File> _photos =  [];
 
+  cleanPhotos(){
+    if(_photos.isNotEmpty){
+      _photos.clear();
+    }
+  }
+
   List<File> getPhotos() {
     return _photos;
   }

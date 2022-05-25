@@ -1,6 +1,7 @@
 //CONSTANTS
 export 'constants/constants.dart';
 export 'constants/messages.dart';
+export 'constants/styles.dart';
 
 //----------------------------WIDGETS----------------------------//
 

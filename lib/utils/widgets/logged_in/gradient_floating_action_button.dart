@@ -27,13 +27,15 @@ class _GradientFloatingActionButtonState extends State<GradientFloatingActionBut
         width: widget.width,
         margin: const EdgeInsets.all(5.0),
         padding: const EdgeInsets.all(18),
-        decoration: const ShapeDecoration(
+        decoration: ShapeDecoration(
           gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
             colors: [
               complementaryColor,
               secondaryColor,
             ],
-            stops: [0.05, 1],
+            stops: [0.05, 0.7],
           ),
           shape: CircleBorder(),
         ),

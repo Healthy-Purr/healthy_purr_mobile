@@ -47,7 +47,7 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
           ),
           const Positioned(
             left: 15, top: 15,
-            child: Text('Alergias')
+            child: Text('Alergias', style: TextStyle(fontWeight: FontWeight.bold),)
           ),
           Positioned.fill(
             child: Container(
@@ -57,9 +57,12 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: widget.allergies.length,
                 itemBuilder: (context, index) {
-                  return Text('- ${widget.allergies[index]["name"]}');
+                  return Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text('> ${widget.allergies[index]["name"]}', style: TextStyle(fontSize: 12),),
+                  );
                 }
-              ) : const Center(child: Text('Tu gatito no tiene alergias',
+              ) : const Center(child: Text('Tu gatito no tiene alergias', style: TextStyle(fontSize: 12),
                   textAlign: TextAlign.center)),
             ),
           ),

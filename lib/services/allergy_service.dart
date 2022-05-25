@@ -47,4 +47,20 @@ class AllergyService with ChangeNotifier {
 
   }
 
+  Future<bool> registerCatAllergies(CatViewModel cat, int allergicId) async{
+
+    final dio = Dio();
+    var uri = '${url}cat-allergics/cat/${cat.catId}/allergic/$allergicId';
+
+    var response = await dio.post(uri, options: Options(
+        headers: HeadersService().getHeaders()
+    ));
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+
+    return false;
+  }
+
 }

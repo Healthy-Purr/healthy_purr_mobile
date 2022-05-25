@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/providers/provider.dart';
 import 'package:healthy_purr_mobile_app/services/camera_service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
+import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_list_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/view_model.dart';
 import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/camera_view.dart';
+import 'package:healthy_purr_mobile_app/views/logged_in_views/schedule/schedule_view.dart';
 import 'package:healthy_purr_mobile_app/views/view.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/local_notification_service.dart';
+import 'evaluation/evaluation_record_view.dart';
 
 class LoggedInView extends StatefulWidget {
   static const routeName = "/home";
@@ -21,18 +26,27 @@ class _LoggedInViewState extends State<LoggedInView> {
 
   late var _future;
 
+  listenNotifications() => LocalNotificationService.onNotifications.stream.listen((event) { });
+
   @override
   void initState() {
-    _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
-        Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
-          Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
-            Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList().whenComplete(() =>
-              Provider.of<UserViewModel>(context, listen: false).setUserImage()
-            )
-          );
-        }
-      )
-    );
+    // _future = Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).whenComplete(() =>
+    //     Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).whenComplete(() {
+    //       Provider.of<ScheduleListViewModel>(context, listen: false).populateScheduleList(context).whenComplete((){
+    //         Provider.of<DiseaseListViewModel>(context, listen: false).populateDiseaseList().whenComplete(() =>
+    //             Provider.of<AllergyListViewModel>(context, listen: false).populateAllergyList().whenComplete(() =>
+    //                 Provider.of<UserViewModel>(context, listen: false).setUserImage()
+    //             )
+    //         );
+    //       });
+    //     }
+    //   )
+    // );
+
+
+    LocalNotificationService.init().whenComplete((){
+      listenNotifications();
+    });
     super.initState();
   }
 
@@ -40,8 +54,12 @@ class _LoggedInViewState extends State<LoggedInView> {
   Widget build(BuildContext context) {
 
     final bottomNavigationBarProvider = Provider.of<BottomNavigationBarProvider>(context);
+    final ImageProvider userImage = Provider.of<UserViewModel>(context, listen: false).getUserImage();
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
+      drawer: const UserProfileView(),
+      key: _scaffoldKey,
       extendBody: true,
       bottomNavigationBar: CustomBottomNavigationBar(
         index: bottomNavigationBarProvider.pageIndex,
@@ -68,39 +86,35 @@ class _LoggedInViewState extends State<LoggedInView> {
       body: Stack(
         children: [
           Positioned(
-            right: 0,
-            child: Image.asset(topRightDecoration, height: 400,
+            right: -50,
+            child: Image.asset(topRightDecoration, height: 350,
                 alignment: Alignment.topLeft, fit: BoxFit.contain
             ),
           ),
           Positioned(
-            left: 25, top: MediaQuery.of(context).viewPadding.top,
-            child: Image.asset(healthyPurrLogo, height: 35,
-                alignment: Alignment.topLeft, fit: BoxFit.contain),
+            left: 25, top: MediaQuery.of(context).viewPadding.top + 10,
+            child: InkWell(
+              onTap: () { _scaffoldKey.currentState!.openDrawer(); },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: userImage,
+              ),
+            ),
           ),
           Positioned(
-            right: 0, top: MediaQuery.of(context).viewPadding.top,
-            child: const GoToProfileButton(),
+            right: 20, top: MediaQuery.of(context).viewPadding.top + 10,
+            child: Image.asset('assets/images/splash.png', height: 40,),
           ),
           Positioned(
-            top: 80, bottom: 90, right: 25, left: 25,
-            child: FutureBuilder(
-              future: _future,
-              builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.done) {
-                  return IndexedStack(
-                      index: bottomNavigationBarProvider.pageIndex,
-                      children: const [
-                        HomeView(),
-                        CatsView(),
-                        Text('3'),
-                        Text('4'),
-                      ]
-                  );
-                } else {
-                  return const Center(child: CupertinoActivityIndicator());
-                }
-              }
+            top: MediaQuery.of(context).viewPadding.top + 65, bottom: 90, right: 25, left: 25,
+            child: IndexedStack(
+                index: bottomNavigationBarProvider.pageIndex,
+                children: const [
+                  HomeView(),
+                  CatsView(),
+                  ScheduleView(),
+                  EvaluationRecordView(),
+                ]
             ),
           ),
         ],

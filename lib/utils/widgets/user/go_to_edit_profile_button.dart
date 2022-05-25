@@ -27,13 +27,13 @@ class GoToEditProfileButton extends StatelessWidget {
           height: 47.5,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.horizontal(left: Radius.circular(25.0)),
-            color: primaryColor,
+            color: Colors.white,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [
-              Text('Actualizar', style: TextStyle(fontSize: 14, color: Colors.white)),
-              FaIcon(FontAwesomeIcons.pen, size: 18, color: Colors.white,)
+              Text('Actualizar', style: TextStyle(fontSize: 14, color: primaryColor, fontWeight: FontWeight.bold)),
+              FaIcon(FontAwesomeIcons.pen, size: 18, color: primaryColor,)
             ],
           ),
         ),
