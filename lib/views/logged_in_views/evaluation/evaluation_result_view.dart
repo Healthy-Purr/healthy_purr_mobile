@@ -67,17 +67,17 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('El registro se completó con éxito', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center,),
-          shape: RoundedRectangleBorder(
+          title: const Text('El registro se completó con éxito', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center,),
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
           actionsAlignment: MainAxisAlignment.spaceBetween,
           actionsPadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
-          content: Container(
+          content: SizedBox(
             width: 300.0,
             height: 180,
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -187,7 +187,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
                           duration: tween.duration,
                           builder: (context, child, animation) {
                             return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              margin: const EdgeInsets.symmetric(horizontal: 15),
                               height: (screenSize.height/3),
                               width: screenSize.width * 0.9,
                               decoration: BoxDecoration(
@@ -256,7 +256,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
                                 children: [
                                   CircleAvatar(
                                     backgroundColor: result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
-                                    child: Text((widget.evaluationResult.result * 100).toStringAsFixed(1) + '%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                    child: Text((widget.evaluationResult.result * 100).toStringAsFixed(1) + '%', style: const TextStyle(fontSize: 25, color: Colors.white),),
                                     maxRadius: 45,
                                     minRadius: 35,
                                   ),
@@ -312,6 +312,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
                                 content: Form(
                                   key: _formKey,
                                   child: SingleChildScrollView(
+                                      physics: const BouncingScrollPhysics(),
                                       child: Column(
                                         children: [
                                           SizedBox(

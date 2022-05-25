@@ -22,6 +22,10 @@ enum ContainerColors {first, second}
 
 class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixin{
 
+  //ESTA MIERDA ESTÁ EN DURO, FEO PERO NECESARIO PORQUE
+  //EL MONGOLO QUE HIZO MI BACKEND NOS ENTENDIÓ MAL,
+  //QUÉ IMPORTA, IGUAL FUNCIONA
+
   final List<MealDay> _days = [MealDay(0, 'Lunes', 'L', DateTime(2022, 5, 2)), MealDay(1, 'Martes', 'M', DateTime(2022, 5, 3)), MealDay(2, 'Miercoles', 'X', DateTime(2022, 5, 4)),
     MealDay(3, 'Jueves', 'J', DateTime(2022, 5, 5)), MealDay(4, 'Viernes', 'V', DateTime(2022, 5, 6)), MealDay(5, 'Sabado', 'S', DateTime(2022, 5, 7)), MealDay(6, 'Domingo', 'D', DateTime(2022, 5, 1))];
   int _selected = 0;
@@ -30,8 +34,6 @@ class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMix
   late Animation<double> scaleAnimation = CurvedAnimation(parent: scaleController, curve: Curves.elasticOut);
   late AnimationController checkController = AnimationController(duration: const Duration(milliseconds: 400), vsync: this);
   late Animation<double> checkAnimation = CurvedAnimation(parent: checkController, curve: Curves.linear);
-
-
 
   String _printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -185,219 +187,241 @@ class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMix
   }
 
   _showDialog(Size size){
+    List<bool> _validators = [false, false, false];
+
     showDialog(
       barrierColor: Colors.white.withOpacity(0.9),
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          contentPadding: EdgeInsets.zero,
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-          actions: [
-            ElevatedButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: cancelButtonColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0)
-                  )
-              ),
-            ),
-            ElevatedButton(
-              child: const Text('Registrar'),
-              onPressed: () async {
-                Provider.of<ScheduleListViewModel>(context, listen: false).registerSchedule(context).whenComplete((){
+        return WillPopScope(
+          onWillPop: () async {
+            Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+            Provider.of<ScheduleListViewModel>(context, listen: false).cleanDto();
+            return true;
+          },
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0))),
+            contentPadding: EdgeInsets.zero,
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              ElevatedButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+                  Provider.of<ScheduleListViewModel>(context, listen: false).cleanDto();
                   Navigator.pop(context);
-                  _registerSuccess(size);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0)
-                  )
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: cancelButtonColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)
+                    )
+                ),
               ),
-            )
-          ].map((e) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: e,
-          )).toList(),
-          content: Container(
-            width: 300.0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Positioned(
-                        right: 0,
-                        child: InkWell(
-                          child: Container(
-                            width: size.width * 0.5,
-                            padding: EdgeInsets.only(top: 15.0, bottom: 15.0, right: 30),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFBFBFB),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(25.0)),
-                            ),
-                            child: Text(
-                              _printDuration(Provider.of<ScheduleListViewModel>(context).getTimeToRegister()),
-                              style: TextStyle(color: Colors.black),
-                              textAlign: TextAlign.end,
+              AbsorbPointer(
+                absorbing:  _validators.where((element) => element == false).length == 3 ? true : false,
+                child: ElevatedButton(
+                  child: const Text('Registrar'),
+                  onPressed: _validators.where((element) => element == false).length == 3 ? null : () async {
+                    Provider.of<ScheduleListViewModel>(context, listen: false).registerSchedule(context).whenComplete((){
+                      Navigator.pop(context);
+                      _registerSuccess(size);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0)
+                      )
+                  ),
+                ),
+              )
+            ].map((e) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: e,
+            )).toList(),
+            content: Container(
+              width: 300.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Positioned(
+                          right: 0,
+                          child: InkWell(
+                            child: Container(
+                              width: size.width * 0.5,
+                              padding: EdgeInsets.only(top: 15.0, bottom: 15.0, right: 30),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFFBFBFB),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(25.0)),
+                              ),
+                              child: Text(
+                                _printDuration(Provider.of<ScheduleListViewModel>(context).getTimeToRegister()),
+                                style: TextStyle(color: Colors.black),
+                                textAlign: TextAlign.end,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        width: size.width * 0.5,
-                        padding: EdgeInsets.only(left: 30, top: 15.0, bottom: 15.0),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0)),
+                        Container(
+                          width: size.width * 0.5,
+                          padding: EdgeInsets.only(left: 30, top: 15.0, bottom: 15.0),
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25.0)),
+                          ),
+                          child: Text(
+                            Provider.of<ScheduleListViewModel>(context, listen: false).selectedDay.name!,
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
                         ),
-                        child: Text(
-                          Provider.of<ScheduleListViewModel>(context, listen: false).selectedDay.name!,
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 250,
-                    width: 300,
-                    child: PageView(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0, ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/cat_dry_food.png', height: 40,),
-                                  Container(
-                                    width: size.width * 0.5,
-                                    padding: const EdgeInsets.only(left: 15),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                        color: Color(0xFFFAFAFA)
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text('Comida seca', style: TextStyle(fontSize: 12)),
-                                        CircleAvatar(
-                                          radius: 18,
-                                          backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().isDry! ? primaryColor : Colors.grey.withOpacity(0.3),
-                                          child: InkWell(
-                                              onTap: (){
-                                                Provider.of<ScheduleListViewModel>(context, listen: false).selectDryFood();
-                                              },
-                                              child: Icon(Icons.check, size: 30, color: Colors.white,)
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/cat_can.png', height: 40,),
-                                  Container(
-                                    width: size.width * 0.5,
-                                    padding: const EdgeInsets.only(left: 15),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                        color: Color(0xFFFAFAFA)
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text('Comida humeda', style: TextStyle(fontSize: 12)),
-                                        CircleAvatar(
-                                          radius: 18,
-                                          backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().isDamp! ? primaryColor : Colors.grey.withOpacity(0.3),
-                                          child: InkWell(
-                                              onTap: (){
-                                                Provider.of<ScheduleListViewModel>(context, listen: false).selectDampFood();
-                                              },
-                                            child: Icon(Icons.check, size: 30, color: Colors.white,)
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/cat_medicine.png', height: 40,),
-                                  Container(
-                                    width: size.width * 0.5,
-                                    padding: const EdgeInsets.only(left: 15),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                        color: Color(0xFFFAFAFA)
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text('Medicina', style: TextStyle(fontSize: 12)),
-                                        CircleAvatar(
-                                          radius: 18,
-                                          backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().hasMedicine! ? primaryColor : Colors.grey.withOpacity(0.3),
-                                          child: InkWell(
-                                              onTap: (){
-                                                Provider.of<ScheduleListViewModel>(context, listen: false).selectMedicine();
-                                              },
-                                            child: Icon(Icons.check, size: 30, color: Colors.white,)
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ]
-                          )
-                        ),
-                        CupertinoTimerPicker(
-                          minuteInterval: 5,
-                          mode: CupertinoTimerPickerMode.hm,
-                          onTimerDurationChanged: (duration){
-                            Provider.of<ScheduleListViewModel>(context, listen: false).setTimeToRegister(duration);
-                          }
-                        )
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 250,
+                      width: 300,
+                      child: PageView(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0, ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/images/cat_dry_food.png', height: 40,),
+                                    Container(
+                                      width: size.width * 0.5,
+                                      padding: const EdgeInsets.only(left: 15),
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                          color: Color(0xFFFAFAFA)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text('Comida seca', style: TextStyle(fontSize: 12)),
+                                          CircleAvatar(
+                                            radius: 18,
+                                            backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().isDry! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                            child: InkWell(
+                                                onTap: (){
+                                                  Provider.of<ScheduleListViewModel>(context, listen: false).selectDryFood();
+                                                  setState(() {
+                                                    _validators[0] = !_validators[0];
+                                                  });
+                                                },
+                                                child: Icon(Icons.check, size: 30, color: Colors.white,)
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/images/cat_can.png', height: 40,),
+                                    Container(
+                                      width: size.width * 0.5,
+                                      padding: const EdgeInsets.only(left: 15),
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                          color: Color(0xFFFAFAFA)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text('Comida humeda', style: TextStyle(fontSize: 12)),
+                                          CircleAvatar(
+                                            radius: 18,
+                                            backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().isDamp! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                            child: InkWell(
+                                                onTap: (){
+                                                  Provider.of<ScheduleListViewModel>(context, listen: false).selectDampFood();
+                                                  setState(() {
+                                                    _validators[1] = !_validators[1];
+                                                  });
+                                                },
+                                              child: Icon(Icons.check, size: 30, color: Colors.white,)
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/images/cat_medicine.png', height: 40,),
+                                    Container(
+                                      width: size.width * 0.5,
+                                      padding: const EdgeInsets.only(left: 15),
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                          color: Color(0xFFFAFAFA)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text('Medicina', style: TextStyle(fontSize: 12)),
+                                          CircleAvatar(
+                                            radius: 18,
+                                            backgroundColor: Provider.of<ScheduleListViewModel>(context).getScheduleMealToRegister().hasMedicine! ? primaryColor : Colors.grey.withOpacity(0.3),
+                                            child: InkWell(
+                                                onTap: (){
+                                                  Provider.of<ScheduleListViewModel>(context, listen: false).selectMedicine();
+                                                  setState(() {
+                                                    _validators[2] = !_validators[2];
+                                                  });
+                                                },
+                                              child: Icon(Icons.check, size: 30, color: Colors.white,)
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ]
+                            )
+                          ),
+                          CupertinoTimerPicker(
+                            minuteInterval: 5,
+                            mode: CupertinoTimerPickerMode.hm,
+                            onTimerDurationChanged: (duration){
+                              Provider.of<ScheduleListViewModel>(context, listen: false).setTimeToRegister(duration);
+                            }
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

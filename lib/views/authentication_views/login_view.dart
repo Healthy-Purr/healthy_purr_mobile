@@ -90,6 +90,7 @@ class _LoginViewState extends State<LoginView> {
           child: Form(
             key: _formKey,
             child: ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

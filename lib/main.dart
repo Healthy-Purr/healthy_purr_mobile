@@ -50,12 +50,14 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          DefaultMaterialLocalizations.delegate
         ],
         supportedLocales: const [
-          Locale('en', ''),
+          Locale('es', ''),
         ],
         theme: ThemeData(
-          textTheme: GoogleFonts.comfortaaTextTheme(Theme.of(context).textTheme)),
+          textTheme: GoogleFonts.comfortaaTextTheme(Theme.of(context).textTheme),
+        ),
         home: const AuthenticationView(),
       ),
     );

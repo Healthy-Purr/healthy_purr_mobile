@@ -131,6 +131,7 @@ class _UserUpdateInformationViewState extends State<UserUpdateInformationView> {
                       ),
                       Expanded(
                         child: ListView(
+                          physics: const BouncingScrollPhysics(),
                           padding: EdgeInsets.zero,
                           children: [
                             Column(

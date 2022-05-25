@@ -36,6 +36,7 @@ class _UserProfileViewState extends State<UserProfileView> {
           actionsAlignment: MainAxisAlignment.spaceBetween,
           title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
           content: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: ListBody(
               children: const <Widget>[
                 Text('¿Desea cerrar sesión?', style: TextStyle(color: Colors.black, fontSize: 15)),
@@ -160,26 +161,67 @@ class _UserProfileViewState extends State<UserProfileView> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30.0),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      elevation: 0,
-                      primary: primaryColor,
-                      onPrimary: Colors.white
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          elevation: 0,
+                          primary: primaryColor,
+                          onPrimary: Colors.white
+                      ),
+                      onPressed: (){
+                        showAboutDialog(
+                          context: context,
+                          applicationVersion: '1.0.0',
+                          applicationIcon: Image.asset(
+                            'assets/images/logo_color.png',
+                            fit: BoxFit.contain,
+                            width: 45, height: 45,
+                          ),
+                          applicationName: 'Healthy Purr',
+                          applicationLegalese: 'Todos las licencias se encuentran autorizadas y registradas en la página de licencias.'
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: const [
+                              Icon(FontAwesomeIcons.info, color: Colors.white),
+                              SizedBox(width: 30.0),
+                            ],
+                          ),
+                          const Text('Acerca de', style: TextStyle(color: Colors.white),)
+                        ],
+                      )
                   ),
-                  onPressed: (){
-                    _showMyDialog();
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      Icon(FontAwesomeIcons.signOutAlt, color: Colors.white),
-                      Text('Cerrar Sesión', style: TextStyle(color: Colors.white),)
-                    ],
-                  )),
-            )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 30.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          elevation: 0,
+                          primary: primaryColor,
+                          onPrimary: Colors.white
+                      ),
+                      onPressed: (){
+                        _showMyDialog();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const [
+                          Icon(FontAwesomeIcons.signOutAlt, color: Colors.white),
+                          Text('Cerrar Sesión', style: TextStyle(color: Colors.white),)
+                        ],
+                      )
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

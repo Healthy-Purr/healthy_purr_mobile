@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grouped_buttons_ns/grouped_buttons_ns.dart';
 import 'package:healthy_purr_mobile_app/models/model.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
@@ -21,7 +20,9 @@ class CatUpdateInformationView extends StatefulWidget {
 class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
 
   final _formKey = GlobalKey<FormState>();
-
+  final _nameController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _weightController = TextEditingController();
 
   List<DiseaseViewModel> diseaseList = [];
 
@@ -68,12 +69,19 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
           loader = true;
         });
         _formKey.currentState!.save();
+
         if(catDiseases.isNotEmpty){
-          Provider.of<DiseaseListViewModel>(context, listen: false).registerDiseaseList(widget.cat, catDiseases);
+          Provider.of<DiseaseListViewModel>(context, listen: false).deactivateCatDiseasesList(context).whenComplete((){
+            Provider.of<DiseaseListViewModel>(context, listen: false).registerDiseaseList(widget.cat, catDiseases);
+          });
         }
-        if(catAllergies.isNotEmpty){
-          Provider.of<AllergyListViewModel>(context, listen: false).registerAllergyList(widget.cat, catAllergies);
+
+        if(catAllergies.isNotEmpty) {
+          Provider.of<AllergyListViewModel>(context, listen: false).deactivateCatAllergiesList(context).whenComplete((){
+            Provider.of<AllergyListViewModel>(context, listen: false).registerAllergyList(widget.cat, catAllergies);
+          });
         }
+
         Provider.of<CatService>(context, listen: false)
           .updateCat(_toSend, widget.cat.catId!).then((value){
             Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).then((value){
@@ -118,7 +126,7 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
               bottom: 40, right: 10, left: 10,
               child: Scrollbar(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -150,6 +158,7 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                         ),
                         Expanded(
                           child: ListView(
+                            physics: const BouncingScrollPhysics(),
                             padding: EdgeInsets.zero,
                             children: [
                               Column(
@@ -163,7 +172,7 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: screenSize.width * 0.6,
                                     child: TextFormField(
                                         initialValue: widget.cat.name!,
@@ -331,7 +340,7 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text('Seleccione la condición de su gato', style: TextStyle(fontSize: 12, color: Color(0xFF9A9A9A))),
+                                  const Text('Seleccione la condición de su gato', style: TextStyle(fontSize: 12, color: Color(0xFF9A9A9A))),
                                   const SizedBox(
                                     height: 5,
                                   ),
@@ -380,6 +389,16 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                                                   }
                                                 },
                                                 activeColor: primaryColor,
+                                                itemBuilder: (Checkbox cb, Text txt, int i) {
+                                                  return  Row(
+                                                    children: [
+                                                      const SizedBox(width: 12.0),
+                                                      cb,
+                                                      const SizedBox(width: 12.0),
+                                                      txt,
+                                                    ],
+                                                  );
+                                                },
                                               ),
                                             ],
                                           ),
@@ -427,6 +446,16 @@ class _CatUpdateInformationViewState extends State<CatUpdateInformationView> {
                                                   }
                                                 },
                                                 activeColor: primaryColor,
+                                                itemBuilder: (Checkbox cb, Text txt, int i) {
+                                                  return  Row(
+                                                    children: [
+                                                      const SizedBox(width: 12.0),
+                                                      cb,
+                                                      const SizedBox(width: 12.0),
+                                                      txt,
+                                                    ],
+                                                  );
+                                                },
                                               ),
                                             ],
                                           ),

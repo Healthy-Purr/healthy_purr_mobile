@@ -51,6 +51,10 @@ class ScheduleListViewModel extends ChangeNotifier {
     _scheduleList = [null, null, null, null, null, null, null];
   }
 
+  cleanDto(){
+    _scheduleMealToRegister = ScheduleMeal.fromScheduleMeal(0, '', '00:00:00:00', false, false, false, 0, false);
+  }
+
   cleanUpdateFields(){
     newDryFood = false;
     newDampFood = false;
@@ -253,6 +257,8 @@ class ScheduleListViewModel extends ChangeNotifier {
         return value;
       });
     });
+
+    _timeToRegister = Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0);
     return false;
   }
 
