@@ -57,8 +57,11 @@ class _CatDiseasesContainerState extends State<CatDiseasesContainer> {
                   physics: const BouncingScrollPhysics(),
                   itemCount: widget.diseases.length,
                   itemBuilder: (context, index) {
-                    return Text('- ${widget.diseases[index]["name"]}',
-                        style: const TextStyle(color: Colors.white));
+                    return Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text('> ${widget.diseases[index]["name"]}',
+                          style: const TextStyle(color: Colors.white, fontSize: 12)),
+                    );
                   }
               ) : const Center(child: Text('Tu gatito no tiene enfermedades',
                   style: TextStyle(color: Colors.white, fontSize: 12),

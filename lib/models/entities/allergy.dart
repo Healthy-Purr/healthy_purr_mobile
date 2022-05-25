@@ -17,7 +17,7 @@ class Allergy {
     return Allergy(
         createdAt: allergyJson['createdAt'],
         lastUpdate: allergyJson['lastUpdate'],
-        allergyId: allergyJson['diseaseId'],
+        allergyId: allergyJson['allergicId'],
         name: allergyJson['name'],
         description: allergyJson['description']
     );

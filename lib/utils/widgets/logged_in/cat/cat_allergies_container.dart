@@ -57,7 +57,10 @@ class _CatAllergiesContainerState extends State<CatAllergiesContainer> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: widget.allergies.length,
                 itemBuilder: (context, index) {
-                  return Text('- ${widget.allergies[index]["name"]}');
+                  return Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text('> ${widget.allergies[index]["name"]}', style: TextStyle(fontSize: 12),),
+                  );
                 }
               ) : const Center(child: Text('Tu gatito no tiene alergias', style: TextStyle(fontSize: 12),
                   textAlign: TextAlign.center)),

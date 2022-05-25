@@ -106,6 +106,10 @@ class ScheduleListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setTimeToUpdateBefore(Duration duration){
+    _timeToUpdate = duration;
+  }
+
   List<ScheduleViewModel?> getScheduleList() {
     return _scheduleList;
   }

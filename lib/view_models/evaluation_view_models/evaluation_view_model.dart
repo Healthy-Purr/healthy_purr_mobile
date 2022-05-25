@@ -6,6 +6,7 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:healthy_purr_mobile_app/models/dtos/evaluation_dto.dart';
 import 'package:healthy_purr_mobile_app/models/entities/cat_food_analysis.dart';
 import 'package:healthy_purr_mobile_app/models/model.dart';
+import 'package:healthy_purr_mobile_app/services/disease_service.dart';
 import 'package:healthy_purr_mobile_app/services/evaluation_service.dart';
 import 'package:healthy_purr_mobile_app/view_models/cat_view_models/cat_view_model.dart';
 import 'package:geocoding/geocoding.dart';
@@ -22,6 +23,7 @@ class EvaluationViewModel extends ChangeNotifier{
   final EvaluatedFoodDto _evaluatedFoodDto = EvaluatedFoodDto();
   final EvaluationResultDto _evaluationResultDto = EvaluationResultDto();
   CatViewModel _selectedCat = CatViewModel(cat: Cat());
+  //Allergies
   double eggAllergy = 0.0;
   double meatAllergy = 0.0;
   double pigAllergy = 0.0;
@@ -30,6 +32,14 @@ class EvaluationViewModel extends ChangeNotifier{
   double fishAllergy = 0.0;
   double cheeseAllergy = 0.0;
   double chickenAllergy = 0.0;
+  //Diseases
+  double obesity = 0.0;
+  double diabetes = 0.0;
+  double cardiac = 0.0;
+  double diarrhea  = 0.0;
+  double cystitis  = 0.0;
+  double kidneyStones = 0.0;
+  double malNutrition = 0.0;
   String? address;
 
   setSelectedCat(CatViewModel newCat){
@@ -42,6 +52,7 @@ class EvaluationViewModel extends ChangeNotifier{
 
 
   final List<CatAllergyDto> _catAllergies = [];
+  final List<CatDiseaseDto> _catDiseases = [];
 
   List<CatFoodAnalysis> getEvaluations() {
     return _evaluations;
@@ -211,9 +222,30 @@ class EvaluationViewModel extends ChangeNotifier{
 
   }
 
+  Future<void> populateCatDiseaseList() async {
+
+    if(_catDiseases.isNotEmpty){
+      _catDiseases.clear();
+    }
+
+    await DiseaseService().getCatDiseases(_selectedCat).then((auxCatDiseaseList) {
+      for(var catDiseaseDto in auxCatDiseaseList) {
+
+        if(catDiseaseDto.status == 1) {
+          _catDiseases.add(catDiseaseDto);
+        }
+
+      }
+    });
+
+    validateDiseaseList();
+
+  }
+
+
   validateAllergyList(){
     for(CatAllergyDto allergyDto in _catAllergies){
-      switch(allergyDto.catId!){
+      switch(allergyDto.allergyId!){
         case 1:
           pigAllergy = 1.0;
           break;
@@ -239,23 +271,64 @@ class EvaluationViewModel extends ChangeNotifier{
     }
   }
 
+  validateDiseaseList(){
+    for(CatDiseaseDto diseaseDto in _catDiseases){
+
+      switch(diseaseDto.diseaseId!){
+        case 1:
+          obesity = 1.0;
+          break;
+        case 2:
+          diabetes = 1.0;
+          break;
+        case 3:
+          cardiac = 1.0;
+          break;
+        case 4:
+          diarrhea = 1.0;
+          break;
+        case 5:
+          cystitis = 1.0;
+          break;
+        case 6:
+          kidneyStones = 1.0;
+          break;
+        case 7:
+          malNutrition = 1.0;
+          break;
+      }
+    }
+  }
+
   Future<void> evaluateCatFood(CatFoodAnalysis catFoodAnalysis, int fileIndex) async{
 
     if(_selectedCat.catId != null){
 
       await calculateFoodAffinity(_selectedCat.weight!, _selectedCat.age!.toDouble(),
-          _selectedCat.gender == true ? 1.0 : 0.0, eggAllergy, meatAllergy, pigAllergy, milkAllergy, soyAllergy, fishAllergy, cheeseAllergy, chickenAllergy,
+          _selectedCat.gender == true ? 1.0 : 0.0, obesity, diabetes, cardiac, diarrhea, cystitis, kidneyStones, malNutrition,
+          eggAllergy, meatAllergy, pigAllergy, milkAllergy, soyAllergy, fishAllergy, cheeseAllergy, chickenAllergy,
           catFoodAnalysis).then((result){
-        catFoodAnalysis.setResult(result);
-        _evaluations[fileIndex] = catFoodAnalysis;
-        _finalEvaluationList[fileIndex] = result; //result;
+            if(result > 0){
+              catFoodAnalysis.setResult(result);
+              _evaluations[fileIndex] = catFoodAnalysis;
+              _finalEvaluationList[fileIndex] = result;
+            }
+            else{
+              _finalEvaluationList.clear();
+            }
+         //result;
       });
     }
     else{
-      await calculateFoodAffinity(0.0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, catFoodAnalysis).then((result){
-        catFoodAnalysis.setResult(result);
-        _evaluations[fileIndex] = catFoodAnalysis;
-        _finalEvaluationList[fileIndex] = result;
+      await calculateFoodAffinity(0.0, 1, 1, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, catFoodAnalysis).then((result){
+        if(result > 0){
+          catFoodAnalysis.setResult(result);
+          _evaluations[fileIndex] = catFoodAnalysis;
+          _finalEvaluationList[fileIndex] = result;
+        }
+        else{
+          _finalEvaluationList.clear();
+        }
       });
     }
 

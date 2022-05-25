@@ -18,6 +18,12 @@ class CatListViewModel extends ChangeNotifier {
     return _catList;
   }
 
+  updateCatList(CatViewModel cat){
+    int index = _catList.indexOf(_catList.where((element) => element.catId! == cat.catId!).first);
+    _catList[index] = cat;
+    notifyListeners();
+  }
+
   deleteCat(CatViewModel selectedCat){
     int index = _catList.indexOf(_catList.where((element) => element.catId! == selectedCat.catId!).first);
     _catList[index].newStatus = false;

@@ -156,6 +156,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
       ..add(ContainerColors.second, ColorTween(begin: secondaryColor, end: complementaryColor), const Duration(seconds: 3));
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       backgroundColor: Colors.white,
       body: SizedBox(

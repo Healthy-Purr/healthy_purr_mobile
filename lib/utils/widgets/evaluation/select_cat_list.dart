@@ -53,14 +53,16 @@ class _SelectCatListState extends State<SelectCatList> {
                 onTap: () {
                   Provider.of<EvaluationViewModel>(context, listen: false).setSelectedCat(selectedCat);
                   Provider.of<EvaluationViewModel>(context, listen: false).populateCatAllergyList().whenComplete((){
-                    Navigator.pushReplacement(context,
-                        PageTransition(
-                            duration: const Duration(milliseconds: 200),
-                            reverseDuration: const Duration(milliseconds: 200),
-                            type: PageTransitionType.rightToLeft,
-                            child: const PhotosListView()
-                        )
-                    );
+                    Provider.of<EvaluationViewModel>(context, listen: false).populateCatDiseaseList().whenComplete((){
+                      Navigator.pushReplacement(context,
+                          PageTransition(
+                              duration: const Duration(milliseconds: 200),
+                              reverseDuration: const Duration(milliseconds: 200),
+                              type: PageTransitionType.rightToLeft,
+                              child: const PhotosListView()
+                          )
+                      );
+                    });
                   });
                 },
                 child: Container(

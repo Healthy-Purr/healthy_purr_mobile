@@ -51,6 +51,12 @@ class _CatRegisterViewState extends State<CatRegisterView> {
         _formKey.currentState!.reset();
         Provider.of<CatListViewModel>(context, listen: false).populateCatList(context).then((value) {
           final cat = Provider.of<CatListViewModel>(context, listen: false).getCats().last;
+          if(catDiseases.isNotEmpty){
+            Provider.of<DiseaseListViewModel>(context, listen: false).registerDiseaseList(cat, catDiseases);
+          }
+          if(catAllergies.isNotEmpty){
+            Provider.of<AllergyListViewModel>(context, listen: false).registerAllergyList(cat, catAllergies);
+          }
           Provider.of<CatService>(context, listen: false).uploadCatImage(image!, cat).then((value){
             Provider.of<CatListViewModel>(context, listen: false).populateCatsImages(context).then((value) {
               setState(() {

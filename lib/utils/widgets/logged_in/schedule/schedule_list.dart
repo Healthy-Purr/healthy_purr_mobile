@@ -231,6 +231,7 @@ class _ScheduleListState extends State<ScheduleList> {
                             )
                         ),
                         CupertinoTimerPicker(
+                            initialTimerDuration: Duration(hours: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(0,2)), minutes: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(3,5))),
                             minuteInterval: 5,
                             mode: CupertinoTimerPickerMode.hm,
                             onTimerDurationChanged: (duration){
@@ -356,6 +357,7 @@ class _ScheduleListState extends State<ScheduleList> {
                       child: GestureDetector(
                         onTap: (){
                           Provider.of<ScheduleListViewModel>(context, listen: false).setScheduleMealDto(selectedSchedule);
+                          Provider.of<ScheduleListViewModel>(context, listen: false).setTimeToUpdateBefore(Duration(hours: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(0,2)), minutes: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(3,5))));
                           _showDialog(screenSize, index);
                         },
                         child: SizedBox(

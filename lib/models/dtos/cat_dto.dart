@@ -42,7 +42,7 @@ class CatAllergyDto {
   factory CatAllergyDto.fromJson(Map<String, dynamic> catAllergyJson) {
     return CatAllergyDto(
         catId: catAllergyJson['catId'],
-        allergyId: catAllergyJson['diseaseId'],
+        allergyId: catAllergyJson['allergicId'],
         status: catAllergyJson['status']
     );
   }
