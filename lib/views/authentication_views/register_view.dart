@@ -359,6 +359,9 @@ class _RegisterFormState extends State<RegisterForm> with SingleTickerProviderSt
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         textInputAction: TextInputAction.done,
                         validator: (value) {
+                          if (value!.length < 8 || value.length > 16) {
+                            return "Ingrese una contraseña válida";
+                          }
                           if (value!.isEmpty) {
                             return "Ingrese una contraseña";
                           }

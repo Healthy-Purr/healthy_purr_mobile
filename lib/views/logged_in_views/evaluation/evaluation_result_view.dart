@@ -9,6 +9,7 @@ import 'package:simple_animations/simple_animations.dart';
 import 'dart:io';
 
 import '../../../utils/widgets/evaluation/evaluation_circular_charts.dart';
+import '../../../view_models/cat_view_models/cat_list_view_model.dart';
 import '../../../view_models/evaluation_view_models/evaluation_record_view_model.dart';
 
 class EvaluationResultView extends StatefulWidget {

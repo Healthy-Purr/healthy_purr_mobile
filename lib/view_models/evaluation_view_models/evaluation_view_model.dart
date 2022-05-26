@@ -152,16 +152,18 @@ class EvaluationViewModel extends ChangeNotifier{
 
   Future<int> registerEvaluationResult(CatFoodAnalysis catFoodAnalysis, int efDtoId, String name) async{
 
-    _evaluationResultDto.accuracyRate = catFoodAnalysis.result / 100.0;
+    _evaluationResultDto.accuracyRate = double.parse(catFoodAnalysis.result.toStringAsFixed(3));
+
     if(_selectedCat.catId != null){
       _evaluationResultDto.catId = _selectedCat.catId;
       _evaluationResultDto.description = name;
     }
     else{
-      _evaluationResultDto.catId = 101;
+      _evaluationResultDto.catId = 1;
       _evaluationResultDto.description = name + ":zenpan";
     }
     _evaluationResultDto.userId = UserSession().id!;
+
     if(address != null){
       _evaluationResultDto.location = address;
     }

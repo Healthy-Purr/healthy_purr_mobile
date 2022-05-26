@@ -60,6 +60,12 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
       index = Provider.of<CatListViewModel>(context).getCats().indexOf(selectedCat!);
     }
 
+    String description = widget.evaluationResult.description!;
+
+    if(description.contains(":zenpan")){
+      description = description.replaceAll(":zenpan", "");
+    }
+
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.white,
@@ -151,7 +157,7 @@ class _EvaluationRecordDetailViewState extends State<EvaluationRecordDetailView>
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(widget.evaluationResult.description!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        Text(description, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                                         const SizedBox(
                                           height: 5,
                                         ),

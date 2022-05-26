@@ -51,6 +51,12 @@ class _EvaluationListState extends State<EvaluationList> {
             final selectedEvaluation = evaluationList[index];
             final selectedEvaluatedFood = evaluatedFoodList[index];
 
+            String description = selectedEvaluation.description!;
+
+            if(description.contains(":zenpan")){
+              description = description.replaceAll(":zenpan", "");
+            }
+
             return GestureDetector(
               onTap: () {
                 Provider.of<EvaluationRecordViewModel>(context, listen: false).getImageProvider(selectedEvaluation.evaluationResultId!).then((value){
@@ -92,7 +98,7 @@ class _EvaluationListState extends State<EvaluationList> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5, left: 25),
-                            child: Text(selectedEvaluation.description!,
+                            child: Text(description,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16)),

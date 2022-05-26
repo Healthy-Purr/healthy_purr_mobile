@@ -102,9 +102,16 @@ class UserService with ChangeNotifier {
       'password': user.password
     });
 
-    var response = await dio.post(uri, data: body);
+    Response? response;
 
-    if (response.statusCode == 200) {
+    try{
+      response = await dio.post(uri, data: body);
+    }
+    catch(exception){
+
+    }
+
+    if (response != null && response.statusCode == 200) {
       UserSession()
         ..id = response.data["user"]["userId"]
         ..name = response.data["user"]["name"]

@@ -49,6 +49,7 @@ class _LoginViewState extends State<LoginView> {
               ));
           _formKey.currentState!.reset();
         } else {
+          Provider.of<UserService>(context, listen: false).setLogin(false);
           NotificationService().showNotification(
               context,
               loginError,
