@@ -83,7 +83,7 @@ class EvaluationService{
 
     var response = await dio.post(uri, data: toSend);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.data != "Error") {
       return CatFoodAnalysis.fromJson(response.data);
     }
 

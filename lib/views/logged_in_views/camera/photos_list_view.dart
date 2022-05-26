@@ -117,7 +117,7 @@ class _PhotosListViewState extends State<PhotosListView> {
                         Future resultByIndex = Provider.of<EvaluationViewModel>(context, listen: false).getTextCatFood(Provider.of<CameraViewModel>(context, listen: false).getPhotos()[index]).then((value) {
                           if(value != ""){
                             Provider.of<EvaluationViewModel>(context, listen: false).getCatFoodAnalysis(value).then((catFoodAnalysis){
-                              if(catFoodAnalysis.analysis!.protein! > 0.0 && catFoodAnalysis.analysis!.moisture! > 0.0 && catFoodAnalysis.analysis!.fiber! > 0.0 &&
+                              if(catFoodAnalysis.analysis != null && catFoodAnalysis.analysis!.protein! > 0.0 && catFoodAnalysis.analysis!.moisture! > 0.0 && catFoodAnalysis.analysis!.fiber! > 0.0 &&
                                   catFoodAnalysis.analysis!.calcium! > 0.0){
                                 Provider.of<EvaluationViewModel>(context, listen: false).evaluateCatFood(catFoodAnalysis, index).whenComplete((){
                                   if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().isNotEmpty){
