@@ -11,6 +11,7 @@ import 'dart:io';
 import '../../../utils/widgets/evaluation/evaluation_circular_charts.dart';
 import '../../../view_models/cat_view_models/cat_list_view_model.dart';
 import '../../../view_models/evaluation_view_models/evaluation_record_view_model.dart';
+import '../logged_in_view.dart';
 
 class EvaluationResultView extends StatefulWidget {
   final CatFoodAnalysis evaluationResult;
@@ -61,6 +62,13 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
 
     Provider.of<EvaluationRecordViewModel>(context, listen: false).populateEvaluationResultList().whenComplete((){
       Navigator.pop(context);
+      Future.delayed(Duration(milliseconds: 500), (){
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(
+              builder: (context) => const LoggedInView(),
+            )
+        );
+      });
     });
 
     showDialog(
@@ -216,7 +224,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
                       radius: 25,
                       backgroundColor: primaryColor,
                       child: InkWell(
-                        child: const Icon(Icons.arrow_back_ios_rounded, size: 25.0, color: Colors.white,),
+                        child: const Icon(Icons.home, size: 25.0, color: Colors.white,),
                         onTap: (){
                           if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1){
                             Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();

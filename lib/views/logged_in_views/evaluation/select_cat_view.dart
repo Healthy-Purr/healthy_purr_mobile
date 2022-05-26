@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evaluation_view_model.dart';
 import 'package:healthy_purr_mobile_app/views/logged_in_views/camera/photos_list_view.dart';
@@ -75,7 +76,22 @@ class _SelectCatViewState extends State<SelectCatView> {
                           const SizedBox(
                             height: 50,
                           ),
-                          Text(evaluationSelectionCatMessage),
+                          Row(
+                            children: const [
+                              Text('Seleccione un gato de la lista'),
+                              SizedBox(width: 50.0),
+                              Tooltip(
+                                margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                                waitDuration: Duration(seconds: 0),
+                                showDuration: Duration(seconds: 7),
+                                verticalOffset: 24,
+                                preferBelow: false,
+                                message: evaluationSelectionCatMessage,
+                                textStyle: TextStyle(fontSize: 11.5, color: Colors.white),
+                                child: FaIcon(FontAwesomeIcons.questionCircle),
+                              ),
+                            ],
+                          ),
                           Column(
                             children: [
                               const SelectCatList(),

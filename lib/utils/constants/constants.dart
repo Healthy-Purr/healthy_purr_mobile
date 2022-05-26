@@ -83,4 +83,4 @@ const String logoutAlertDialogConfirmAction = 'Cerrar sesión';
 const String logoutAlertDialogDismissAction = 'Volver';
 
 //--------EVALUATION--------//
-const String evaluationSelectionCatMessage = 'Seleccione un gato de la lista (ten en cuenta que esta opción evaluará el alimento solo para el gato que hayas seleccionado, por lo que si quieres realizar una evaluación para todos tus gatitos, te recomendamos elegir la opción "Realizar Evaluación General")';
+const String evaluationSelectionCatMessage = '(ten en cuenta que esta opción evaluará el alimento solo para el gato que hayas seleccionado, por lo que si quieres realizar una evaluación para todos tus gatitos, te recomendamos elegir la opción "Realizar Evaluación General")';
