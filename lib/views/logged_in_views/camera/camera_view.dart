@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:healthy_purr_mobile_app/providers/utils_provider.dart';
 import 'package:healthy_purr_mobile_app/utils/util.dart';
 import 'package:healthy_purr_mobile_app/utils/widgets/evaluation/select_cat_list.dart';
 import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
@@ -39,7 +40,11 @@ class CameraViewState extends State<CameraView> {
       setState(() {});
     });
     controller.setFlashMode(FlashMode.off);
-    SchedulerBinding.instance?.addPostFrameCallback((_) => _showDialog());
+    SchedulerBinding.instance?.addPostFrameCallback((_){
+      if(Provider.of<UtilsProvider>(context, listen: false).doNotShowAgain == true) {
+        _showDialog();
+      }
+    });
   }
 
   _showDialog(){
@@ -68,7 +73,10 @@ class CameraViewState extends State<CameraView> {
               style: TextButton.styleFrom(
                 primary: Colors.black
               ),
-              onPressed: () { Navigator.pop(context); },
+              onPressed: () {
+                Provider.of<UtilsProvider>(context, listen: false).setToOff();
+                Navigator.pop(context);
+              },
               child: const Text(cameraInstructionDoNotShowAgain, style: TextStyle(fontSize: 12, color: Colors.grey),),
             ),
             OutlinedButton(
@@ -77,7 +85,7 @@ class CameraViewState extends State<CameraView> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   side: const BorderSide(width: 2.0, color: complementaryColor)
                 ),
-                onPressed: (){},
+                onPressed: (){ Navigator.pop(context); },
                 child: const Text(cameraInstructionConfirmAction, style: TextStyle(color: complementaryColor, fontWeight: FontWeight.w500),)
             )
           ],
