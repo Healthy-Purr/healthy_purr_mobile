@@ -451,6 +451,16 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                                 );
                                               }
                                             },
+                                            itemBuilder: (Checkbox cb, Text txt, int i) {
+                                              return  Row(
+                                                children: [
+                                                  const SizedBox(width: 12.0),
+                                                  cb,
+                                                  const SizedBox(width: 12.0),
+                                                  txt,
+                                                ],
+                                              );
+                                            },
                                             activeColor: primaryColor,
                                           ),
                                         ],
@@ -499,6 +509,16 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                               }
                                             },
                                             activeColor: primaryColor,
+                                            itemBuilder: (Checkbox cb, Text txt, int i) {
+                                              return  Row(
+                                                children: [
+                                                  const SizedBox(width: 12.0),
+                                                  cb,
+                                                  const SizedBox(width: 12.0),
+                                                  txt,
+                                                ],
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),

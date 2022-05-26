@@ -40,6 +40,11 @@ class _UserUpdateInformationViewState extends State<UserUpdateInformationView> {
       });
       _formKey.currentState!.save();
       Provider.of<UserService>(context, listen: false).updateUser(_toSend, context).then((value){
+
+        if(image != null) {
+          Provider.of<UserService>(context, listen: false).uploadUserImage(image!, UserSession().id!);
+        }
+
         setState(() {
           loader = false;
         });
@@ -235,6 +240,7 @@ class _UserUpdateInformationViewState extends State<UserUpdateInformationView> {
                                         ),
                                       ],
                                     ),
+                                    Spacer(),
                                     InkWell(
                                       onTap: () async {
                                         pickImage(ImageSource.gallery);
@@ -245,7 +251,7 @@ class _UserUpdateInformationViewState extends State<UserUpdateInformationView> {
                                           Container(
                                             height: 180,
                                             width: 130,
-                                            margin: const EdgeInsets.fromLTRB(20.0, 25.0, 0.0, 25.0),
+                                            margin: const EdgeInsets.fromLTRB(0.0, 25.0, 20.0, 25.0),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -293,13 +299,6 @@ class _UserUpdateInformationViewState extends State<UserUpdateInformationView> {
                                                       ]),
                                                 ]),
                                           ),
-                                          noImage == true
-                                              ? const Positioned(
-                                            bottom: 0, left: 30,
-                                            child: Text('Ingresa una foto', style: TextStyle(
-                                                color: Colors.red, fontSize: 11)),
-                                          )
-                                              : const SizedBox()
                                         ],
                                       ),
                                     ),

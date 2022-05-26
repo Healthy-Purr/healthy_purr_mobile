@@ -75,7 +75,7 @@ class _SelectCatViewState extends State<SelectCatView> {
                           const SizedBox(
                             height: 50,
                           ),
-                          Text('Seleccione un gato de la lista'),
+                          Text(evaluationSelectionCatMessage),
                           Column(
                             children: [
                               const SelectCatList(),

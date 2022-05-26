@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:healthy_purr_mobile_app/utils/constants/constants.dart';
 import 'package:healthy_purr_mobile_app/view_models/cat_view_models/cat_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_list_view_model.dart';
+import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/entities/day.dart';
@@ -29,6 +30,15 @@ class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMix
   final List<MealDay> _days = [MealDay(0, 'Lunes', 'L', DateTime(2022, 5, 2)), MealDay(1, 'Martes', 'M', DateTime(2022, 5, 3)), MealDay(2, 'Miercoles', 'X', DateTime(2022, 5, 4)),
     MealDay(3, 'Jueves', 'J', DateTime(2022, 5, 5)), MealDay(4, 'Viernes', 'V', DateTime(2022, 5, 6)), MealDay(5, 'Sabado', 'S', DateTime(2022, 5, 7)), MealDay(6, 'Domingo', 'D', DateTime(2022, 5, 1))];
   int _selected = 0;
+
+  PageController _pageController = PageController();
+  final _currentPageNotifier = ValueNotifier<int>(0);
+
+  @override
+  void dispose(){
+    _pageController;
+    super.dispose();
+  }
 
   late AnimationController scaleController = AnimationController(duration: const Duration(milliseconds: 900), vsync: this);
   late Animation<double> scaleAnimation = CurvedAnimation(parent: scaleController, curve: Curves.elasticOut);
@@ -293,6 +303,10 @@ class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMix
                       height: 250,
                       width: 300,
                       child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (int index) {
+                          _currentPageNotifier.value = index;
+                        },
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0, ),
@@ -419,6 +433,10 @@ class _ScheduleViewState extends State<ScheduleView> with TickerProviderStateMix
                           )
                         ],
                       ),
+                    ),
+                    CirclePageIndicator(
+                      itemCount: 2,
+                      currentPageNotifier: _currentPageNotifier,
                     ),
                   ],
                 ),

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthy_purr_mobile_app/models/dtos/schedule_meal_dto.dart';
 import 'package:healthy_purr_mobile_app/models/entities/day.dart';
 import 'package:healthy_purr_mobile_app/view_models/schedule_view_models/schedule_view_model.dart';
+import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/entities/schedule_meal.dart';
@@ -19,6 +20,15 @@ class ScheduleList extends StatefulWidget {
 }
 
 class _ScheduleListState extends State<ScheduleList> {
+
+  PageController _pageController = PageController();
+  final _currentPageNotifier = ValueNotifier<int>(0);
+
+  @override
+  void dispose(){
+    _pageController;
+    super.dispose();
+  }
 
   String _printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -51,19 +61,31 @@ class _ScheduleListState extends State<ScheduleList> {
                   )
               ),
             ),
-            ElevatedButton(
-              child: const Text('Actualizar'),
-              onPressed: () async {
-                Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
-                  Navigator.pop(context);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0)
-                  )
+            //Better than schedule_view
+            AbsorbPointer(
+              absorbing:
+                Provider.of<ScheduleListViewModel>(context).newDryFood == false &&
+                Provider.of<ScheduleListViewModel>(context).newDampFood == false &&
+                Provider.of<ScheduleListViewModel>(context).newMedicine == false
+                ? true : false,
+              child: ElevatedButton(
+                child: const Text('Actualizar'),
+                onPressed:
+                  (Provider.of<ScheduleListViewModel>(context).newDryFood == false &&
+                   Provider.of<ScheduleListViewModel>(context).newDampFood == false &&
+                   Provider.of<ScheduleListViewModel>(context).newMedicine == false)
+                  ? null : () async {
+                  Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
+                    Navigator.pop(context);
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: primaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)
+                    )
+                ),
               ),
             )
           ].map((e) => Padding(
@@ -122,6 +144,10 @@ class _ScheduleListState extends State<ScheduleList> {
                     height: 200,
                     width: 300,
                     child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (int index) {
+                        _currentPageNotifier.value = index;
+                      },
                       children: [
                         Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0, ),
@@ -240,6 +266,10 @@ class _ScheduleListState extends State<ScheduleList> {
                         )
                       ],
                     ),
+                  ),
+                  CirclePageIndicator(
+                    itemCount: 2,
+                    currentPageNotifier: _currentPageNotifier,
                   ),
                 ],
               ),

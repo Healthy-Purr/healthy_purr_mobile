@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthy_purr_mobile_app/providers/provider.dart';
+import 'package:healthy_purr_mobile_app/providers/utils_provider.dart';
 import 'package:healthy_purr_mobile_app/services/service.dart';
 import 'package:healthy_purr_mobile_app/view_models/camera_view_models/camera_view_model.dart';
 import 'package:healthy_purr_mobile_app/view_models/evaluation_view_models/evaluation_record_view_model.dart';
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AllergyService()),
         //Providers
         ChangeNotifierProvider(create: (context) => BottomNavigationBarProvider()),
-        ChangeNotifierProvider(create: (context) => RegisterProvider())
+        ChangeNotifierProvider(create: (context) => RegisterProvider()),
+        ChangeNotifierProvider(create: (context) => UtilsProvider())
       ],
       child: MaterialApp(
         localizationsDelegates: const [

@@ -138,7 +138,7 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                                   Text.rich(TextSpan(children: [
                                                     const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
                                                     TextSpan(
-                                                        text: selectedEvaluation.result < 0.5 ? '12.4 %' : (selectedEvaluation.result * 10).toStringAsFixed(1),
+                                                        text: selectedEvaluation.result.toStringAsFixed(1),
                                                         style:
                                                         const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                                   ])),
@@ -167,7 +167,7 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                       const Spacer(),
                                       CircleAvatar(
                                         backgroundColor: selectedEvaluation.result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
-                                        child: Text(selectedEvaluation.result < 0.5 ? '12.4 %' : (selectedEvaluation.result * 10).toStringAsFixed(1)+ '%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                        child: Text(selectedEvaluation.result.toStringAsFixed(1)+ '%', style: TextStyle(fontSize: 25, color: Colors.white),),
                                         maxRadius: 45,
                                         minRadius: 35,
                                       ),
