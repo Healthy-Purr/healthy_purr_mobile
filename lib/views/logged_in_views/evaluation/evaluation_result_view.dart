@@ -224,7 +224,7 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
                       radius: 25,
                       backgroundColor: primaryColor,
                       child: InkWell(
-                        child: const Icon(Icons.home, size: 25.0, color: Colors.white,),
+                        child: Icon(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1 ? Icons.home : Icons.arrow_back_ios_rounded, size: 25.0, color: Colors.white,),
                         onTap: (){
                           if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1){
                             Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();

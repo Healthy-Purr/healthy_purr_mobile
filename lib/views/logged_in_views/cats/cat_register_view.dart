@@ -373,7 +373,8 @@ class _CatRegisterViewState extends State<CatRegisterView> {
                                                     width: 120,
                                                     child: const Center(
                                                         child: Icon(Icons.account_circle,
-                                                            size: 50.0, color: Colors.white))),
+                                                            size: 50.0, color: Colors.white))
+                                                ),
                                                 Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: const [

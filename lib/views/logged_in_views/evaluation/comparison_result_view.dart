@@ -68,19 +68,36 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        'Resultados',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold
-                        ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: primaryColor,
+                            child: InkWell(
+                              child: Icon(Icons.home, size: 25.0, color: Colors.white,),
+                              onTap: (){
+                                Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();
+                                Provider.of<CameraViewModel>(context, listen: false).cleanPhotos();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text(
+                            'Resultados',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
                       height: screenSize.height * 0.8,
                       child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          itemCount: evaluationList.length,
+                          itemCount: finalEvaluationList.length,
                           itemBuilder: (context, index) {
 
                             final selectedEvaluation = evaluationList[index];
@@ -138,7 +155,7 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                                   Text.rich(TextSpan(children: [
                                                     const TextSpan(text: 'Resultado: ', style: TextStyle(fontSize: 12)),
                                                     TextSpan(
-                                                        text: selectedEvaluation.result.toStringAsFixed(1),
+                                                        text: (selectedEvaluation.result * 100).toStringAsFixed(1),
                                                         style:
                                                         const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                                                   ])),
@@ -167,7 +184,7 @@ class _ComparisonListViewState extends State<ComparisonListView> {
                                       const Spacer(),
                                       CircleAvatar(
                                         backgroundColor: selectedEvaluation.result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
-                                        child: Text(selectedEvaluation.result.toStringAsFixed(1)+ '%', style: TextStyle(fontSize: 25, color: Colors.white),),
+                                        child: Text((selectedEvaluation.result * 100).toStringAsFixed(1)+ '%', style: TextStyle(fontSize: 25, color: Colors.white),),
                                         maxRadius: 45,
                                         minRadius: 35,
                                       ),

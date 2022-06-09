@@ -69,13 +69,15 @@ class _LoginViewState extends State<LoginView> {
 
     loader = Provider.of<RegisterProvider>(context, listen: false).loader;
 
+    var screenSize = MediaQuery.of(context).size;
+
     return Material(
         color: Colors.transparent,
         child: Container(
-          margin: const EdgeInsets.only(top: 120, bottom: 100),
-          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.only(left: 30, right: 30, top: screenSize.height * 0.1, bottom: 10),
+          height: screenSize.height,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(30.0)),

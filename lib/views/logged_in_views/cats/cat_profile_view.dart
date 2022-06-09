@@ -32,10 +32,15 @@ class _CatProfileViewState extends State<CatProfileView> {
   File? image;
 
   Future pickImage(ImageSource source) async {
-    final image = await ImagePicker().pickImage(source: source);
-    if (image == null) return;
+    final imagePath = await ImagePicker().pickImage(source: source);
+    if (imagePath == null) {
+      setState(() {
+        image = null;
+      });
+      return;
+    }
 
-    final _temp = File(image.path);
+    final _temp = File(imagePath!.path);
     setState(() => this.image = _temp);
   }
 
@@ -124,13 +129,15 @@ class _CatProfileViewState extends State<CatProfileView> {
                             icon: Icons.add_a_photo_rounded,
                             onTap: () async {
                               await pickImage(ImageSource.gallery).whenComplete((){
-                                NotificationService().showNotification(
-                                    context,
-                                    catImageUpdateSuccessful,
-                                    "success");
-                                Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat).whenComplete((){
-                                  Provider.of<CatListViewModel>(context, listen: false).setCatImageAtIndex(widget.index, FileImage(image!));
-                                });
+                                if(image != null){
+                                  NotificationService().showNotification(
+                                      context,
+                                      catImageUpdateSuccessful,
+                                      "success");
+                                  Provider.of<CatService>(context, listen: false).uploadCatImage(image!, widget.cat).whenComplete((){
+                                    Provider.of<CatListViewModel>(context, listen: false).setCatImageAtIndex(widget.index, FileImage(image!));
+                                  });
+                                }
                               });
                             },
                             color: updateCatImageButtonColor,

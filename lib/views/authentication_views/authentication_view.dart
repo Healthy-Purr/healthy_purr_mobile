@@ -38,68 +38,74 @@ class _AuthenticationViewState extends State<AuthenticationView> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        height: screenSize.height,
-        width: screenSize.width,
+      body: SafeArea(
         child: Stack(
           alignment: Alignment.center,
           children: [
             Positioned(
-              top: 75,
+              top: screenSize.height * 0.07,
               child: Image.asset(
                   'assets/images/ellipse.png',
-                  height: 500,
+                  height: screenSize.height * 0.6,
                   width: screenSize.width,
                   fit: BoxFit.fill
               ),
             ),
             Positioned(
-              top: 105,
-              child: Image.asset(
-                'assets/images/splash.png',
-                height: 105,
-                width: 105,
-              ),
-            ),
-            Positioned(
-              top: 135, left: 20, right: 20, bottom: 0,
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                children: [
-                  SizedBox(
-                    height: screenSize.height,
-                    width: screenSize.width,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/images/cat_1.png',
-                          height: 450,
-                          width: 450,
-                          alignment: Alignment.centerLeft,
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        GoToLoginButton(
-                          goToLoginForm: () {
-                            _switchPage(GoToPage.login);
-                          }
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        const RegisterButton(),
-                      ],
+              top: screenSize.height * 0.10,
+              child: SizedBox(
+                height: screenSize.height,
+                width: screenSize.width,
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    Image.asset(
+                      'assets/images/splash.png',
+                      height: 105,
+                      width: 105,
                     ),
-                  ),
-                  LoginView(
-                    goToHomeView: () {
-                      _switchPage(GoToPage.home);
-                    },
-                  )
-                ],
+                    SizedBox(
+                      height: screenSize.height * 0.7,
+                      width: screenSize.width,
+                      child: PageView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _pageController,
+                        children: [
+                          SizedBox(
+                            height: screenSize.height * 0.1,
+                            width: screenSize.width,
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/cat_1.png',
+                                  height: screenSize.height * 0.45,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                GoToLoginButton(
+                                  goToLoginForm: () {
+                                    _switchPage(GoToPage.login);
+                                  }
+                                ),
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                const RegisterButton(),
+                              ],
+                            ),
+                          ),
+                          LoginView(
+                            goToHomeView: () {
+                              _switchPage(GoToPage.home);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

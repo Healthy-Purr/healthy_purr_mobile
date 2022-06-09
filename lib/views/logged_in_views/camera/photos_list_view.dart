@@ -121,7 +121,7 @@ class _PhotosListViewState extends State<PhotosListView> {
                                   catFoodAnalysis.analysis!.calcium! > 0.0){
                                 Provider.of<EvaluationViewModel>(context, listen: false).evaluateCatFood(catFoodAnalysis, index).whenComplete((){
                                   if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().isNotEmpty){
-                                    if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().length == Provider.of<CameraViewModel>(context, listen: false).getPhotos().length){
+                                    if(Provider.of<EvaluationViewModel>(context, listen: false).getEvaluationsLength() == Provider.of<CameraViewModel>(context, listen: false).getPhotos().length){
                                       if(Provider.of<EvaluationViewModel>(context, listen: false).getFinalEvaluationList().length > 1){
                                         Navigator.pushReplacement(context,
                                             PageTransition(

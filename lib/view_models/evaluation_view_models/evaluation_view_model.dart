@@ -22,6 +22,7 @@ class EvaluationViewModel extends ChangeNotifier{
   final EvaluationService _evaluationService = EvaluationService();
   final EvaluatedFoodDto _evaluatedFoodDto = EvaluatedFoodDto();
   final EvaluationResultDto _evaluationResultDto = EvaluationResultDto();
+  int _evaluationsLength = 0;
   CatViewModel _selectedCat = CatViewModel(cat: Cat());
   //Allergies
   double eggAllergy = 0.0;
@@ -60,6 +61,10 @@ class EvaluationViewModel extends ChangeNotifier{
 
   List<double> getFinalEvaluationList(){
     return _finalEvaluationList;
+  }
+
+  int getEvaluationsLength(){
+    return _evaluationsLength;
   }
 
   clearEvaluationList(){
@@ -314,6 +319,7 @@ class EvaluationViewModel extends ChangeNotifier{
               catFoodAnalysis.setResult(result);
               _evaluations[fileIndex] = catFoodAnalysis;
               _finalEvaluationList[fileIndex] = result;
+              _evaluationsLength++;
             }
             else{
               _finalEvaluationList.clear();
@@ -327,6 +333,7 @@ class EvaluationViewModel extends ChangeNotifier{
           catFoodAnalysis.setResult(result);
           _evaluations[fileIndex] = catFoodAnalysis;
           _finalEvaluationList[fileIndex] = result;
+          _evaluationsLength++;
         }
         else{
           _finalEvaluationList.clear();

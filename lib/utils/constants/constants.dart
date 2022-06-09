@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 //-------------URL-------------//
 
-const String url = "https://healthypurr.herokuapp.com/";
+//Testing
+// const String url = "https://healthypurr.herokuapp.com/";
+// const String evaluationUrl = "https://healthy-purr-evaluation.herokuapp.com/evaluation";
 
-const String evaluationUrl = "https://healthy-purr-evaluation.herokuapp.com/evaluation";
+//Production
+const String url = "https://healthypurrserv.azurewebsites.net/";
+const String evaluationUrl = "https://healthypurrtextfilter.azurewebsites.net/evaluation";
+
 
 //-------------COLORS-------------//
 

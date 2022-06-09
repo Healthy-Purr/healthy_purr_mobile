@@ -47,6 +47,16 @@ class ScheduleListViewModel extends ChangeNotifier {
     return _selectedScheduleMealDto;
   }
 
+  int getHours(){
+    String sHour = _selectedScheduleMealDto.hour!.substring(0, _selectedScheduleMealDto.hour!.indexOf(':'));
+    return int.parse(sHour);
+  }
+
+  int getMinutes(){
+    String sMinute = _selectedScheduleMealDto.hour!.substring(_selectedScheduleMealDto.hour!.indexOf(':') + 1, _selectedScheduleMealDto.hour!.indexOf(':') + 3);
+    return int.parse(sMinute);
+  }
+
   resetScheduleList(){
     _scheduleList = [null, null, null, null, null, null, null];
   }
@@ -198,7 +208,7 @@ class ScheduleListViewModel extends ChangeNotifier {
 
     await _scheduleService.updateMeal(_selectedScheduleMealDto).whenComplete((){
       updateLocalScheduleList(index);
-      LocalNotificationService.showBreakfastScheduledNotification(id: _selectedScheduleMealDto.mealId!, day: selectedDay.id!, title: 'Hora de alimentar a tu gatito!!', body: 'No olvides darle su medicina.', time: Time(_timeToUpdate.inHours, _timeToUpdate.inMinutes.remainder(60), 0));
+      LocalNotificationService.showBreakfastScheduledNotification(id: _selectedScheduleMealDto.mealId!, day: selectedDay.id! + 1, title: 'Hora de alimentar a tu gatito!!', body: 'No olvides darle su medicina.', time: Time(_timeToUpdate.inHours, _timeToUpdate.inMinutes.remainder(60), 0));
     });
   }
 

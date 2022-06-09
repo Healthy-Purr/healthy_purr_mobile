@@ -62,30 +62,24 @@ class _ScheduleListState extends State<ScheduleList> {
               ),
             ),
             //Better than schedule_view
-            AbsorbPointer(
-              absorbing:
-                Provider.of<ScheduleListViewModel>(context).newDryFood == false &&
-                Provider.of<ScheduleListViewModel>(context).newDampFood == false &&
-                Provider.of<ScheduleListViewModel>(context).newMedicine == false
-                ? true : false,
-              child: ElevatedButton(
-                child: const Text('Actualizar'),
-                onPressed:
-                  (Provider.of<ScheduleListViewModel>(context).newDryFood == false &&
-                   Provider.of<ScheduleListViewModel>(context).newDampFood == false &&
-                   Provider.of<ScheduleListViewModel>(context).newMedicine == false)
-                  ? null : () async {
-                  Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
-                    Navigator.pop(context);
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: primaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0)
-                    )
-                ),
+            ElevatedButton(
+              child: const Text('Actualizar'),
+              onPressed:
+                (Provider.of<ScheduleListViewModel>(context, listen: false).newDryFood == false &&
+                 Provider.of<ScheduleListViewModel>(context, listen: false).newDampFood == false &&
+                 Provider.of<ScheduleListViewModel>(context, listen: false).newMedicine == false)
+                ? null : () async {
+                Provider.of<ScheduleListViewModel>(context, listen: false).updateScheduleMeal(index).whenComplete((){
+                  Provider.of<ScheduleListViewModel>(context, listen: false).cleanUpdateFields();
+                  Navigator.pop(context);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)
+                  )
               ),
             )
           ].map((e) => Padding(
@@ -257,7 +251,7 @@ class _ScheduleListState extends State<ScheduleList> {
                             )
                         ),
                         CupertinoTimerPicker(
-                            initialTimerDuration: Duration(hours: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(0,2)), minutes: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(3,5))),
+                            initialTimerDuration: Duration(hours: Provider.of<ScheduleListViewModel>(context, listen: false).getHours(), minutes: Provider.of<ScheduleListViewModel>(context, listen: false).getMinutes()),
                             minuteInterval: 5,
                             mode: CupertinoTimerPickerMode.hm,
                             onTimerDurationChanged: (duration){
@@ -387,7 +381,7 @@ class _ScheduleListState extends State<ScheduleList> {
                       child: GestureDetector(
                         onTap: (){
                           Provider.of<ScheduleListViewModel>(context, listen: false).setScheduleMealDto(selectedSchedule);
-                          Provider.of<ScheduleListViewModel>(context, listen: false).setTimeToUpdateBefore(Duration(hours: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(0,2)), minutes: int.parse(Provider.of<ScheduleListViewModel>(context, listen: false).getSelectedScheduleMealDto().hour!.substring(3,5))));
+                          Provider.of<ScheduleListViewModel>(context, listen: false).setTimeToUpdateBefore(Duration(hours: Provider.of<ScheduleListViewModel>(context, listen: false).getHours(), minutes: Provider.of<ScheduleListViewModel>(context, listen: false).getMinutes()));
                           _showDialog(screenSize, index);
                         },
                         child: SizedBox(
