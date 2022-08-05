@@ -164,258 +164,268 @@ class _EvaluationResultViewState extends State<EvaluationResultView> with Ticker
       ..add(ContainerColors.first, ColorTween(begin: complementaryColor, end: secondaryColor), const Duration(seconds: 3))
       ..add(ContainerColors.second, ColorTween(begin: secondaryColor, end: complementaryColor), const Duration(seconds: 3));
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
-      backgroundColor: Colors.white,
-      body: SizedBox(
-        height: screenSize.height,
-        width: screenSize.width,
-        child: Stack(
-          children: [
-            Positioned(
-                right: -50,
-                child: Image.asset(topRightDecoration, height: 350,
-                    alignment: Alignment.topLeft, fit: BoxFit.contain
-                )
-            ),
-            Positioned(
-              right: 25, top: MediaQuery.of(context).viewPadding.top + 10,
-              child: Image.asset('assets/images/splash.png', height: 35,
-                  alignment: Alignment.topLeft, fit: BoxFit.contain),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).viewPadding.top + 30, //logo size
-              bottom: 0, right: 0, left: 0,
-              child: Stack(
-                children: [
-                  Positioned(
-                      top: 20,
-                      child: MirrorAnimation<MultiTweenValues<ContainerColors>>(
-                          tween: tween,
-                          duration: tween.duration,
-                          builder: (context, child, animation) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 15),
-                              height: (screenSize.height/3),
-                              width: screenSize.width * 0.9,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: FileImage(widget.image),
-                                      fit: BoxFit.fitWidth),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      animation.get(ContainerColors.first),
-                                      animation.get(ContainerColors.second),
-                                    ],
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(20.0),)
-                              ),
-                            );
-                          }
-                      )
-                  ),
-                  ///GO BACK BUTTON
-                  Positioned(
-                    top: 25, left: 20,
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: primaryColor,
-                      child: InkWell(
-                        child: Icon(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1 ? Icons.home : Icons.arrow_back_ios_rounded, size: 25.0, color: Colors.white,),
-                        onTap: (){
-                          if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1){
-                            Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();
-                            Provider.of<CameraViewModel>(context, listen: false).cleanPhotos();
-                            Navigator.pop(context);
-                          }
-                          else{
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  ///CAT INFORMATION
-                  Positioned(
-                      top: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2.5, bottom: 0,
-                      child: Container(
-                        height: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2,
-                        width: screenSize.width,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: const Offset(0, -2),
-                              )
-                            ],
-                            color: Colors.white,
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(25.0),)),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 15.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
-                                    child: Text((widget.evaluationResult.result * 100).toStringAsFixed(1) + '%', style: const TextStyle(fontSize: 25, color: Colors.white),),
-                                    maxRadius: 45,
-                                    minRadius: 35,
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width/2,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('Resultado',
-                                          style: TextStyle(
-                                            fontSize: 15.0, fontWeight: FontWeight.bold,
-                                          ), textAlign: TextAlign.start,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        result < 0.5 ?
-                                        const Text('Esta comida no es lo suficientemente compatible con tu gatito.',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                          ), textAlign: TextAlign.start,
-                                        ) :
-                                        const Text('Esta comida es compatible y recomendable para tu gatito.',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                          ), textAlign: TextAlign.start,
-                                        ),
+    return WillPopScope(
+      onWillPop: () async {
+        if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1){
+          Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();
+          Provider.of<CameraViewModel>(context, listen: false).cleanPhotos();
+          Navigator.pop(context);
+        }
+        return true;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        backgroundColor: Colors.white,
+        body: SizedBox(
+          height: screenSize.height,
+          width: screenSize.width,
+          child: Stack(
+            children: [
+              Positioned(
+                  right: -50,
+                  child: Image.asset(topRightDecoration, height: 350,
+                      alignment: Alignment.topLeft, fit: BoxFit.contain
+                  )
+              ),
+              Positioned(
+                right: 25, top: MediaQuery.of(context).viewPadding.top + 10,
+                child: Image.asset('assets/images/splash.png', height: 35,
+                    alignment: Alignment.topLeft, fit: BoxFit.contain),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).viewPadding.top + 30, //logo size
+                bottom: 0, right: 0, left: 0,
+                child: Stack(
+                  children: [
+                    Positioned(
+                        top: 20,
+                        child: MirrorAnimation<MultiTweenValues<ContainerColors>>(
+                            tween: tween,
+                            duration: tween.duration,
+                            builder: (context, child, animation) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 15),
+                                height: (screenSize.height/3),
+                                width: screenSize.width * 0.9,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: FileImage(widget.image),
+                                        fit: BoxFit.fitWidth),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomLeft,
+                                      colors: [
+                                        animation.get(ContainerColors.first),
+                                        animation.get(ContainerColors.second),
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 20.0),
-                              EvaluationCircularCharts(data: evaluationData,)
-                            ],
-                          ),
-                        ),
-                      )
-                  ),
-                  ///ADD CAT SCHEDULE CLIP BUTTON
-                  Positioned(
-                    top: ((screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2.5) - 5,
-                    right: screenSize.width * 0.06,
-                    child: ClipButton(
-                      icon: Icons.save_rounded,
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                actionsAlignment: MainAxisAlignment.spaceBetween,
-                                title: const Text('Para continuar con el guardado por favor ingrese un nombre', style: TextStyle(fontSize: 18.0), textAlign: TextAlign.justify),
-                                content: Form(
-                                  key: _formKey,
-                                  child: SingleChildScrollView(
-                                      physics: const BouncingScrollPhysics(),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 300,
-                                            child: TextFormField(
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  height: 1
-                                              ),
-                                              decoration: const InputDecoration(
-                                                  hintText: 'Nombre de comida',
-                                                  filled: true,
-                                                  fillColor: Color(0xFFFAFAFA),
-                                                  border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      width: 0,
-                                                      style: BorderStyle.none,
-                                                    ),
-                                                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                                  ),),
-                                              onSaved: (value) {
-                                                name = value!;
-                                              },
-                                              textInputAction: TextInputAction.done,
-                                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                                              validator: (value) {
-                                                if (value!.isEmpty) {
-                                                  return "Ingrese un nombre";
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5.0),
-                                          const Text('Se recomienda ingresar el nombre de la comida', style: TextStyle(fontSize: 12, color: Color(0xFF9A9A9A))),
-                                        ],
-                                      )),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20.0),)
                                 ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0)
-                                ),
-                                  actions: [
-                                    ElevatedButton(
-                                      child: const Text('Cancelar'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          primary: cancelButtonColor,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(25.0)
-                                          )
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      child: const Text('Registrar'),
-                                      onPressed: () async {
-                                        bool validated = _formKey.currentState!.validate();
-                                        if(validated){
-                                          _formKey.currentState!.save();
-                                          await Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluatedFood(widget.evaluationResult).then((efDtoId){
-                                            Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluationResult(widget.evaluationResult, efDtoId, name).then((erDtoId){
-                                              Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluationPhoto(widget.image, erDtoId).whenComplete((){
-                                                Navigator.pop(context);
-                                                _registerSuccess(screenSize);
-                                              });
-                                            });
-
-                                          });
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          primary: primaryColor,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(25.0)
-                                          )
-                                      ),
-                                    )
-                                  ].map((e) => Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: e,
-                                  )).toList(),
                               );
                             }
-                        );
-                      },
-                      color: updateCatInformationButtonColor,
+                        )
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    ///GO BACK BUTTON
+                    Positioned(
+                      top: 25, left: 20,
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: primaryColor,
+                        child: InkWell(
+                          child: Icon(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1 ? Icons.home : Icons.arrow_back_ios_rounded, size: 25.0, color: Colors.white,),
+                          onTap: (){
+                            if(Provider.of<CameraViewModel>(context, listen: false).getPhotos().length == 1){
+                              Provider.of<EvaluationViewModel>(context, listen: false).clearEvaluationList();
+                              Provider.of<CameraViewModel>(context, listen: false).cleanPhotos();
+                              Navigator.pop(context);
+                            }
+                            else{
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    ///CAT INFORMATION
+                    Positioned(
+                        top: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2.5, bottom: 0,
+                        child: Container(
+                          height: (screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2,
+                          width: screenSize.width,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, -2),
+                                )
+                              ],
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(25.0),)),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 15.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: result < 0.5 ? evaluationOption : addCatScheduleButtonColor,
+                                      child: Text((widget.evaluationResult.result * 100).toStringAsFixed(1) + '%', style: const TextStyle(fontSize: 25, color: Colors.white),),
+                                      maxRadius: 45,
+                                      minRadius: 35,
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width/2,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('Resultado',
+                                            style: TextStyle(
+                                              fontSize: 15.0, fontWeight: FontWeight.bold,
+                                            ), textAlign: TextAlign.start,
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          result < 0.5 ?
+                                          const Text('Esta comida no es lo suficientemente compatible con tu gatito.',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                            ), textAlign: TextAlign.start,
+                                          ) :
+                                          const Text('Esta comida es compatible y recomendable para tu gatito.',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                            ), textAlign: TextAlign.start,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 20.0),
+                                EvaluationCircularCharts(data: evaluationData,)
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                    ///ADD CAT SCHEDULE CLIP BUTTON
+                    Positioned(
+                      top: ((screenSize.height - MediaQuery.of(context).viewPadding.top - 40) / 2.5) - 5,
+                      right: screenSize.width * 0.06,
+                      child: ClipButton(
+                        icon: Icons.save_rounded,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                                  title: const Text('Para continuar con el guardado por favor ingrese un nombre', style: TextStyle(fontSize: 18.0), textAlign: TextAlign.justify),
+                                  content: Form(
+                                    key: _formKey,
+                                    child: SingleChildScrollView(
+                                        physics: const BouncingScrollPhysics(),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 300,
+                                              child: TextFormField(
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    height: 1
+                                                ),
+                                                decoration: const InputDecoration(
+                                                    hintText: 'Nombre de comida',
+                                                    filled: true,
+                                                    fillColor: Color(0xFFFAFAFA),
+                                                    border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        width: 0,
+                                                        style: BorderStyle.none,
+                                                      ),
+                                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                                    ),),
+                                                onSaved: (value) {
+                                                  name = value!;
+                                                },
+                                                textInputAction: TextInputAction.done,
+                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return "Ingrese un nombre";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5.0),
+                                            const Text('Se recomienda ingresar el nombre de la comida', style: TextStyle(fontSize: 12, color: Color(0xFF9A9A9A))),
+                                          ],
+                                        )),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0)
+                                  ),
+                                    actions: [
+                                      ElevatedButton(
+                                        child: const Text('Cancelar'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: cancelButtonColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25.0)
+                                            )
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        child: const Text('Registrar'),
+                                        onPressed: () async {
+                                          bool validated = _formKey.currentState!.validate();
+                                          if(validated){
+                                            _formKey.currentState!.save();
+                                            await Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluatedFood(widget.evaluationResult).then((efDtoId){
+                                              Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluationResult(widget.evaluationResult, efDtoId, name).then((erDtoId){
+                                                Provider.of<EvaluationViewModel>(context, listen: false).registerEvaluationPhoto(widget.image, erDtoId).whenComplete((){
+                                                  Navigator.pop(context);
+                                                  _registerSuccess(screenSize);
+                                                });
+                                              });
+
+                                            });
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(25.0)
+                                            )
+                                        ),
+                                      )
+                                    ].map((e) => Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      child: e,
+                                    )).toList(),
+                                );
+                              }
+                          );
+                        },
+                        color: updateCatInformationButtonColor,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

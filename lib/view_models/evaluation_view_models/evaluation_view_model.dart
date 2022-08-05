@@ -68,6 +68,7 @@ class EvaluationViewModel extends ChangeNotifier{
   }
 
   clearEvaluationList(){
+    _evaluationsLength = 0;
     if(_evaluations.isNotEmpty){
       _evaluations.clear();
     }
